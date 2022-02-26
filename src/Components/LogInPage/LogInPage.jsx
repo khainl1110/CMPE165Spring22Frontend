@@ -1,7 +1,11 @@
+import Typography from '@mui/material/Typography';
+
 export default function LogInPage() {
     return (
         <div>
-            <h1>This is login page </h1>
+            <Typography variant="h2" component="div" gutterBottom>
+                This is log in page
+            </Typography>
         </div>
     )
 }
