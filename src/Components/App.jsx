@@ -19,6 +19,7 @@ export default function App() {
 
             <Link to="/login">Log In</Link> |
             <Link to = "/signup" >Sign Up</Link>
+            <Link to = '/hotelTest'>Hotel Test </Link>
         </>
     )
 }
