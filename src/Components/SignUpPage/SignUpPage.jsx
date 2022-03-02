@@ -1,4 +1,4 @@
-import {useState,useEffect} from "react";
+import {useState} from "react";
 import {
     Button,
     CssBaseline,
@@ -10,38 +10,43 @@ import {
     Container} from '@mui/material/';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import styled from 'styled-components';
+import axios from 'axios';
+import Image from '../SignUpPage/image5.png';
+import { Paper } from '@mui/material';
+import { positions } from '@mui/system';
 
 export default function SignUpPage() {
 
     const theme = createTheme();
-    const Boxs = styled(Box)`padding-bottom: 40px;`;
+    const Boxs = styled(Box)`padding-bottom: 1%;`;
 
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
 
+    const styles = {
+        paperContainer: {
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            height: '100vh',
+            width: '100vw',
+            backgroundImage: `url(${Image})`
+        }
+    };
     
-    const onPostHandler = 
-        fetch('http://localhost:8080/')
-        .then(data => data.json())
-        .then(data => {
-            console.log(data)
-            alert(data.username)
-        });
-    
-        /*
-        fetch('http://localhost:8080/', {
-        method: 'post',
-        body: JSON.stringify({
-            //change the data after backend updated
-            username : this.state.firstName,
-            password : this.state.password
+    const onPostHandler = async (data) => {
+        const {firstName, lastName, email, password} = data;
+        const putData = {firstName, lastName, email, password};
+
+        // Post
+        await axios.post('http://localhost:8080/signup', putData)
+        .then(function(response) {
+            console.log(response, "Success");
         })
-        
-    })
-    .then(data => data.json())
-    .then(data => console.log(data))
-    }, []);
-    */
+        .catch(function (err) {
+            console.log(err);
+        });
+    };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -79,26 +84,119 @@ export default function SignUpPage() {
   
     return(
         <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+            <Paper style={styles.paperContainer}>
+      <Container component="main" justifyContent="flex-start">
         <CssBaseline />
+        <Grid container direction="row" justifyContent="flex-start"  alignItems="center">
+            <Grid item xs>
+        <Box
+            sx={{
+                position: "absolute",
+                marginTop: '329px',
+                height: '760px',
+                maxWidth: '809px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}
+        >
+            <Typography
+                sx={{
+                    fontFamily: 'Baloo Bhaina 2',
+                    fontStyle: 'normal',
+                    fontSize: '75px',
+                    lineHeight: '15px',
+                    letterSpacing: '0.005em',
+                    color: '#FFFFFF'
+                }}
+            >
+                Where to first?
+            </Typography>
+            <Typography
+                sx={{
+                    marginTop: '228px',
+                    fontFamily: 'Baloo Bhaina 2',
+                    fontStyle: 'normal',
+                    fontSize: '35px',
+                    lineHeight: '43px',
+                    letterSpacing: '0.005em',
+                    color: '#FFFFFF'
+                }}
+            >
+                Perks of a LikeHome account:
+            </Typography>
+            <Typography
+                sx={{
+                    marginTop: '65px',
+                    fontFamily: 'Baloo Bhaina 2',
+                    fontStyle: 'normal',
+                    fontSize: '25px',
+                    width: '325px',
+                    lineHeight: '31px',
+                    letterSpacing: '0.005em',
+                    color: '#FFFFFF'
+                }}
+            >
+                1. Gain reward points to put towards your next trip.
+            </Typography>
+            <Typography
+                sx={{
+                    fontFamily: 'Baloo Bhaina 2',
+                    fontStyle: 'normal',
+                    fontSize: '25px',
+                    width: '325px',
+                    lineHeight: '31px',
+                    letterSpacing: '0.005em',
+                    color: '#FFFFFF'
+                }}
+            >
+                2. Keep track of your past and current reservations.
+            </Typography>
+            <Typography
+                sx={{
+                    fontFamily: 'Baloo Bhaina 2',
+                    fontStyle: 'normal',
+                    fontSize: '25px',
+                    width: '325px',
+                    lineHeight: '31px',
+                    letterSpacing: '0.005em',
+                    color: '#FFFFFF'
+                }}
+            >
+                3. Save your information for a faster checkout.
+            </Typography>
+        </Box>
+        </Grid>
+
+        <Grid item xs>
         <Box
           sx={{
-            marginTop: 15,
+            position: "absolute",
+            marginTop: '229px',
+            height: '760px',
+            maxWidth: '809px',
+            marginLeft: '300px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            backgroundColor: 'rgba(239, 241, 237, 0.9)',
+            borderRadius: '18px',
           }}
         >
-          <Typography component="h1" variant="h5">
+          <Typography 
+          sx={{
+              marginTop: '36px'
+          }}>
             Sign Up
           </Typography>
           <Boxs component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <FormControl component="fieldset" variant="standard">
-              <Grid container spacing={2}>
+              <Grid container spacing={8}>
               <Grid item xs={6}>
                 <TextField
                     required 
                     autoFocus
+                    fullWidth
                     id="firstName" 
                     name="firstName" 
                     label="First Name" />
@@ -107,6 +205,7 @@ export default function SignUpPage() {
                 <TextField 
                     required 
                     autoFocus
+                    fullWidth
                     id="lastName" 
                     name="lastName" 
                     label="Last Name" />
@@ -148,17 +247,18 @@ export default function SignUpPage() {
               </Grid>
               <Button
                 type="submit"
-                fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                size="large"
+                sx={{mt:8, mb:2}}
               >
                 Sign up
               </Button>
             </FormControl>
           </Boxs>
         </Box>
+        </Grid>
+        </Grid>
       </Container>
+      </Paper>
     </ThemeProvider>
     )
 }
