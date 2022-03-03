@@ -18,7 +18,7 @@ import { positions } from '@mui/system';
 export default function SignUpPage() {
 
     const theme = createTheme();
-    const Boxs = styled(Box)`padding-bottom: 1%;`;
+    const Boxs = styled(Box)`padding-bottom: 0%;`;
 
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
@@ -28,7 +28,7 @@ export default function SignUpPage() {
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
-            height: '150vh',
+            height: '110vh',
             width: '100vw',
             backgroundImage: `url(${Image})`
         }
@@ -92,7 +92,7 @@ export default function SignUpPage() {
         <Box
             sx={{
                 position: "absolute",
-                marginTop: '329px',
+                marginTop: '200px',
                 height: '760px',
                 maxWidth: '809px',
                 display: 'flex',
@@ -172,7 +172,7 @@ export default function SignUpPage() {
         <Box
           sx={{
             position: "absolute",
-            marginTop: '229px',
+            marginTop: '100px',
             height: '760px',
             maxWidth: '809px',
             marginLeft: '300px',
