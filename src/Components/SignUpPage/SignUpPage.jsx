@@ -28,7 +28,7 @@ export default function SignUpPage() {
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
-            height: '100vh',
+            height: '150vh',
             width: '100vw',
             backgroundImage: `url(${Image})`
         }
