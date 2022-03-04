@@ -4,6 +4,7 @@ import './index.css';
 import App from './Components/App';
 import SignUpPage from './Components/SignUpPage/SignUpPage';
 import LogInPage from './Components/LogInPage/LogInPage';
+import HotelPage from './Components/HotelPage/HotelPage';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
@@ -15,6 +16,7 @@ ReactDOM.render(
         <Route path="/" element={<App />} />
         <Route path="signup" element={<SignUpPage />} />
         <Route path = "login" element = {<LogInPage />} />
+        <Route path = "hotelTest" element = {<HotelPage />} />
       </Routes>
     </React.StrictMode>
   </BrowserRouter>,
