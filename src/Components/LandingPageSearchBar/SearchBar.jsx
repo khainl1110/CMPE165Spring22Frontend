@@ -22,12 +22,12 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
         mt: 10,
         mb: 0
       }}>
-            <Paper position="static">
-              <Toolbar variant="regular">
+            <Paper position="static" sx={{ borderRadius: 7, backgroundColor: "#F9FBF7" }}>
+              <Toolbar variant="regular" >
                 <TextField id="Location" label="Location" variant="standard" />
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   
-                <Box sx={{ mx: 2 }}>|</Box>
+                <Box sx={{ mx: 1 }}></Box>
                   <DateRangePicker
                     startText="Check-in"
                     endText="Check-out"
@@ -38,16 +38,16 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
                     renderInput={(startProps, endProps) => (
                       <React.Fragment>
                         <TextField {...startProps} />
-                        <Box sx={{ mx: 2 }}>|</Box>
+                        <Box sx={{ mx: 1 }}></Box>
                         <TextField {...endProps} />
                       </React.Fragment>
                     )}
                   />
                 </LocalizationProvider>
-                <Box sx={{ mx: 2 }}>|</Box>
+                <Box sx={{ mx: 1 }}></Box>
                 
                 <TextField id="Guests" label="Guests" variant="standard" />
-                <IconButton edge="start" color="inherit" aria-label="menu" sx={{ marginLeft: "auto" }}>
+                <IconButton edge="start" color="inherit" aria-label="menu" sx={{ marginLeft: "auto", backgroundColor: "#9BB40D", color: "#FFFFFF" }}>
                   
                   <SearchIcon />
                 </IconButton>
@@ -57,6 +57,4 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
         </Box>
     );
   }
-/*check in*/
-/*check out*/
 /*add onClick={()=>{}} to button above to pass search info and link to search page */
