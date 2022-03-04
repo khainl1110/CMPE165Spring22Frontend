@@ -11,7 +11,7 @@ import {
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import styled from 'styled-components';
 import axios from 'axios';
-import Image from '../SignUpPage/image5.png';
+import Image from '../../assets/signupPage/image5.png';
 import { Paper } from '@mui/material';
 import { positions } from '@mui/system';
 
@@ -29,7 +29,7 @@ export default function SignUpPage() {
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
             height: '110vh',
-            width: '100vw',
+            width: '100%',
             backgroundImage: `url(${Image})`
         }
     };
@@ -88,7 +88,7 @@ export default function SignUpPage() {
       <Container component="main" justifyContent="flex-start">
         <CssBaseline />
         <Grid container direction="row" justifyContent="flex-start"  alignItems="center">
-            <Grid item xs>
+            <Grid item xs={4}>
         <Box
             sx={{
                 position: "absolute",
@@ -168,14 +168,14 @@ export default function SignUpPage() {
         </Box>
         </Grid>
 
-        <Grid item xs>
+        <Grid item xs={0}>
         <Box
           sx={{
             position: "absolute",
             marginTop: '100px',
             height: '760px',
             maxWidth: '809px',
-            marginLeft: '300px',
+            marginLeft: '200px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
