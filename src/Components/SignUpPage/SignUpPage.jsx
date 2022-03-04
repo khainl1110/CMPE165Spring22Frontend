@@ -71,7 +71,7 @@ export default function SignUpPage() {
     }
 
     if (password !== confirmPassword) {
-      setPasswordError('Check password again');
+      setPasswordError('Check password again ');
     }
     else {
       setPasswordError('');
