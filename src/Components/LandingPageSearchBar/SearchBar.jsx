@@ -15,14 +15,14 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
     const [value, setValue] = React.useState([null, null]);
     return (
       <Box sx={{ flexGrow: 0, 
-        width: 1000,
-        height: 300,
+        width: "100%",
+        height: "100%",
         position: "relative",
         mx: "auto",
-        mt: 10,
-        mb: 0
+        mt: "8%",
+        mb: "59%"
       }}>
-            <Paper position="static" sx={{ borderRadius: 7, backgroundColor: "#F9FBF7" }}>
+            <Paper position="relative" sx={{ borderRadius: 7, backgroundColor: "#F9FBF7" }}>
               <Toolbar variant="regular" >
                 <TextField id="Location" label="Location" variant="standard" />
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
