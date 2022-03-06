@@ -95,7 +95,7 @@ export default function App() {
               <SearchBar />
             </Grid>
             <Grid item xs={2} sx={{ marginTop: '10%' }}>
-              <Link to="/signup">Returning Users</Link>
+              <Link to="/login">Returning Users</Link>
             </Grid>
           </Grid>
         </Container>
