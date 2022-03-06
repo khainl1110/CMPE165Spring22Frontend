@@ -15,6 +15,8 @@ import axios from 'axios';
 import Image from '../../assets/signupPage/image5.png';
 import { Paper } from '@mui/material';
 import { positions } from '@mui/system';
+import PerksInfo from "./PerksInfo";
+import { backend_url } from "../../links";
 
 export default function SignUpPage() {
 
@@ -36,17 +38,24 @@ export default function SignUpPage() {
   };
 
   const onPostHandler = async (data) => {
-    const { firstName, lastName, email, password } = data;
-    const putData = { firstName, lastName, email, password };
+    const { firstName, lastName, username, email, password } = data;
+    const putData = { username, email, password };
 
-    // Post
-    await axios.post('http://localhost:8080/signup', putData)
-      .then(function (response) {
-        console.log(response, "Success");
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
+    // Post, create a user
+    // axios return network error
+    fetch(backend_url + "/users", {
+      method: 'POST',
+      body: JSON.stringify(putData) ,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(data => {
+      if(data.status !== 200)
+        alert("Having error")
+      else
+        alert("Successfully created user")
+    })
   };
 
   const handleSubmit = (e) => {
@@ -56,11 +65,12 @@ export default function SignUpPage() {
     const joinData = {
       firstName: data.get('firstName'),
       lastName: data.get('lastName'),
+      username: data.get('username'),
       email: data.get('email'),
       password: data.get('password'),
       confirmPassword: data.get('confirmPassword')
     };
-    const { firstName, lastName, email, password, confirmPassword } = joinData;
+    const { firstName, lastName, username, email, password, confirmPassword } = joinData;
 
     const emailRegex = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     if (!emailRegex.test(email)) {
@@ -77,9 +87,12 @@ export default function SignUpPage() {
       setPasswordError('');
     }
 
-    if (emailRegex.test(email) && passwordError.test(password)) {
-      onPostHandler(joinData);
-    }
+    // error with passwordError.test is not a function
+    // if (emailRegex.test(email) && passwordError.test(password)) {
+    //   onPostHandler(joinData);
+    // }
+
+    onPostHandler(joinData);
   };
 
 
@@ -89,81 +102,7 @@ export default function SignUpPage() {
         <Container component="main" justifyContent="flex-start">
           <CssBaseline />
           <Grid container direction="row" justifyContent="flex-start" alignItems="center">
-            <Grid item xs={4}>
-              <Box
-                sx={{
-                  position: "absolute",
-                  marginTop: '15%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  width: '40%',
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontFamily: 'Baloo Bhaina 2',
-                    fontStyle: 'normal',
-                    fontSize: '50px',
-                    letterSpacing: '0.005em',
-                    color: '#FFFFFF',
-                    width: '100%'
-                  }}
-                >
-                  Where to first?
-                </Typography>
-                <Typography
-                  sx={{
-                    marginTop: '10%',
-                    fontFamily: 'Baloo Bhaina 2',
-                    fontStyle: 'normal',
-                    fontSize: '28px',
-                    width: '100%',
-                    letterSpacing: '0.005em',
-                    color: '#FFFFFF'
-                  }}
-                >
-                  Perks of a LikeHome account:
-                </Typography>
-                <Typography
-                  sx={{
-                    marginTop: '5%',
-                    fontFamily: 'Baloo Bhaina 2',
-                    fontStyle: 'normal',
-                    fontSize: '20px',
-                    width: '90%',
-                    letterSpacing: '0.005em',
-                    color: '#FFFFFF'
-                  }}
-                >
-                  1. Gain reward points to put towards your next trip.
-                </Typography>
-                <Typography
-                  sx={{
-                    fontFamily: 'Baloo Bhaina 2',
-                    fontStyle: 'normal',
-                    fontSize: '20px',
-                    width: '90%',
-                    letterSpacing: '0.005em',
-                    color: '#FFFFFF'
-                  }}
-                >
-                  2. Keep track of your past and current reservations.
-                </Typography>
-                <Typography
-                  sx={{
-                    fontFamily: 'Baloo Bhaina 2',
-                    fontStyle: 'normal',
-                    fontSize: '20px',
-                    width: '90%',
-                    letterSpacing: '0.005em',
-                    color: '#FFFFFF'
-                  }}
-                >
-                  3. Save your information for a faster checkout.
-                </Typography>
-              </Box>
-            </Grid>
+            <PerksInfo />
 
             <Grid item xs={0}>
               <Box
@@ -209,6 +148,15 @@ export default function SignUpPage() {
                           id="lastName"
                           name="lastName"
                           label="Last Name" />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField
+                          required
+                          autoFocus
+                          fullWidth
+                          id="username"
+                          name="username"
+                          label="User Name" />
                       </Grid>
                       <Grid item xs={12}>
                         <TextField
