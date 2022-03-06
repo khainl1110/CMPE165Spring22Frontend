@@ -12,7 +12,7 @@ import {
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import styled from 'styled-components';
 
-import Image from '../../assets/image6.png';
+import Image from '../../assets/login.jpg';
 import { Paper } from '@mui/material';
 
 import syk from '../LogInPage/login.module.css';
@@ -57,7 +57,7 @@ export default function LogInPage() {
               <Box
                 sx={{
                   position: "absolute",
-                  marginTop: '45vh',
+                  marginTop: '40vh',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
