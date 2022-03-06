@@ -9,52 +9,48 @@ import DateRangePicker from '@mui/lab/DateRangePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 
-  
-  export default function SearchBar() {
 
-    const [value, setValue] = React.useState([null, null]);
-    return (
-      <Box sx={{ flexGrow: 0, 
-        width: "100%",
-        height: "100%",
-        position: "relative",
-        mx: "auto",
-        mt: "8%",
-        mb: "59%"
-      }}>
-            <Paper position="relative" sx={{ borderRadius: 7, backgroundColor: "#F9FBF7" }}>
-              <Toolbar variant="regular" >
-                <TextField id="Location" label="Location" variant="standard" />
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  
-                <Box sx={{ mx: 1 }}></Box>
-                  <DateRangePicker
-                    startText="Check-in"
-                    endText="Check-out"
-                    value={value}
-                    onChange={(newValue) => {
-                      setValue(newValue);
-                    }}
-                    renderInput={(startProps, endProps) => (
-                      <React.Fragment>
-                        <TextField {...startProps} />
-                        <Box sx={{ mx: 1 }}></Box>
-                        <TextField {...endProps} />
-                      </React.Fragment>
-                    )}
-                  />
-                </LocalizationProvider>
-                <Box sx={{ mx: 1 }}></Box>
-                
-                <TextField id="Guests" label="Guests" variant="standard" />
-                <IconButton edge="start" color="inherit" aria-label="menu" sx={{ marginLeft: "auto", backgroundColor: "#9BB40D", color: "#FFFFFF" }}>
-                  
-                  <SearchIcon />
-                </IconButton>
-                
-              </Toolbar>
-            </Paper>
-        </Box>
-    );
-  }
+export default function SearchBar() {
+
+  const [value, setValue] = React.useState([null, null]);
+  return (
+    <Box sx={{
+      flexGrow: 0,
+      width: "100%",
+      height: "100%",
+      position: "relative",
+    }}>
+      <Paper position="relative" sx={{ borderRadius: 10, padding: 1, backgroundColor: "#F9FBF7" }}>
+        <Toolbar variant="regular" >
+          <TextField id="Location" label="Location" variant="outlined" />
+          <Box sx={{ mx: 0 }}></Box>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <Box sx={{ mx: 1 }}></Box>
+            <DateRangePicker
+              startText="Check-in"
+              endText="Check-out"
+              value={value}
+              onChange={(newValue) => {
+                setValue(newValue);
+              }}
+              renderInput={(startProps, endProps) => (
+                <React.Fragment>
+                  <TextField {...startProps} />
+                  <Box sx={{ mx: 1 }}></Box>
+                  <TextField {...endProps} />
+                </React.Fragment>
+              )}
+            />
+          </LocalizationProvider>
+          <Box sx={{ mx: 1 }}></Box>
+          <TextField id="Guests" label="Guests" variant="outlined" />
+          <Box sx={{ mx: 1 }}></Box>
+          <IconButton edge="start" color="inherit" aria-label="menu" sx={{ marginLeft: "auto", backgroundColor: "#9BB40D", color: "#FFFFFF" }}>
+            <SearchIcon />
+          </IconButton>
+        </Toolbar>
+      </Paper>
+    </Box>
+  );
+}
 /*add onClick={()=>{}} to button above to pass search info and link to search page */
