@@ -20,7 +20,7 @@ export default function SearchBar() {
       height: "100%",
       position: "relative",
     }}>
-      <Paper position="relative" sx={{ borderRadius: 10, padding: 1, backgroundColor: "#F9FBF7" }}>
+      <Paper position="relative" sx={{ borderRadius: 10, padding: 0.5, backgroundColor: "#F9FBF7" }}>
         <Toolbar variant="regular" >
           <TextField id="Location" label="Location" variant="outlined" />
           <Box sx={{ mx: 0 }}></Box>
