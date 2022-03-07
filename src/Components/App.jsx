@@ -30,15 +30,15 @@ const theme = createTheme({
 
 const styles = {
   paperContainer: {
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      backgroundImage: `url(${bg})`,
-      position: 'static',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundImage: `url(${bg})`,
+    position: 'static',
   },
   bottomPage: {
-      backgroundColor: '#8E8A86',
-      position: 'static',
+    backgroundColor: '#8E8A86',
+    position: 'static',
   }
 };
 
@@ -48,34 +48,34 @@ export default function App() {
       <Paper style={styles.paperContainer}>
         <Container component="main" justifyContent="center" position="absolute">
           <CssBaseline />
-          <NavBar/>
-          <Grid container direction="column" justifyContent="flex-start"  alignItems="center">
+          <NavBar />
+          <Grid container direction="column" justifyContent="flex-start" alignItems="center">
             <Grid item xs={0}>
-            <Box sx={{
+              <Box sx={{
                 position: "relative",
                 marginTop: '52.5%',
                 alignItems: 'center',
-            }}
-            >
-              <Typography variant="h2" sx={{
-                    fontFamily: 'Baloo-Bhaina-2',
-                    fontWeight: 600,
-                    fontSize: '75px',
-                    color: '#FFFFFF'
+              }}
+              >
+                <Typography variant="h2" sx={{
+                  fontFamily: 'Baloo-Bhaina-2',
+                  fontWeight: 600,
+                  fontSize: '75px',
+                  color: '#FFFFFF'
                 }}>
                   Welcome home
-              </Typography>
-            
-              <Typography variant="h5" align="center" sx={{
-                    fontFamily: 'Baloo-Bhaina-2',
-                    fontWeight: 500,
-                    fontSize: '25px',
-                    color: '#FFFFFF',
-                    marginTop: '5%',
-                    mb: "31%",
+                </Typography>
+
+                <Typography variant="h5" align="center" sx={{
+                  fontFamily: 'Baloo-Bhaina-2',
+                  fontWeight: 500,
+                  fontSize: '25px',
+                  color: '#FFFFFF',
+                  marginTop: '5%',
+                  mb: "20%",
                 }}>
                   Start Searching
-              </Typography>
+                </Typography>
               </Box>
             </Grid>
             <Grid item xs={0}>
@@ -83,163 +83,163 @@ export default function App() {
             </Grid>
             <Grid item xs={0}>
               <Box sx={{
-                  position: "relative",
-                  alignItems: 'center',
-                  mt: "160%",
-                  mb: "400%"
+                position: "relative",
+                alignItems: 'center',
+                mt: "150%",
+                mb: "400%"
               }}
               >
-                <Link to = "/login">Returning Users</Link>
+                <Link to="/login">Returning Users</Link>
               </Box>
             </Grid>
           </Grid>
         </Container>
       </Paper>
       <Paper style={styles.bottomPage}>
-            <Grid container direction="row" justifyContent="center"  alignItems="center" sx={{}}>
-            <Grid item xs={0}>
-                    <Box sx={{
-                    position: "relative",
-                    marginTop: '5%',
-                    marginLeft: '0%',
-                    alignItems: 'left',
-                    }}>
-                    <Typography variant="h4" sx={{
+        <Grid container direction="row" justifyContent="center" alignItems="center" sx={{}}>
+          <Grid item xs={0}>
+            <Box sx={{
+              position: "relative",
+              marginTop: '5%',
+              marginLeft: '0%',
+              alignItems: 'left',
+            }}>
+              <Typography variant="h4" sx={{
+                fontFamily: 'Baloo-Bhaina-2',
+                fontweight: 600,
+                fontsize: '50px',
+                color: '#FFFFFF'
+              }}>
+                Ideas for your next trip:
+              </Typography>
+            </Box>
+            <Grid container item spacing={9} marginBottom={"5%"}>
+              <Grid item xs={3}>
+                <Box sx={{
+                  position: "relative",
+                  marginTop: '5%',
+                  marginLeft: '0%',
+                  alignItems: 'left',
+                }}>
+                  <Card sx={{ minWidth: "130%", background: "#F9FBF7" }}>
+                    <CardMedia
+                      style={{ height: "100%", width: "100%", paddingTop: '56.25%' }}
+                      image={aspen}
+                      title="Getaway"
+                    />
+                    <CardContent sx={{ backgroundColor: "none", color: "none" }}>
+                      <Typography variant="subtitle2" align="right" sx={{
                         fontFamily: 'Baloo-Bhaina-2',
-                        fontweight: 600,
-                        fontsize: '50px',
-                        color: '#FFFFFF'
-                    }}>
-                        Ideas for your next trip:
-                    </Typography>
-                    </Box>
-                    <Grid container item spacing={9} marginBottom={"5%"}>
-                      <Grid item xs={3}>
-                      <Box sx={{
-                          position: "relative",
-                          marginTop: '5%',
-                          marginLeft: '0%',
-                          alignItems: 'left',
+                        fontweight: 700,
+                        fontsize: '25px',
+                        color: '#000000'
                       }}>
-                      <Card sx={{ minWidth: "130%", background: "#F9FBF7"}}>
-                          <CardMedia
-                          style={{height: "100%", width: "100%", paddingTop: '56.25%'}}
-                          image={aspen}
-                          title="Getaway"
-                          />
-                          <CardContent sx={{backgroundColor: "none", color: "none"}}>
-                          <Typography variant="subtitle2" align="right" sx={{
-                          fontFamily: 'Baloo-Bhaina-2',
-                          fontweight: 700,
-                          fontsize: '25px',
-                          color: '#000000'
-                          }}>
-                          Romantic Anniversary Getaway in Aspen
-                          </Typography>
-                          </CardContent>
-                          <CardActions>
-                          <Button size="small">Learn More</Button>
-                          </CardActions>
-                      </Card>
+                        Romantic Anniversary Getaway in Aspen
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button size="small">Learn More</Button>
+                    </CardActions>
+                  </Card>
 
-                      </Box>
-                      </Grid>
+                </Box>
+              </Grid>
 
-                      <Grid item xs={3}>
-                      <Box sx={{
-                          position: "relative",
-                          marginTop: '5%',
-                          marginLeft: '0%',
-                          alignItems: 'left',
+              <Grid item xs={3}>
+                <Box sx={{
+                  position: "relative",
+                  marginTop: '5%',
+                  marginLeft: '0%',
+                  alignItems: 'left',
+                }}>
+                  <Card sx={{ minWidth: "130%", background: "#F9FBF7" }}>
+                    <CardMedia
+                      style={{ height: "100%", width: "100%", paddingTop: '56.25%' }}
+                      image={orlando}
+                      title="Family Vacation"
+                    />
+                    <CardContent sx={{ backgroundColor: "none", color: "none" }}>
+                      <Typography variant="subtitle2" align="right" sx={{
+                        fontFamily: 'Baloo-Bhaina-2',
+                        fontweight: 700,
+                        fontsize: '25px',
+                        color: '#000000'
                       }}>
-                      <Card sx={{ minWidth: "130%", background: "#F9FBF7" }}>
-                          <CardMedia
-                          style={{height: "100%", width: "100%", paddingTop: '56.25%'}}
-                          image={orlando}
-                          title="Family Vacation"
-                          />
-                          <CardContent sx={{backgroundColor: "none", color: "none"}}>
-                          <Typography variant="subtitle2" align="right" sx={{
-                          fontFamily: 'Baloo-Bhaina-2',
-                          fontweight: 700,
-                          fontsize: '25px',
-                          color: '#000000'
-                          }}>
-                          Family-Friendly Vacation in Orlando
-                          </Typography>
-                          </CardContent>
-                          <CardActions>
-                          <Button size="small">Learn More</Button>
-                          </CardActions>
-                      </Card>
-                      </Box>
-                      </Grid>
+                        Family-Friendly Vacation in Orlando
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button size="small">Learn More</Button>
+                    </CardActions>
+                  </Card>
+                </Box>
+              </Grid>
 
-                      <Grid item xs={3}>
-                      <Box sx={{
-                          position: "relative",
-                          marginTop: '5%',
-                          marginLeft: '0%',
-                          alignItems: 'left',
+              <Grid item xs={3}>
+                <Box sx={{
+                  position: "relative",
+                  marginTop: '5%',
+                  marginLeft: '0%',
+                  alignItems: 'left',
+                }}>
+                  <Card sx={{ minWidth: "130%", background: "#F9FBF7" }}>
+                    <CardMedia
+                      style={{ height: "100%", width: "100%", paddingTop: '56.25%' }}
+                      image={miami}
+                      title="Spring Break"
+                    />
+                    <CardContent sx={{ backgroundColor: "none", color: "none" }}>
+                      <Typography variant="subtitle2" align="right" sx={{
+                        fontFamily: 'Baloo-Bhaina-2',
+                        fontweight: 700,
+                        fontsize: '25px',
+                        color: '#000000'
                       }}>
-                      <Card sx={{ minWidth: "130%", background: "#F9FBF7"}}>
-                          <CardMedia
-                          style={{height: "100%", width: "100%", paddingTop: '56.25%'}}
-                          image={miami}
-                          title="Spring Break"
-                          />
-                          <CardContent sx={{backgroundColor: "none", color: "none"}}>
-                          <Typography variant="subtitle2" align="right" sx={{
-                          fontFamily: 'Baloo-Bhaina-2',
-                          fontweight: 700,
-                          fontsize: '25px',
-                          color: '#000000'
-                          }}>
-                          Spring Break in Miami
-                          </Typography>
-                          </CardContent>
-                          <CardActions>
-                          <Button size="small">Learn More</Button>
-                          </CardActions>
-                      </Card>
+                        Spring Break in Miami
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button size="small">Learn More</Button>
+                    </CardActions>
+                  </Card>
 
-                      </Box>
-                      </Grid>
+                </Box>
+              </Grid>
 
-                      <Grid item xs={3}>
-                      <Box sx={{
-                          position: "relative",
-                          marginTop: '5%',
-                          marginLeft: '0%',
-                          alignItems: 'left',
+              <Grid item xs={3}>
+                <Box sx={{
+                  position: "relative",
+                  marginTop: '5%',
+                  marginLeft: '0%',
+                  alignItems: 'left',
+                }}>
+                  <Card sx={{ minWidth: "130%", background: "#F9FBF7" }}>
+                    <CardMedia
+                      style={{ height: "100%", width: "100%", paddingTop: '56.25%' }}
+                      image={bangkok}
+                      title="Bangkok"
+                    />
+                    <CardContent sx={{ backgroundColor: "none", color: "none" }}>
+                      <Typography variant="subtitle2" align="right" sx={{
+                        fontFamily: 'Baloo-Bhaina-2',
+                        fontweight: 700,
+                        fontsize: '25px',
+                        color: '#000000'
                       }}>
-                      <Card sx={{ minWidth: "130%", background: "#F9FBF7" }}>
-                          <CardMedia
-                          style={{height: "100%", width: "100%", paddingTop: '56.25%'}}
-                          image={bangkok}
-                          title="Bangkok"
-                          />
-                          <CardContent sx={{backgroundColor: "none", color: "none"}}>
-                          <Typography variant="subtitle2" align="right" sx={{
-                          fontFamily: 'Baloo-Bhaina-2',
-                          fontweight: 700,
-                          fontsize: '25px',
-                          color: '#000000'
-                          }}>
-                          Just Because in Bangkok
-                          </Typography>
-                          </CardContent>
-                          <CardActions>
-                          <Button size="small">Learn More</Button>
-                          </CardActions>
-                      </Card>
+                        Just Because in Bangkok
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button size="small">Learn More</Button>
+                    </CardActions>
+                  </Card>
 
-                      </Box>
-                    </Grid>
-                    </Grid>
+                </Box>
+              </Grid>
             </Grid>
-            </Grid>
-        </Paper>
+          </Grid>
+        </Grid>
+      </Paper>
     </ThemeProvider>
   );
 }

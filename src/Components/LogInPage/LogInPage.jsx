@@ -31,6 +31,7 @@ export default function LogInPage() {
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
       height: '100vh',
+      minHeight: '420px',
       width: '100%',
       backgroundImage: `url(${Image})`
     }
@@ -58,10 +59,11 @@ export default function LogInPage() {
                 sx={{
                   position: "absolute",
                   marginTop: '40vh',
+                  marginLeft: '3%',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  width: '40%',
+                  width: '35%',
                 }}
               >
                 <Typography
@@ -92,22 +94,20 @@ export default function LogInPage() {
                   alignItems: 'center',
                   backgroundColor: 'rgba(239, 241, 237, 0.9)',
                   borderRadius: '18px',
-                  padding: '30px',
+                  padding: '28px',
                 }}
               >
                 <Typography
                   sx={{
-                    marginTop: '16px',
-                    fontSize: 24,
+                    fontSize: 21,
                     fontWeight: 'bold',
                     color: 'grey'
                   }}>
                   Login
                 </Typography>
-                <Boxs component="form" noValidate onSubmit={handleLogIn} sx={{ mt: 3 }}>
+                <Boxs component="form" noValidate onSubmit={handleLogIn} sx={{ mt: 1 }}>
                   <FormControl component="fieldset" variant="standard">
-                    <Grid container spacing={4}>
-
+                    <Grid container spacing={2}>
                       <Grid item xs={12}>
                         <TextField
                           required
@@ -130,13 +130,11 @@ export default function LogInPage() {
                           label="Password"
                         />
                       </Grid>
-
-
                     </Grid>
                     <Button onSubmit={handleLogIn()}
                       type="submit"
                       variant="contained"
-                      sx={{ mt: 5, mb: 1, backgroundColor: '#9BB40D', fontWeight: '500' }}
+                      sx={{ mt: 2, mb: 1, backgroundColor: '#9BB40D', fontWeight: '500' }}
                     >
                       Login
                     </Button>
