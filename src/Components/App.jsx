@@ -58,7 +58,7 @@ export default function App() {
             <Box sx={{
                 position: "relative",
                 marginTop: '62.5%',
-                alignItems: 'center',
+                alignItems: 'left',
             }}
             >
               <Typography variant="h2" sx={{
@@ -67,20 +67,28 @@ export default function App() {
                     fontSize: '75px',
                     color: '#FFFFFF'
                 }}>
-                  Welcome home
+                  Welcome home.
               </Typography>
-            
-              <Typography variant="h5" align="center" sx={{
+            </Box>
+            <Grid item xs={0}>
+              <Box sx={{
+                position: "relative",
+                marginTop: '9%',
+                marginLeft: '25%',
+                alignItems: 'center',
+                mb: "10%",
+              }}
+              >
+              <Typography variant="h5" sx={{
                     fontFamily: 'Baloo-Bhaina-2',
                     fontWeight: 500,
                     fontSize: '25px',
-                    color: '#FFFFFF',
-                    marginTop: '5%',
-                    mb: "21%",
+                    color: '#FFFFFF'
                 }}>
                   Start Searching
               </Typography>
               </Box>
+            </Grid>
             </Grid>
             <Grid item xs={0}>
               <SearchBar />
@@ -88,9 +96,8 @@ export default function App() {
             <Grid item xs={0}>
               <Box sx={{
                   position: "relative",
-                  alignItems: 'center',
-                  mt: "160%",
-                  mb: "400%"
+                  alignItems: 'left',
+                  mb: "560%"
               }}
               >
                 <Link to = "/signup">Returning Users</Link>
@@ -100,7 +107,7 @@ export default function App() {
         </Container>
       </Paper>
       <Paper style={styles.bottomPage}>
-            <Grid container direction="row" justifyContent="center"  alignItems="center" sx={{}}>
+            <Grid container direction="row" justifyContent="center"  alignItems="center">
             <Grid item xs={0}>
                     <Box sx={{
                     position: "relative",
