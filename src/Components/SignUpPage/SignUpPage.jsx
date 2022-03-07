@@ -32,6 +32,7 @@ export default function SignUpPage() {
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
       height: '100vh',
+      minHeight: '750px',
       width: '100%',
       backgroundImage: `url(${Image})`
     }
@@ -45,17 +46,17 @@ export default function SignUpPage() {
     // axios return network error
     fetch(backend_url + "/users", {
       method: 'POST',
-      body: JSON.stringify(putData) ,
+      body: JSON.stringify(putData),
       headers: {
         'Content-Type': 'application/json'
       }
     })
-    .then(data => {
-      if(data.status !== 200)
-        alert("Having error")
-      else
-        alert("Successfully created user")
-    })
+      .then(data => {
+        if (data.status !== 200)
+          alert("Having error")
+        else
+          alert("Successfully created user")
+      })
   };
 
   const handleSubmit = (e) => {
@@ -103,7 +104,6 @@ export default function SignUpPage() {
           <CssBaseline />
           <Grid container direction="row" justifyContent="flex-start" alignItems="center">
             <PerksInfo />
-
             <Grid item xs={0}>
               <Box
                 sx={{
@@ -121,16 +121,15 @@ export default function SignUpPage() {
               >
                 <Typography
                   sx={{
-                    marginTop: '16px',
-                    fontSize: 24,
+                    fontSize: 22,
                     fontWeight: 'bold',
                     color: 'grey'
                   }}>
                   Sign Up
                 </Typography>
-                <Boxs component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                <Boxs component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 2 }}>
                   <FormControl component="fieldset" variant="standard">
-                    <Grid container spacing={4}>
+                    <Grid container spacing={2}>
                       <Grid item xs={6}>
                         <TextField
                           required
@@ -196,7 +195,7 @@ export default function SignUpPage() {
                     <Button
                       type="submit"
                       variant="contained"
-                      sx={{ mt: 5, mb: 1, backgroundColor: '#9BB40D', fontWeight: '500' }}
+                      sx={{ mt: 2, mb: 0, backgroundColor: '#9BB40D', fontWeight: '500' }}
                     >
                       Sign up
                     </Button>
