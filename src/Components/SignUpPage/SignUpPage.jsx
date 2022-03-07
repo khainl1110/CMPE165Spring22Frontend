@@ -25,6 +25,7 @@ export default function SignUpPage() {
 
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [nameError, setNameError] = useState('');
 
   const styles = {
     paperContainer: {
@@ -88,12 +89,25 @@ export default function SignUpPage() {
       setPasswordError('');
     }
 
+    const nameRegex = /^[a-zA-Z]+$/;
+    if (!nameRegex.test(firstName) || !nameRegex.test(lastName)) {
+      setNameError('Type correct name ');
+    }
+    else {
+      setNameError('');
+    }
+
     // error with passwordError.test is not a function
     // if (emailRegex.test(email) && passwordError.test(password)) {
     //   onPostHandler(joinData);
     // }
+    
+    // add more condition and fix the error
+    if (emailRegex.test(email) && password == confirmPassword && nameRegex.test(firstName) && nameRegex.test(lastName)) {
+      onPostHandler(joinData);
+    }
 
-    onPostHandler(joinData);
+    //onPostHandler(joinData);
   };
 
 
@@ -148,7 +162,7 @@ export default function SignUpPage() {
                           name="lastName"
                           label="Last Name" />
                       </Grid>
-                      <Grid item xs={6}>
+                      <Grid item xs={12}>
                         <TextField
                           required
                           autoFocus
