@@ -33,14 +33,10 @@ const styles = {
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
-      height: '100%',
-      width: '100%',
       backgroundImage: `url(${bg})`,
       position: 'static',
   },
   bottomPage: {
-      height: '45%',
-      width: '100%',
       backgroundColor: '#8E8A86',
       position: 'static',
   }
@@ -57,7 +53,7 @@ export default function App() {
             <Grid item xs={0}>
             <Box sx={{
                 position: "relative",
-                marginTop: '62.5%',
+                marginTop: '52.5%',
                 alignItems: 'center',
             }}
             >
@@ -76,7 +72,7 @@ export default function App() {
                     fontSize: '25px',
                     color: '#FFFFFF',
                     marginTop: '5%',
-                    mb: "21%",
+                    mb: "31%",
                 }}>
                   Start Searching
               </Typography>
@@ -93,7 +89,7 @@ export default function App() {
                   mb: "400%"
               }}
               >
-                <Link to = "/signup">Returning Users</Link>
+                <Link to = "/login">Returning Users</Link>
               </Box>
             </Grid>
           </Grid>
