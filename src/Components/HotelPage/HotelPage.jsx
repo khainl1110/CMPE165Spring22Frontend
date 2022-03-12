@@ -18,7 +18,7 @@ export default function HotelPage() {
     return (
         <div>
             <Typography variant="h2" component="div" gutterBottom>
-                This is list of hotels
+                This is list of hotelsa
             </Typography>
             <Grid container>
             {

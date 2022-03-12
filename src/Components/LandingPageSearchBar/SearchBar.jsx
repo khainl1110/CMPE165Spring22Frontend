@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
 import Paper from '@mui/material/Paper';
@@ -8,7 +9,6 @@ import IconButton from '@mui/material/IconButton';
 import DateRangePicker from '@mui/lab/DateRangePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-
 
 export default function SearchBar() {
 
@@ -45,7 +45,7 @@ export default function SearchBar() {
           <Box sx={{ mx: 1 }}></Box>
           <TextField id="Guests" label="Guests" variant="outlined" />
           <Box sx={{ mx: 1 }}></Box>
-          <IconButton edge="start" color="inherit" aria-label="menu" sx={{ marginLeft: "auto", backgroundColor: "#9BB40D", color: "#FFFFFF" }}>
+          <IconButton edge="start" color="inherit" aria-label="menu" component={Link} to='/hotelTest' sx={{ marginLeft: "auto", backgroundColor: "#9BB40D", color: "#FFFFFF" }}>
             <SearchIcon />
           </IconButton>
         </Toolbar>
