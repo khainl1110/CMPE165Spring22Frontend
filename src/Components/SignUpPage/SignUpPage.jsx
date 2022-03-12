@@ -25,6 +25,8 @@ export default function SignUpPage() {
 
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [nameError, setNameError] = useState('');
+  const [showError, setShowError] = useState(false);
 
   const styles = {
     paperContainer: {
@@ -75,17 +77,28 @@ export default function SignUpPage() {
 
     const emailRegex = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     if (!emailRegex.test(email)) {
-      setEmailError('Not correct email form');
+      setShowError(true);
+      setEmailError('Please make sure you entered the correct email.');
     }
     else {
       setEmailError('');
     }
 
     if (password !== confirmPassword) {
-      setPasswordError('Check password again ');
+      setShowError(true);
+      setPasswordError('Please make sure your passwords match up.');
     }
     else {
       setPasswordError('');
+    }
+
+    const nameRegex = /^[a-zA-Z]+$/;
+    if (!nameRegex.test(firstName) || !nameRegex.test(lastName)) {
+      setShowError(true);
+      setNameError('Please make sure you entered a name.');
+    }
+    else {
+      setNameError('');
     }
 
     // error with passwordError.test is not a function
@@ -93,9 +106,15 @@ export default function SignUpPage() {
     //   onPostHandler(joinData);
     // }
 
-    onPostHandler(joinData);
+    // add more condition and fix the error
+    if (emailRegex.test(email) && password === confirmPassword && nameRegex.test(firstName) && nameRegex.test(lastName)) {
+      setShowError(false);
+      onPostHandler(joinData);
+    }
+    else {
+      setShowError(true);
+    }
   };
-
 
   return (
     <ThemeProvider theme={theme}>
@@ -148,14 +167,15 @@ export default function SignUpPage() {
                           name="lastName"
                           label="Last Name" />
                       </Grid>
-                      <Grid item xs={6}>
+                      <Grid item xs={12}>
                         <TextField
                           required
                           autoFocus
                           fullWidth
                           id="username"
                           name="username"
-                          label="User Name" />
+                          label="User Name"
+                        />
                       </Grid>
                       <Grid item xs={12}>
                         <TextField
@@ -190,8 +210,19 @@ export default function SignUpPage() {
                           error={passwordError !== '' || false}
                         />
                       </Grid>
-
                     </Grid>
+                    {showError &&
+                      <Typography
+                        sx={{
+                          marginTop: '10px',
+                          fontSize: 13,
+                          color: 'red',
+                          width: '100%',
+                          textAlign: 'center',
+                        }}>
+                        {emailError} {nameError} {passwordError}
+                      </Typography>
+                    }
                     <Button
                       type="submit"
                       variant="contained"
