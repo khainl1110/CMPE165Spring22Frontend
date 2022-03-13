@@ -26,7 +26,7 @@ const styles = {
   paperContainer: {
     backgroundColor: `#E5E5E5`,
     position: 'static',
-    height: '100vh',
+    height: '101vh',
     width: '100vw'
   },
 };
@@ -58,54 +58,59 @@ export default function HotelPage() {
                     <NavBar />
                     
 
-                    <Grid container direction="row" justifyContent="center" alignItems="center" spacing={2} sx={{ position: "relative", marginLeft: '0%',}}>
-                    <Grid item xs={0}>
-                        <Box sx={{marginTop: '10%'}}>
-                        <SearchBar />
-                        </Box>
-                    </Grid>
-                    <Grid item xs={0}>
-                        <Box sx={{marginTop: '50%', backgroundColor: "#F9FBF7"}}>
-                            <TextField id="property" label="Filter By Property" variant="outlined"/>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={0}>
-                        <Box sx={{marginTop: '64.5%', backgroundColor: "#F9FBF7"}}>
-                            <Select
-                                labelId="Sorting"
-                                id="Sorting"
-                                value={'lohi'}
-                                label="Sort"
-                                onChange={handleChange}
-                            >
-                                <MenuItem value={'lohi'}>Price: Low to High</MenuItem>
-                                <MenuItem value={'hilo'}>Price: High to Low</MenuItem>
-                            </Select>
-                        </Box>
-                    </Grid>
-                    </Grid>
-                    <Grid container direction="column" justifyContent="center" alignItems="left" spacing={2} sx={{ position: "relative", marginTop: '2%' , marginLeft: '20%',}}>
-                    <Grid item xs={0}>
-                        <Box sx={{marginTop: '0%'}}>
-                            <Typography variant="h2" sx={{
-                            fontFamily: 'Baloo-Bhaina-2',
-                            fontWeight: 700,
-                            fontSize: '45px',
-                            color: '#424242'
-                            }}>
-                                'N' Rooms Found in 'Location'
-                            </Typography>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={0}>
-                        <HotelCard/>
-                    </Grid>
-                    <Grid item xs={0}>
-                        <HotelCard/>
-                    </Grid>
-                    </Grid>
-                    
-                
+                    <Grid container direction="row" justifyContent="center" alignItems="center" spacing={2} sx={{ position: "relative", marginLeft: '-1%',}}>
+                        <Grid item xs={0}>
+                            <Box sx={{marginTop: '10%'}}>
+                            <SearchBar />
+                            </Box>
+                        </Grid>
+                        <Grid item xs={0}>
+                            <Box sx={{marginTop: '50%', backgroundColor: "#F9FBF7"}}>
+                                <TextField id="property" label="Filter By Property" variant="outlined"/>
+                            </Box>
+                        </Grid>
+                        <Grid item xs={0}>
+                            <Box sx={{marginTop: '64.5%', backgroundColor: "#F9FBF7"}}>
+                                <Select
+                                    labelId="Sorting"
+                                    id="Sorting"
+                                    value={'lohi'}
+                                    label="Sort"
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem value={'lohi'}>Price: Low to High</MenuItem>
+                                    <MenuItem value={'hilo'}>Price: High to Low</MenuItem>
+                                </Select>
+                            </Box>
+                        </Grid>
+
+
+                        <Grid container direction="column" justifyContent="flex-end" alignItems="left" spacing={2} sx={{ position: "relative", marginTop: '2%' , marginLeft: '20%', marginRight: '0%',}}>
+                            <Grid item xs={0}>
+                                <Box sx={{marginTop: '0%'}}>
+                                    <Typography variant="h2" sx={{
+                                    fontFamily: 'Baloo-Bhaina-2',
+                                    fontWeight: 700,
+                                    fontSize: '45px',
+                                    color: '#424242'
+                                    }}>
+                                        'N' Rooms Found in 'Location'
+                                    </Typography>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={0}>
+                            <Box sx={{marginRight: '0%'}}>
+                                <HotelCard/>
+                            </Box>
+                            </Grid>
+                            <Grid item xs={0}>
+                            <Box sx={{marginRight: '0%'}}>
+                                <HotelCard/>
+                            </Box>
+                            </Grid>
+                        </Grid>
+
+                    </Grid> 
             </Paper>
         </ThemeProvider>
     )
