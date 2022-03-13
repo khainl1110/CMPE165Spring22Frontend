@@ -42,8 +42,8 @@ export default function SignUpPage() {
   };
 
   const onPostHandler = async (data) => {
-    const { firstName, lastName, username, email, password } = data;
-    const putData = { username, email, password };
+    const { firstName, lastName, email, password } = data;
+    const putData = { email, password }; // no username
 
     // Post, create a user
     // axios return network error
@@ -59,6 +59,7 @@ export default function SignUpPage() {
           alert("Having error")
         else
           alert("Successfully created user")
+          //window.location.replace("/") // go to the landing page
       })
   };
 
@@ -74,7 +75,7 @@ export default function SignUpPage() {
       password: data.get('password'),
       confirmPassword: data.get('confirmPassword')
     };
-    const { firstName, lastName, username, email, password, confirmPassword } = joinData;
+    const { firstName, lastName, email, password, confirmPassword } = joinData;
 
     console.log("Sign Up local storage: " + localStorage.getItem("email"))
     const emailRegex = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
@@ -170,16 +171,7 @@ export default function SignUpPage() {
                           name="lastName"
                           label="Last Name" />
                       </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          required
-                          autoFocus
-                          fullWidth
-                          id="username"
-                          name="username"
-                          label="User Name"
-                        />
-                      </Grid>
+                      // remove username textfield
                       <Grid item xs={12}>
                         <TextField
                           required
