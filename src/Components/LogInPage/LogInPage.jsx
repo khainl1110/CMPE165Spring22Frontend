@@ -11,11 +11,11 @@ import {
 } from '@mui/material/';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import styled from 'styled-components';
+import NavBar from '../NavBar/NavBar.jsx';
+import { backend_url } from "../../links";
 
 import Image from '../../assets/login.jpg';
 import { Paper } from '@mui/material';
-
-import syk from '../LogInPage/login.module.css';
 
 export default function LogInPage() {
 
@@ -37,22 +37,41 @@ export default function LogInPage() {
     }
   };
 
+  const handleLogin = (e) => {
+    e.preventDefault();
 
-  const handleLogIn = (e) => {
-    console.log("abcd");
+    const data = new FormData(e.currentTarget);
+    const email = data.get("email");
+    const password = data.get("password");
+    let success = false;
+
+    // This will be the url once backend schema is fixed for email: localhost:8080/users/find?email=____
+    fetch(backend_url + "/users", { method: 'GET' })
+      .then(response => response.json())
+      .then(data => {
+        //  if (data.email === email && data.password === password) { }
+        data.forEach((user) => {
+          if (user.email === email && password === user.password) {
+            // If logged in successfully, store email in localStorage.
+            success = true;
+            alert("Successfully logged in!");
+            localStorage.setItem("email", email);
+            console.log("local storage: " + localStorage.getItem("email"));
+          }
+        });
+        if (success === false) {
+          alert('Make sure you entered the correct email or password.');
+        }
+      })
+      .catch(e => console.log('error' + e))
   };
 
   return (
     <ThemeProvider theme={theme}>
       <Paper style={styles.paperContainer}>
-        <div className={syk.header}>
-          <ul className={syk.headerUl}>
-            <li>Like Home</li>
-          </ul>
-        </div>
         <Container component="main" justifyContent="flex-start" >
           <CssBaseline />
-
+          <NavBar />
           <Grid container direction="row" justifyContent="flex-start" alignItems="center">
             <Grid item xs={4}>
               <Box
@@ -105,7 +124,7 @@ export default function LogInPage() {
                   }}>
                   Login
                 </Typography>
-                <Boxs component="form" noValidate onSubmit={handleLogIn} sx={{ mt: 1 }}>
+                <Boxs component="form" onSubmit={handleLogin} sx={{ mt: 1 }}>
                   <FormControl component="fieldset" variant="standard">
                     <Grid container spacing={2}>
                       <Grid item xs={12}>
@@ -131,7 +150,7 @@ export default function LogInPage() {
                         />
                       </Grid>
                     </Grid>
-                    <Button onSubmit={handleLogIn()}
+                    <Button
                       type="submit"
                       variant="contained"
                       sx={{ mt: 2, mb: 1, backgroundColor: '#9BB40D', fontWeight: '500' }}
