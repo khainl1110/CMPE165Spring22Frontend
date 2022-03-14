@@ -17,6 +17,7 @@ import { Paper } from '@mui/material';
 import { positions } from '@mui/system';
 import PerksInfo from "./PerksInfo";
 import { backend_url } from "../../links";
+import NavBar from '../NavBar/NavBar.jsx';
 
 export default function SignUpPage() {
 
@@ -75,6 +76,7 @@ export default function SignUpPage() {
     };
     const { firstName, lastName, username, email, password, confirmPassword } = joinData;
 
+    console.log("Sign Up local storage: " + localStorage.getItem("email"))
     const emailRegex = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     if (!emailRegex.test(email)) {
       setShowError(true);
@@ -121,13 +123,14 @@ export default function SignUpPage() {
       <Paper style={styles.paperContainer}>
         <Container component="main" justifyContent="flex-start">
           <CssBaseline />
+          <NavBar />
           <Grid container direction="row" justifyContent="flex-start" alignItems="center">
             <PerksInfo />
             <Grid item xs={0}>
               <Box
                 sx={{
                   position: "absolute",
-                  marginTop: '8%',
+                  marginTop: '12%',
                   maxWidth: '40%',
                   marginLeft: '15%',
                   display: 'flex',
@@ -146,7 +149,7 @@ export default function SignUpPage() {
                   }}>
                   Sign Up
                 </Typography>
-                <Boxs component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 2 }}>
+                <Boxs component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
                   <FormControl component="fieldset" variant="standard">
                     <Grid container spacing={2}>
                       <Grid item xs={6}>
