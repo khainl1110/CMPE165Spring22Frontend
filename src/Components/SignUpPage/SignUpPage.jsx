@@ -14,7 +14,6 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Image from '../../assets/signupPage/image5.png';
 import { Paper } from '@mui/material';
-import { positions } from '@mui/system';
 import PerksInfo from "./PerksInfo";
 import { backend_url } from "../../links";
 import NavBar from '../NavBar/NavBar.jsx';
@@ -42,8 +41,8 @@ export default function SignUpPage() {
   };
 
   const onPostHandler = async (data) => {
-    const { firstName, lastName, username, email, password } = data;
-    const putData = { username, email, password };
+    const { firstName, lastName, email, password } = data;
+    const putData = { email, password }; // no username
 
     // Post, create a user
     // axios return network error
@@ -59,6 +58,7 @@ export default function SignUpPage() {
           alert("Having error")
         else
           alert("Successfully created user")
+        //window.location.replace("/") // go to the landing page
       })
   };
 
@@ -69,12 +69,11 @@ export default function SignUpPage() {
     const joinData = {
       firstName: data.get('firstName'),
       lastName: data.get('lastName'),
-      username: data.get('username'),
       email: data.get('email'),
       password: data.get('password'),
       confirmPassword: data.get('confirmPassword')
     };
-    const { firstName, lastName, username, email, password, confirmPassword } = joinData;
+    const { firstName, lastName, email, password, confirmPassword } = joinData;
 
     console.log("Sign Up local storage: " + localStorage.getItem("email"))
     const emailRegex = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
@@ -102,11 +101,6 @@ export default function SignUpPage() {
     else {
       setNameError('');
     }
-
-    // error with passwordError.test is not a function
-    // if (emailRegex.test(email) && passwordError.test(password)) {
-    //   onPostHandler(joinData);
-    // }
 
     // add more condition and fix the error
     if (emailRegex.test(email) && password === confirmPassword && nameRegex.test(firstName) && nameRegex.test(lastName)) {
@@ -169,16 +163,6 @@ export default function SignUpPage() {
                           id="lastName"
                           name="lastName"
                           label="Last Name" />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          required
-                          autoFocus
-                          fullWidth
-                          id="username"
-                          name="username"
-                          label="User Name"
-                        />
                       </Grid>
                       <Grid item xs={12}>
                         <TextField
