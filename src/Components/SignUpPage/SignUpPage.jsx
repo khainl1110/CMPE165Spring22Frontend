@@ -14,7 +14,6 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Image from '../../assets/signupPage/image5.png';
 import { Paper } from '@mui/material';
-import { positions } from '@mui/system';
 import PerksInfo from "./PerksInfo";
 import { backend_url } from "../../links";
 import NavBar from '../NavBar/NavBar.jsx';
@@ -59,7 +58,7 @@ export default function SignUpPage() {
           alert("Having error")
         else
           alert("Successfully created user")
-          //window.location.replace("/") // go to the landing page
+        //window.location.replace("/") // go to the landing page
       })
   };
 
@@ -70,7 +69,6 @@ export default function SignUpPage() {
     const joinData = {
       firstName: data.get('firstName'),
       lastName: data.get('lastName'),
-      username: data.get('username'),
       email: data.get('email'),
       password: data.get('password'),
       confirmPassword: data.get('confirmPassword')
@@ -103,11 +101,6 @@ export default function SignUpPage() {
     else {
       setNameError('');
     }
-
-    // error with passwordError.test is not a function
-    // if (emailRegex.test(email) && passwordError.test(password)) {
-    //   onPostHandler(joinData);
-    // }
 
     // add more condition and fix the error
     if (emailRegex.test(email) && password === confirmPassword && nameRegex.test(firstName) && nameRegex.test(lastName)) {
@@ -171,7 +164,6 @@ export default function SignUpPage() {
                           name="lastName"
                           label="Last Name" />
                       </Grid>
-                      // remove username textfield
                       <Grid item xs={12}>
                         <TextField
                           required
