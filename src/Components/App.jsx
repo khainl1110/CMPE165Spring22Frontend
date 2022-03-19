@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { CssBaseline } from '@mui/material';
@@ -17,6 +18,7 @@ import CardMedia from '@mui/material/CardMedia';
 
 import SearchBar from '../Components/LandingPageSearchBar/SearchBar.jsx';
 import NavBar from '../Components/NavBar/NavBar.jsx';
+import LoggedInNavBar from '../Components/NavBar/LoggedInNavBar.jsx';
 /*images*/
 import bg from "../assets/landingPage/landing_bg.jpg"
 import aspen from "../assets/landingPage/aspen.png"
@@ -43,12 +45,29 @@ const styles = {
 };
 
 export default function App() {
+
+  let [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    let email = localStorage.getItem('email');
+    console.log(localStorage.getItem('email'));
+
+    if (email !== '') {
+      setIsLoggedIn(true);
+    }
+  })
+
   return (
     <ThemeProvider theme={theme}>
       <Paper style={styles.paperContainer}>
         <Container component="main" justifyContent="center" position="absolute">
           <CssBaseline />
-          <NavBar />
+          {isLoggedIn &&
+            <LoggedInNavBar />
+          }
+          {!isLoggedIn &&
+            <NavBar />
+          }
           <Grid container direction="column" justifyContent="flex-start" alignItems="center">
             <Grid item xs={0}>
               <Box sx={{
