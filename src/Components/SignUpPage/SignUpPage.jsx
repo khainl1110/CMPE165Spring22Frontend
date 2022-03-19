@@ -42,7 +42,7 @@ export default function SignUpPage() {
 
   const onPostHandler = async (data) => {
     const { firstName, lastName, email, password } = data;
-    const putData = { email, password }; // no username
+    const putData = { firstName, lastName, email, password }; // no username
 
     // Post, create a user
     // axios return network error
@@ -56,9 +56,10 @@ export default function SignUpPage() {
       .then(data => {
         if (data.status !== 200)
           alert("Having error")
-        else
-          alert("Successfully created user")
-        //window.location.replace("/") // go to the landing page
+        else {
+          window.location.replace("/login");
+          console.log("Successfully created account!");
+        }
       })
   };
 

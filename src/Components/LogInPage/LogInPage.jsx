@@ -22,8 +22,7 @@ export default function LogInPage() {
   const theme = createTheme();
   const Boxs = styled(Box)`padding-bottom: 0%;`;
 
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [showError, setShowError] = useState(false);
 
   const styles = {
     paperContainer: {
@@ -45,25 +44,23 @@ export default function LogInPage() {
     const password = data.get("password");
     let success = false;
 
-    // This will be the url once backend schema is fixed for email: localhost:8080/users/find?email=____
-    fetch(backend_url + "/users", { method: 'GET' })
+    fetch(backend_url + "/users/" + email, { method: 'GET' })
       .then(response => response.json())
       .then(data => {
-        //  if (data.email === email && data.password === password) { }
-        data.forEach((user) => {
-          if (user.email === email && password === user.password) {
-            // If logged in successfully, store email in localStorage.
-            success = true;
-            alert("Successfully logged in!");
-            localStorage.setItem("email", email);
-            console.log("local storage: " + localStorage.getItem("email"));
-          }
-        });
+        if (data.email === email && data.password === password) {
+          success = true;
+          window.location.replace("/hotelTest");
+          localStorage.setItem("email", email);
+          console.log("local storage: " + localStorage.getItem("email"));
+        }
         if (success === false) {
-          alert('Make sure you entered the correct email or password.');
+          setShowError(true);
         }
       })
-      .catch(e => console.log('error' + e))
+      .catch(e => {
+        console.log('error' + e);
+        setShowError(true);
+      })
   };
 
   return (
@@ -136,7 +133,6 @@ export default function LogInPage() {
                           id="email"
                           name="email"
                           label="Email"
-                          error={emailError !== '' || false}
                         />
                       </Grid>
                       <Grid item xs={12}>
@@ -150,6 +146,18 @@ export default function LogInPage() {
                         />
                       </Grid>
                     </Grid>
+                    {showError &&
+                      <Typography
+                        sx={{
+                          marginTop: '10px',
+                          fontSize: 13,
+                          color: 'red',
+                          width: '100%',
+                          textAlign: 'center',
+                        }}>
+                        Please make sure you entered the correct email or password.
+                      </Typography>
+                    }
                     <Button
                       type="submit"
                       variant="contained"

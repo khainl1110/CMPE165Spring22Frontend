@@ -5,8 +5,10 @@ import App from './Components/App';
 import SignUpPage from './Components/SignUpPage/SignUpPage';
 import LogInPage from './Components/LogInPage/LogInPage';
 import HotelPage from './Components/HotelPage/HotelPage';
+import MyAccountPage from './Components/MyAccount/MyAccount';
+import MyBookingsPage from './Components/MyBookings/MyBookings';
 import reportWebVitals from './reportWebVitals';
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 
 ReactDOM.render(
@@ -15,8 +17,10 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="signup" element={<SignUpPage />} />
-        <Route path = "login" element = {<LogInPage />} />
-        <Route path = "hotelTest" element = {<HotelPage />} />
+        <Route path="login" element={<LogInPage />} />
+        <Route path="hotelTest" element={<HotelPage />} />
+        <Route path="myAccount" element={<MyAccountPage />} />
+        <Route path="myBookings" element={<MyBookingsPage />} />
       </Routes>
     </React.StrictMode>
   </BrowserRouter>,
