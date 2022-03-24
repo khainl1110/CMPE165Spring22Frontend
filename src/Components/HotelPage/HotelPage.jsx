@@ -16,7 +16,7 @@ import HotelCard from '../../Components/HotelPage/HotelCard.jsx';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
-
+var backend_url = "http://localhost:8080";
 
 const theme = createTheme({
     
@@ -26,7 +26,6 @@ const styles = {
   paperContainer: {
     backgroundColor: `#E5E5E5`,
     position: 'static',
-    height: '101vh',
     width: '100vw'
   },
 };
@@ -35,20 +34,48 @@ export default function HotelPage() {
 
     const [Sort, setSort] = React.useState('');
 
+    const card = [];
+
     const handleChange = (event) => {
         setSort(event.target.value);
       };
 
-    let [hotels, setHotels] = useState([])
-
+    let [hotels, sethotels] = useState([])
+    
     useEffect(() => {
-        fetch('http://localhost:8080/hotels/testGet')
-        .then(data => data.json())
-        .then(data => {
-            console.log(data)
-            setHotels(data)
-        })
-    })
+        fetch(backend_url + "/room", { method: 'GET' })
+            .then(response => response.json())
+            .then(response => {
+                // do something here. 
+                // You can follow the format below to obtain the following data: 
+                // data.hotelName
+                // data.image
+                // data.rating
+                // data.description
+                // data.price 
+               // data.isBooked
+                setTimeout(() => {
+                    sethotels(response);
+                    console.log(hotels);
+                }, 1000);
+            })
+            .catch(e => {
+                console.log('error' + e);
+            })
+      });
+
+    for (let i = 0; i < hotels.length; i++){
+        card.push(
+            <Grid item xs={0}>
+                <Box sx={{marginRight: '0%'}}>
+                    <HotelCard room = {hotels[i]}/>
+                </Box>
+            </Grid>
+        );
+    }
+      
+
+      
 
     return (
         <ThemeProvider theme={theme}>
@@ -100,12 +127,7 @@ export default function HotelPage() {
                             </Grid>
                             <Grid item xs={0}>
                             <Box sx={{marginRight: '0%'}}>
-                                <HotelCard/>
-                            </Box>
-                            </Grid>
-                            <Grid item xs={0}>
-                            <Box sx={{marginRight: '0%'}}>
-                                <HotelCard/>
+                                {card}
                             </Box>
                             </Grid>
                         </Grid>
