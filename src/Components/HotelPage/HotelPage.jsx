@@ -17,6 +17,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
 var backend_url = "http://localhost:8080";
+var num;
 
 const theme = createTheme({
     
@@ -65,6 +66,7 @@ export default function HotelPage() {
       });
 
     for (let i = 0; i < hotels.length; i++){
+        num = i+1;
         card.push(
             <Grid item xs={0}>
                 <Box sx={{marginRight: '0%'}}>
@@ -121,7 +123,7 @@ export default function HotelPage() {
                                     fontSize: '45px',
                                     color: '#424242'
                                     }}>
-                                        'N' Rooms Found in 'Location'
+                                        {num} Rooms Found in 'Location'
                                     </Typography>
                                 </Box>
                             </Grid>
