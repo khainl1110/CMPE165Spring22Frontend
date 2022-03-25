@@ -10,6 +10,7 @@ import { Container } from '@mui/material';
 import { Paper } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import NavBar from '../../Components/NavBar/NavBar.jsx';
+import LoggedInNavBar from '../../Components/NavBar/LoggedInNavBar.jsx';
 import SearchBar from '../../Components/LandingPageSearchBar/SearchBar.jsx';
 import HotelCard from '../../Components/HotelPage/HotelCard.jsx';
 
@@ -32,6 +33,17 @@ const styles = {
 };
 
 export default function HotelPage() {
+
+    let [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        let email = localStorage.getItem('email');
+        console.log(localStorage.getItem('email'));
+    
+        if (email !== '') {
+          setIsLoggedIn(true);
+        }
+      })
 
     const [Sort, setSort] = React.useState('');
 
@@ -82,10 +94,13 @@ export default function HotelPage() {
     return (
         <ThemeProvider theme={theme}>
             <Paper style={styles.paperContainer} sx={{ boxShadow: 0,}}>
-                
                     <CssBaseline />
-                    <NavBar />
-                    
+                    {isLoggedIn &&
+                    <LoggedInNavBar />
+                    }
+                    {!isLoggedIn &&
+                        <NavBar />
+                    }
 
                     <Grid container direction="row" justifyContent="center" alignItems="center" spacing={2} sx={{ position: "relative", marginLeft: '-1%',}}>
                         <Grid item xs={0}>
