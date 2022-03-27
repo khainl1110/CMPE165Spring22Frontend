@@ -41,7 +41,7 @@ export default function LoggedInNavBar() {
                 </Link>
                 <div style={styles.navlinks}>
                     <Link to="/hotel" style={styles.link}>
-                        Search
+                        Search Hotels
                     </Link>
                     <Link to="/myBookings" style={styles.link}>
                         My Bookings

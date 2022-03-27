@@ -35,7 +35,7 @@ export default function NavBar() {
         </Link>
         <div style={styles.navlinks}>
           <Link to="/hotel" style={styles.link}>
-            Search
+            Search Hotels
           </Link>
           <Link to="/login" style={styles.link}>
             Sign In
