@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 import SearchIcon from '@mui/icons-material/Search';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -22,10 +23,17 @@ export default function SearchBar() {
     }}>
       <Paper position="relative" sx={{ borderRadius: 10, padding: 0.5, backgroundColor: "#F9FBF7" }}>
         <Toolbar variant="regular" >
-          <TextField id="Location" label="Location" variant="outlined" />
+          <Autocomplete
+            size="small"
+            disablePortal
+            id="combo-box-demo"
+            options={["San Francisco", "Los Angeles"]}
+            sx={{ minWidth: 200 }}
+            renderInput={(params) => <TextField required={true} {...params} label="Location" />}
+          />
           <Box sx={{ mx: 0 }}></Box>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <Box sx={{ mx: 1 }}></Box>
+            <Box sx={{ mx: .3 }}></Box>
             <DateRangePicker
               startText="Check-in"
               endText="Check-out"
@@ -35,17 +43,17 @@ export default function SearchBar() {
               }}
               renderInput={(startProps, endProps) => (
                 <React.Fragment>
-                  <TextField {...startProps} />
-                  <Box sx={{ mx: 1 }}></Box>
-                  <TextField {...endProps} />
+                  <TextField required={true} size="small" sx={{ minWidth: 150 }} {...startProps} />
+                  <Box sx={{ mx: .3 }}></Box>
+                  <TextField size="small" required={true} sx={{ minWidth: 150 }} {...endProps} />
                 </React.Fragment>
               )}
             />
           </LocalizationProvider>
+          <Box sx={{ mx: .3 }}></Box>
+          <TextField id="Guests" label="Guests" required={true} size="small" sx={{ minWidth: 100 }} type="number" variant="outlined" />
           <Box sx={{ mx: 1 }}></Box>
-          <TextField id="Guests" label="Guests" variant="outlined" />
-          <Box sx={{ mx: 1 }}></Box>
-          <IconButton edge="start" color="inherit" aria-label="menu" component={Link} to='/hotelTest' sx={{ marginLeft: "auto", backgroundColor: "#9BB40D", color: "#FFFFFF" }}>
+          <IconButton edge="start" color="inherit" aria-label="menu" component={Link} to='/hotelTest' sx={{ backgroundColor: "#9BB40D", color: "#FFFFFF" }}>
             <SearchIcon />
           </IconButton>
         </Toolbar>
