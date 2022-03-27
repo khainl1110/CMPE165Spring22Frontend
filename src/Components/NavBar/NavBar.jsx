@@ -34,7 +34,7 @@ export default function NavBar() {
           LikeHome
         </Link>
         <div style={styles.navlinks}>
-          <Link to="/hotelTest" style={styles.link}>
+          <Link to="/hotel" style={styles.link}>
             Search
           </Link>
           <Link to="/login" style={styles.link}>

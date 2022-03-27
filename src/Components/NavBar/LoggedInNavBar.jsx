@@ -40,7 +40,7 @@ export default function LoggedInNavBar() {
                     LikeHome
                 </Link>
                 <div style={styles.navlinks}>
-                    <Link to="/hotelTest" style={styles.link}>
+                    <Link to="/hotel" style={styles.link}>
                         Search
                     </Link>
                     <Link to="/myBookings" style={styles.link}>
