@@ -12,7 +12,7 @@ import {
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import styled from 'styled-components';
 
-import Image from '../../assets/image6.png';
+import Image from '../../assets/login.jpg';
 import { Paper } from '@mui/material';
 
 import syk from '../LogInPage/login.module.css';
@@ -41,24 +41,23 @@ export default function LogInPage() {
     console.log("abcd");
   };
 
-
   return (
     <ThemeProvider theme={theme}>
       <Paper style={styles.paperContainer}>
-      <div className = {syk.header}>
-        <ul className = {syk.headerUl}>
+        <div className={syk.header}>
+          <ul className={syk.headerUl}>
             <li>Like Home</li>
-        </ul>     
+          </ul>
         </div>
         <Container component="main" justifyContent="flex-start" >
           <CssBaseline />
-          
+
           <Grid container direction="row" justifyContent="flex-start" alignItems="center">
             <Grid item xs={4}>
               <Box
                 sx={{
                   position: "absolute",
-                  marginTop: '15%',
+                  marginTop: '40vh',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
@@ -72,7 +71,8 @@ export default function LogInPage() {
                     fontSize: '60px',
                     letterSpacing: '0.005em',
                     color: '#FFFFFF',
-                    width: '100%'
+                    width: '100%',
+                    textAlign: 'center',
                   }}
                 >
                   Where to next?
@@ -84,7 +84,7 @@ export default function LogInPage() {
               <Box
                 sx={{
                   position: "absolute",
-                  marginTop: '8%',
+                  marginTop: '30vh',
                   maxWidth: '40%',
                   marginLeft: '15%',
                   display: 'flex',
@@ -102,12 +102,11 @@ export default function LogInPage() {
                     fontWeight: 'bold',
                     color: 'grey'
                   }}>
-                    Login
+                  Login
                 </Typography>
                 <Boxs component="form" noValidate onSubmit={handleLogIn} sx={{ mt: 3 }}>
                   <FormControl component="fieldset" variant="standard">
                     <Grid container spacing={4}>
-                      
                       <Grid item xs={12}>
                         <TextField
                           required
@@ -130,10 +129,10 @@ export default function LogInPage() {
                           label="Password"
                         />
                       </Grid>
-                      
+
 
                     </Grid>
-                    <Button onSubmit = {handleLogIn()}
+                    <Button onSubmit={handleLogIn()}
                       type="submit"
                       variant="contained"
                       sx={{ mt: 5, mb: 1, backgroundColor: '#9BB40D', fontWeight: '500' }}
