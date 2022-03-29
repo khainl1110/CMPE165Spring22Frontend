@@ -7,7 +7,7 @@ import LogInPage from './Components/LogInPage/LogInPage';
 import HotelPage from './Components/HotelPage/HotelPage';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-
+import Payment from './Components/PaymentPage/Payment';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -17,6 +17,7 @@ ReactDOM.render(
         <Route path="signup" element={<SignUpPage />} />
         <Route path = "login" element = {<LogInPage />} />
         <Route path = "hotelTest" element = {<HotelPage />} />
+        <Route path = "payment" element = {<Payment/>}/>
       </Routes>
     </React.StrictMode>
   </BrowserRouter>,
