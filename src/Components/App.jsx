@@ -37,10 +37,12 @@ const styles = {
     backgroundRepeat: 'no-repeat',
     backgroundImage: `url(${bg})`,
     position: 'static',
+    width: '100%'
   },
   bottomPage: {
     backgroundColor: '#8E8A86',
     position: 'static',
+    width: '100%'
   }
 };
 
@@ -132,7 +134,7 @@ export default function App() {
                 Ideas for your next trip:
               </Typography>
             </Box>
-            <Grid container item spacing={9} marginBottom={"5%"}>
+            <Grid container item spacing={9} marginBottom={"5%"} width='100%'>
               <Grid item xs={3}>
                 <Box sx={{
                   position: "relative",

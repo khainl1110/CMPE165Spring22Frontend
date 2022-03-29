@@ -18,7 +18,7 @@ ReactDOM.render(
         <Route path="/" element={<App />} />
         <Route path="signup" element={<SignUpPage />} />
         <Route path="login" element={<LogInPage />} />
-        <Route path="hotelTest" element={<HotelPage />} />
+        <Route path="hotel" element={<HotelPage />} />
         <Route path="myAccount" element={<MyAccountPage />} />
         <Route path="myBookings" element={<MyBookingsPage />} />
       </Routes>

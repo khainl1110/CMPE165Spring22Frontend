@@ -49,7 +49,7 @@ export default function LogInPage() {
       .then(data => {
         if (data.email === email && data.password === password) {
           success = true;
-          window.location.replace("/hotelTest");
+          window.location.replace("/hotel");
           localStorage.setItem("email", email);
           console.log("local storage: " + localStorage.getItem("email"));
         }
