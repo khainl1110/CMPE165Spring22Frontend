@@ -1,0 +1,63 @@
+.main{
+    margin: 2.5%;
+    font-family: 'Kumbh Sans';
+font-style: normal;
+}
+p{
+    font-family: 'Kumbh Sans';
+font-style: normal;
+font-weight: 600;
+font-size: 30px;
+color: #424242;
+margin-bottom: 0px;
+letter-spacing: 0.005em;
+
+color: #424242;
+}
+
+.YourInfo ul{
+    list-style: none;
+    flex-wrap: wrap;
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+}
+
+.YourInfo ul li{
+    flex: 1 1 40%;
+    
+}
+.tf{
+    margin: auto;
+    width: 500px;
+    height: 5%;
+    font-family: 'Kumbh Sans';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 25px;
+    letter-spacing: 0.005em;
+
+    color: #646464;
+}
+
+.PaymentDetails{
+
+}
+
+.PaymentDetails p{
+    font-family: 'Kumbh Sans';
+font-style: normal;
+font-weight: 600;
+font-size: 25px;
+line-height: 43px;
+letter-spacing: 0.005em;
+
+color: #424242;
+}
+
+.states{
+    margin-top: 10;
+    width: 5%;
+
+}
