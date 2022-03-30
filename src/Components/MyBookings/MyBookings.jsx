@@ -98,7 +98,8 @@ export default function MyAccount() {
     }
 
     // instant value for demo
-    const checkIn = "3/29/2022";
+    let now = new Date();
+    const checkIn = "3/30/2022";
     const checkOut = "3/31/2022";
     const pastCheckIn = "2/18/2022";
     const pastCheckOut = "2/19/2022";
