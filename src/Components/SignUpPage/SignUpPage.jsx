@@ -14,7 +14,9 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Image from '../../assets/signupPage/image5.png';
 import { Paper } from '@mui/material';
-import { positions } from '@mui/system';
+import PerksInfo from "./PerksInfo";
+import { backend_url } from "../../links";
+import NavBar from '../NavBar/NavBar.jsx';
 
 export default function SignUpPage() {
 
@@ -23,6 +25,8 @@ export default function SignUpPage() {
 
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [nameError, setNameError] = useState('');
+  const [showError, setShowError] = useState(false);
 
   const styles = {
     paperContainer: {
@@ -30,6 +34,7 @@ export default function SignUpPage() {
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
       height: '100vh',
+      minHeight: '750px',
       width: '100%',
       backgroundImage: `url(${Image})`
     }
@@ -37,16 +42,25 @@ export default function SignUpPage() {
 
   const onPostHandler = async (data) => {
     const { firstName, lastName, email, password } = data;
-    const putData = { firstName, lastName, email, password };
+    const putData = { firstName, lastName, email, password }; // no username
 
-    // Post
-    await axios.post('http://localhost:8080/signup', putData)
-      .then(function (response) {
-        console.log(response, "Success");
+    // Post, create a user
+    // axios return network error
+    fetch(backend_url + "/users", {
+      method: 'POST',
+      body: JSON.stringify(putData),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(data => {
+        if (data.status !== 200)
+          alert("Having error")
+        else {
+          window.location.replace("/login");
+          console.log("Successfully created account!");
+        }
       })
-      .catch(function (err) {
-        console.log(err);
-      });
   };
 
   const handleSubmit = (e) => {
@@ -62,114 +76,56 @@ export default function SignUpPage() {
     };
     const { firstName, lastName, email, password, confirmPassword } = joinData;
 
+    console.log("Sign Up local storage: " + localStorage.getItem("email"))
     const emailRegex = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     if (!emailRegex.test(email)) {
-      setEmailError('Not correct email form');
+      setShowError(true);
+      setEmailError('Please make sure you entered the correct email.');
     }
     else {
       setEmailError('');
     }
 
     if (password !== confirmPassword) {
-      setPasswordError('Check password again ');
+      setShowError(true);
+      setPasswordError('Please make sure your passwords match up.');
     }
     else {
       setPasswordError('');
     }
 
-    if (emailRegex.test(email) && passwordError.test(password)) {
+    const nameRegex = /^[a-zA-Z]+$/;
+    if (!nameRegex.test(firstName) || !nameRegex.test(lastName)) {
+      setShowError(true);
+      setNameError('Please make sure you entered a name.');
+    }
+    else {
+      setNameError('');
+    }
+
+    // add more condition and fix the error
+    if (emailRegex.test(email) && password === confirmPassword && nameRegex.test(firstName) && nameRegex.test(lastName)) {
+      setShowError(false);
       onPostHandler(joinData);
     }
+    else {
+      setShowError(true);
+    }
   };
-
 
   return (
     <ThemeProvider theme={theme}>
       <Paper style={styles.paperContainer}>
         <Container component="main" justifyContent="flex-start">
           <CssBaseline />
+          <NavBar />
           <Grid container direction="row" justifyContent="flex-start" alignItems="center">
-            <Grid item xs={4}>
-              <Box
-                sx={{
-                  position: "absolute",
-                  marginTop: '15%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  width: '40%',
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontFamily: 'Baloo Bhaina 2',
-                    fontStyle: 'normal',
-                    fontSize: '50px',
-                    letterSpacing: '0.005em',
-                    color: '#FFFFFF',
-                    width: '100%'
-                  }}
-                >
-                  Where to first?
-                </Typography>
-                <Typography
-                  sx={{
-                    marginTop: '10%',
-                    fontFamily: 'Baloo Bhaina 2',
-                    fontStyle: 'normal',
-                    fontSize: '28px',
-                    width: '100%',
-                    letterSpacing: '0.005em',
-                    color: '#FFFFFF'
-                  }}
-                >
-                  Perks of a LikeHome account:
-                </Typography>
-                <Typography
-                  sx={{
-                    marginTop: '5%',
-                    fontFamily: 'Baloo Bhaina 2',
-                    fontStyle: 'normal',
-                    fontSize: '20px',
-                    width: '90%',
-                    letterSpacing: '0.005em',
-                    color: '#FFFFFF'
-                  }}
-                >
-                  1. Gain reward points to put towards your next trip.
-                </Typography>
-                <Typography
-                  sx={{
-                    fontFamily: 'Baloo Bhaina 2',
-                    fontStyle: 'normal',
-                    fontSize: '20px',
-                    width: '90%',
-                    letterSpacing: '0.005em',
-                    color: '#FFFFFF'
-                  }}
-                >
-                  2. Keep track of your past and current reservations.
-                </Typography>
-                <Typography
-                  sx={{
-                    fontFamily: 'Baloo Bhaina 2',
-                    fontStyle: 'normal',
-                    fontSize: '20px',
-                    width: '90%',
-                    letterSpacing: '0.005em',
-                    color: '#FFFFFF'
-                  }}
-                >
-                  3. Save your information for a faster checkout.
-                </Typography>
-              </Box>
-            </Grid>
-
+            <PerksInfo />
             <Grid item xs={0}>
               <Box
                 sx={{
                   position: "absolute",
-                  marginTop: '8%',
+                  marginTop: '12%',
                   maxWidth: '40%',
                   marginLeft: '15%',
                   display: 'flex',
@@ -182,16 +138,15 @@ export default function SignUpPage() {
               >
                 <Typography
                   sx={{
-                    marginTop: '16px',
-                    fontSize: 24,
+                    fontSize: 22,
                     fontWeight: 'bold',
                     color: 'grey'
                   }}>
                   Sign Up
                 </Typography>
-                <Boxs component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                <Boxs component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
                   <FormControl component="fieldset" variant="standard">
-                    <Grid container spacing={4}>
+                    <Grid container spacing={2}>
                       <Grid item xs={6}>
                         <TextField
                           required
@@ -243,12 +198,23 @@ export default function SignUpPage() {
                           error={passwordError !== '' || false}
                         />
                       </Grid>
-
                     </Grid>
+                    {showError &&
+                      <Typography
+                        sx={{
+                          marginTop: '10px',
+                          fontSize: 13,
+                          color: 'red',
+                          width: '100%',
+                          textAlign: 'center',
+                        }}>
+                        {emailError} {nameError} {passwordError}
+                      </Typography>
+                    }
                     <Button
                       type="submit"
                       variant="contained"
-                      sx={{ mt: 5, mb: 1, backgroundColor: '#9BB40D', fontWeight: '500' }}
+                      sx={{ mt: 2, mb: 0, backgroundColor: '#9BB40D', fontWeight: '500' }}
                     >
                       Sign up
                     </Button>

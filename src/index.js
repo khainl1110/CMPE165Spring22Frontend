@@ -5,9 +5,14 @@ import App from './Components/App';
 import SignUpPage from './Components/SignUpPage/SignUpPage';
 import LogInPage from './Components/LogInPage/LogInPage';
 import HotelPage from './Components/HotelPage/HotelPage';
+import MyAccountPage from './Components/MyAccount/MyAccount';
+import MyBookingsPage from './Components/MyBookings/MyBookings';
 import reportWebVitals from './reportWebVitals';
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Payment from './Components/PaymentPage/Payment';
+
+
 
 ReactDOM.render(
   <BrowserRouter>
@@ -15,9 +20,14 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="signup" element={<SignUpPage />} />
-        <Route path = "login" element = {<LogInPage />} />
-        <Route path = "hotelTest" element = {<HotelPage />} />
-        <Route path = "payment" element = {<Payment/>}/>
+
+        <Route path="login" element={<LogInPage />} />
+        <Route path="hotel" element={<HotelPage />} />
+        <Route path="myAccount" element={<MyAccountPage />} />
+        <Route path="myBookings" element={<MyBookingsPage />} />
+          <Route path = "payment" element = {<Payment/>}/>
+
+
       </Routes>
     </React.StrictMode>
   </BrowserRouter>,
