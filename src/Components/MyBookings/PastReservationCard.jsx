@@ -6,8 +6,6 @@ import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import ListItem from '@mui/material/ListItem';
-import EditIcon from '@mui/icons-material/Edit';
-import ListItemIcon from '@mui/material/ListItemIcon';
 
 import {
     Box,
@@ -15,7 +13,7 @@ import {
     Paper
   } from '@mui/material/';
 
-export default function ReservationCard(props) {
+export default function PastReservationCard(props) {
     const {hotelName, description, price, checkIn, checkOut, image, firstName, lastName, email} = props;
     
     //instant info payment detail
@@ -88,16 +86,6 @@ export default function ReservationCard(props) {
                             }}>
                                 {hotelName}
                             </Typography>
-
-                            <ListItemButton sx={{
-                                marginLeft: "20%",
-                                maxWidth: "25%"
-                            }}>
-                                <ListItemIcon>
-                                    <EditIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Edit Booking" sx={{textDecoration: 'underline'}}/>
-                            </ListItemButton>
                         </ListItem>
                      
                         <ListItem>

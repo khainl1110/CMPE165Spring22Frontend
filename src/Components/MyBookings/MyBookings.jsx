@@ -10,15 +10,13 @@ import {
 import LoggedInNavBar from '../NavBar/LoggedInNavBar.jsx';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { backend_url } from "../../links";
-
 import List from '@mui/material/List';
-
-import ReservationCard from "./ReservationCard";
+import ReservationCard from "./ReservationCard.jsx";
+import PastReservationCard from "./PastReservationCard.jsx";
 
 export default function MyAccount() {
     const [rooms, setRooms] = useState([]);
-    // const [reservations, setReservations] = useState([]);
-    const [email, setEmail] = useState('');
+    const [reservations, setReservations] = useState([]);
     const [user, setUser] = useState();
 
     const theme = createTheme();
@@ -41,7 +39,6 @@ export default function MyAccount() {
         fetch(backend_url + "/users/" + email, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
-                setEmail(data.email);
                 setUser(data);
             })
             .catch(e => {
@@ -49,21 +46,16 @@ export default function MyAccount() {
             })
     })
 
-    // useEffect(() => {
-    //     fetch(backend_url + "/reservation", { method: 'GET',
-    //     headers: {
-    //         "Access-Control-Allow-Origin": "*"
-    //     }
-    // })
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             setReservations(data);
-    //             console.log(data);
-    //         })
-    //         .catch(e => {
-    //             console.log('error' + e);
-    //         })
-    // })
+    useEffect(() => {
+        fetch(backend_url + "/reservation", { method: 'GET'})
+            .then(response => response.json())
+            .then(data => {
+                setReservations(data);
+            })
+            .catch(e => {
+                console.log('error' + e);
+            })
+    })
 
     useEffect(() => {
         fetch(backend_url + "/room", { method: 'GET'})
@@ -76,17 +68,40 @@ export default function MyAccount() {
         })
     })
 
-    let reservedRoom = [];
-
+    // change the some values of isBooked from false to true
+    // after reservation start date and expired date come out,
+    // we can change some code.
+    let isBookedRooms = [];
+    
     for(let i = 0; i < rooms.length; i++) {
         if(rooms[i].booked === true) {
-            reservedRoom.push(rooms[i]);
+            isBookedRooms.push(rooms[i]);
         }
     }
 
+    let roomId = [];
+    for(let i = 0; i < reservations.length; i++) {
+        if(reservations[i].userEmail === user.email) {
+            roomId.push(reservations[i].roomId);
+        }
+    }
+    
+    let reservedRooms = [];
+
+    for(let i = 0; i < roomId.length; i++) {
+        for(let j = 0; j < isBookedRooms.length; j++) {
+            if(roomId[i] === isBookedRooms[j].id)
+            {
+                reservedRooms.push(isBookedRooms[j]);
+            }
+        }
+    }
+
+    // instant value for demo
     const checkIn = "3/29/2022";
     const checkOut = "3/31/2022";
-
+    const pastCheckIn = "2/18/2022";
+    const pastCheckOut = "2/19/2022";
     
     return (
         <ThemeProvider theme={theme}>
@@ -99,7 +114,8 @@ export default function MyAccount() {
                             width: '80%',
                             maxWidth: '350',
                             marginTop: '15%',
-                            marginLeft: '5%'
+                            marginLeft: '5%',
+                            marginBottom: "10%"
                         }}>
                             <Typography sx={{
                                 fontSize: 33,
@@ -113,7 +129,7 @@ export default function MyAccount() {
                                 <Typography bgcolor="green" color="white" sx={{
                                     padding: 3,
                                     fontSize: 25,
-                                    fontWeight: 600
+                                    fontWeight: 800
                                 }}>Current Bookings</Typography>
                                 
                                 <List sx={{
@@ -123,11 +139,13 @@ export default function MyAccount() {
                                 }}>  
                                     <Box>
                                         {
-                                            reservedRoom.map(room => {
+                                            reservedRooms.map(room => {
                                                 return(
                                                     <Grid container sx={{
                                                         padding: 1,
-                                                        border: 1
+                                                        border: 1,
+                                                        borderColor: "#eeeeee",
+                                                        backgroundColor: "#fafafa"
                                                     }}>
                                                         <ReservationCard 
                                                             hotelName={room.hotelName}
@@ -152,9 +170,44 @@ export default function MyAccount() {
                                 marginTop: "5%"
                             }}>
                             
-                                <Typography bgcolor="green" color="white">Past Bookings</Typography>
-                                
-                            
+                                <Typography bgcolor="green" color="white" sx={{
+                                    padding: 3,
+                                    fontSize: 25,
+                                    fontWeight: 800
+                                }}>Past Bookings</Typography>     
+
+                                <List sx={{
+                                    width: '100%',
+                                    maxWidth: '350',
+                                    
+                                }}>  
+                                    <Box>
+                                        {
+                                            reservedRooms.map(room => {
+                                                return(
+                                                    <Grid container sx={{
+                                                        padding: 1,
+                                                        border: 1,
+                                                        borderColor: "#eeeeee",
+                                                        backgroundColor: "#fafafa"
+                                                    }}>
+                                                        <PastReservationCard 
+                                                            hotelName={room.hotelName}
+                                                            description={room.description}
+                                                            price={room.price}
+                                                            image={room.image}
+                                                            checkIn={pastCheckIn}
+                                                            checkOut={pastCheckOut}
+                                                            firstName={user.firstName}
+                                                            lastName={user.lastName}
+                                                            email={user.email}
+                                                        />
+                                                    </Grid>
+                                                )
+                                            })
+                                        }
+                                    </Box>
+                                </List>                       
                             </Box>
                         </List>
                         
