@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import {
-  CssBaseline,
-  Grid,
-  Box,
-  Typography,
-  Container,
-  Paper,
+    CssBaseline,
+    Grid,
+    Box,
+    Typography,
+    Container,
+    Paper,
 } from '@mui/material/';
 import LoggedInNavBar from '../NavBar/LoggedInNavBar.jsx';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -23,14 +23,14 @@ export default function MyAccount() {
 
     const styles = {
         paperContainer: {
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          height: '100%',
-          minHeight: '750px',
-          width: '100%',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            height: '100%',
+            minHeight: '100vh',
+            width: '100%',
         }
-      };
+    };
 
 
     useEffect(() => {
@@ -44,10 +44,10 @@ export default function MyAccount() {
             .catch(e => {
                 console.log('error' + e);
             })
-    })
+    }, [])
 
     useEffect(() => {
-        fetch(backend_url + "/reservation", { method: 'GET'})
+        fetch(backend_url + "/reservation", { method: 'GET' })
             .then(response => response.json())
             .then(data => {
                 setReservations(data);
@@ -55,43 +55,42 @@ export default function MyAccount() {
             .catch(e => {
                 console.log('error' + e);
             })
-    })
+    }, [])
 
     useEffect(() => {
-        fetch(backend_url + "/room", { method: 'GET'})
-        .then(response => response.json())
-        .then(data => {
-            setRooms(data);
-        })
-        .catch(e => {
-            console.log('error' + e);
-        })
-    })
+        fetch(backend_url + "/room", { method: 'GET' })
+            .then(response => response.json())
+            .then(data => {
+                setRooms(data);
+            })
+            .catch(e => {
+                console.log('error' + e);
+            })
+    }, [])
 
     // change the some values of isBooked from false to true
     // after reservation start date and expired date come out,
     // we can change some code.
     let isBookedRooms = [];
-    
-    for(let i = 0; i < rooms.length; i++) {
-        if(rooms[i].booked === true) {
+
+    for (let i = 0; i < rooms.length; i++) {
+        if (rooms[i].booked === true) {
             isBookedRooms.push(rooms[i]);
         }
     }
 
     let roomId = [];
-    for(let i = 0; i < reservations.length; i++) {
-        if(reservations[i].userEmail === user.email) {
+    for (let i = 0; i < reservations.length; i++) {
+        if (reservations[i].userEmail === user.email) {
             roomId.push(reservations[i].roomId);
         }
     }
-    
+
     let reservedRooms = [];
 
-    for(let i = 0; i < roomId.length; i++) {
-        for(let j = 0; j < isBookedRooms.length; j++) {
-            if(roomId[i] === isBookedRooms[j].id)
-            {
+    for (let i = 0; i < roomId.length; i++) {
+        for (let j = 0; j < isBookedRooms.length; j++) {
+            if (roomId[i] === isBookedRooms[j].id) {
                 reservedRooms.push(isBookedRooms[j]);
             }
         }
@@ -103,52 +102,50 @@ export default function MyAccount() {
     const checkOut = "3/31/2022";
     const pastCheckIn = "2/18/2022";
     const pastCheckOut = "2/19/2022";
-    
+
     return (
         <ThemeProvider theme={theme}>
             <Paper style={styles.paperContainer}>
                 <CssBaseline />
                 <Container component="main" justifyContent="flex-start">
                     <LoggedInNavBar />
-                    <Grid container direction="row" justifyContent="flex-start" alignItems="center">
+                    <Grid container direction="row" justifyContent="flex-start" alignItems="center" width="100%">
                         <List sx={{
-                            width: '80%',
-                            maxWidth: '350',
-                            marginTop: '15%',
-                            marginLeft: '5%',
-                            marginBottom: "10%"
+                            width: '70%',
+                            minWidth: '600px',
+                            marginTop: '8%',
+                            marginBottom: "10%",
+                            alignItems: 'center',
+                            justifyContent: "center",
                         }}>
                             <Typography sx={{
-                                fontSize: 33,
+                                fontSize: 26,
                                 fontWeight: 600,
 
                             }}>My Bookings</Typography>
                             <Box sx={{
                                 marginTop: "3%"
                             }}>
-                            
-                                <Typography bgcolor="green" color="white" sx={{
-                                    padding: 3,
-                                    fontSize: 25,
-                                    fontWeight: 800
+
+                                <Typography bgcolor="#475718" color="white" sx={{
+                                    padding: 2,
+                                    fontSize: 20,
+                                    fontWeight: 600
                                 }}>Current Bookings</Typography>
-                                
+
                                 <List sx={{
                                     width: '100%',
-                                    maxWidth: '350',
-                                    
-                                }}>  
+                                }}>
                                     <Box>
                                         {
                                             reservedRooms.map(room => {
-                                                return(
+                                                return (
                                                     <Grid container sx={{
-                                                        padding: 1,
                                                         border: 1,
                                                         borderColor: "#eeeeee",
                                                         backgroundColor: "#fafafa"
                                                     }}>
-                                                        <ReservationCard 
+                                                        <ReservationCard
                                                             hotelName={room.hotelName}
                                                             description={room.description}
                                                             price={room.price}
@@ -170,29 +167,26 @@ export default function MyAccount() {
                             <Box sx={{
                                 marginTop: "5%"
                             }}>
-                            
-                                <Typography bgcolor="green" color="white" sx={{
-                                    padding: 3,
-                                    fontSize: 25,
-                                    fontWeight: 800
-                                }}>Past Bookings</Typography>     
+
+                                <Typography bgcolor="#475718" color="white" sx={{
+                                    padding: 2,
+                                    fontSize: 20,
+                                    fontWeight: 600
+                                }}>Past Bookings</Typography>
 
                                 <List sx={{
                                     width: '100%',
-                                    maxWidth: '350',
-                                    
-                                }}>  
+                                }}>
                                     <Box>
                                         {
                                             reservedRooms.map(room => {
-                                                return(
+                                                return (
                                                     <Grid container sx={{
-                                                        padding: 1,
                                                         border: 1,
                                                         borderColor: "#eeeeee",
                                                         backgroundColor: "#fafafa"
                                                     }}>
-                                                        <PastReservationCard 
+                                                        <PastReservationCard
                                                             hotelName={room.hotelName}
                                                             description={room.description}
                                                             price={room.price}
@@ -208,10 +202,10 @@ export default function MyAccount() {
                                             })
                                         }
                                     </Box>
-                                </List>                       
+                                </List>
                             </Box>
                         </List>
-                        
+
                     </Grid>
                 </Container>
             </Paper>
