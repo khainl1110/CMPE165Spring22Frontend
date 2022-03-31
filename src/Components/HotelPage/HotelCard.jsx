@@ -1,4 +1,5 @@
-import React, { useEffect, useState, Component } from 'react';
+import * as React from 'react';
+import { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
@@ -80,7 +81,6 @@ export default function HotelCard(props) {
     }
   };
   
-
   return (
     <ThemeProvider theme={theme}>
       <Paper sx={{
@@ -94,7 +94,6 @@ export default function HotelCard(props) {
           </Grid>
 
           <Grid item xs={4}>
-
             <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0}  sx={{
               position: "static", marginLeft: '10%'
             }}>
