@@ -33,8 +33,8 @@ export default function ReservationCard(props) {
         imageContainer: {
           backgroundSize: 'cover',
           position: 'relative',
-          height: '20vh',
-          width: '20vw',
+          height: '300px',
+          width: '300px',
         }
       };
 
@@ -130,7 +130,7 @@ export default function ReservationCard(props) {
                         </ListItem>
 
                        <ListItem>
-                            <Box width="70% "bgcolor="#78e150" borderRadius="10px">
+                            <Box bgcolor="#78e150" borderRadius="10px">
                                 <Typography marginLeft="2%" color="white">
                                     You redeemed ___ points and earned ___ points from this stay.
                                     ${price} a night for 1 night - $__ = $___, including taxes.

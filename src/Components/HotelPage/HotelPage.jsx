@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {Components} from 'react';
 import { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
