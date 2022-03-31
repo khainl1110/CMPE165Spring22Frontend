@@ -12,13 +12,7 @@ export default function Payment(){
     
 
     return(
-        <div className = {style.main}>
-            <div>
-                <UserInfo className = {style.YourInfo}/>
-            </div>
-
-            <PaymentDetails/>
-        </div>
+        <h1>Doing css this is an old push</h1>
     )
 
 }
