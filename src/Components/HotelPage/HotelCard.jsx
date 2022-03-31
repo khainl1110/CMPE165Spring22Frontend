@@ -41,6 +41,46 @@ export default function HotelCard(props) {
   desc = props.room.description;
   price = props.room.price;
 
+  // reaction of "reserve now" button for demo
+  const onClickHandle = (event) => {
+    let userEmail = localStorage.getItem('email');
+    let roomId = props.room.id;
+    const postData = {roomId, userEmail};
+
+    if(props.room.booked !== true) {
+        fetch(backend_url + "/reservation", {
+          method: 'POST',
+          body: JSON.stringify(postData),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+          }).then(
+            alert("Successfully booked!")
+          )
+        fetch(backend_url + "/room/" + roomId, {
+          method: 'PUT',
+          body: JSON.stringify({
+            hotelName: props.room.hotelName,
+            image: props.room.image,
+            location: props.room.location,
+            rating: props.room.rating,
+            description: props.room.description,
+            price: props.room.price,
+            booked: true
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => response.json())
+
+        window.location.replace("/hotel");
+    }
+    else {
+      alert("The room is already booked");
+    }
+  };
+  
   return (
     <ThemeProvider theme={theme}>
       <Paper sx={{
@@ -54,8 +94,7 @@ export default function HotelCard(props) {
           </Grid>
 
           <Grid item xs={4}>
-
-            <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} sx={{
+            <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0}  sx={{
               position: "static", marginLeft: '10%'
             }}>
               <Grid item xs={0}>
@@ -164,7 +203,7 @@ export default function HotelCard(props) {
                 </Typography>
               </Grid>
               <Grid item xs={0}>
-                <Button variant="contained" sx={{ marginTop: '70%', backgroundColor: '#9BB40D' }}>
+                <Button variant="contained" onClick={onClickHandle} sx={{ marginTop: '70%', backgroundColor: '#9BB40D' }}>
                   Reserve Now
                 </Button>
               </Grid>
