@@ -31,8 +31,8 @@ export default function PastReservationCard(props) {
         imageContainer: {
             backgroundSize: 'cover',
             position: 'relative',
-            height: '20vh',
-            width: '20vw',
+            height: '200px',
+            width: '300px',
         }
     };
 
