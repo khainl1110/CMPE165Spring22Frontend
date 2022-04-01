@@ -70,6 +70,7 @@ export default function SearchBar(props) {
             disablePortal
             id="combo-box-demo"
             options={locations}
+            freeSolo={true}
             onChange={(_event, selectedOption) => setLocation(selectedOption)}
             sx={{ minWidth: 200 }}
             renderInput={(params) =>
