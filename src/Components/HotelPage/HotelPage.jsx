@@ -205,7 +205,7 @@ export default function HotelPage() {
                         </Box>
                     </Grid>
 
-                    <Grid container direction="column" justifyContent="flex-end" alignItems="left" spacing={2} sx={{ position: "relative", marginTop: '1%', marginLeft: '25%', marginRight: '0%', }}>
+                    <Grid container direction="column" justifyContent="flex-end" alignItems="left" spacing={2} sx={{ position: "relative", marginTop: '1%', marginLeft: '20%', marginRight: '0%', }}>
                         <Grid item xs={0}>
                             <Box sx={{ marginTop: '0%' }}>
                                 <Typography variant="h2" sx={{

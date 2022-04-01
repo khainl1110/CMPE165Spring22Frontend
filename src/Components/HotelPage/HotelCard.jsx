@@ -93,7 +93,7 @@ export default function HotelCard(props) {
           justifyContent: 'center',
           padding: 2,
           marginBottom: 2,
-          marginLeft: "-8%",
+          marginLeft: "0%",
         }}
         style={styles.cardContainer}
       >
