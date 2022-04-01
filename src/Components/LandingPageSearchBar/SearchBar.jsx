@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import SearchIcon from '@mui/icons-material/Search';
@@ -11,9 +12,50 @@ import DateRangePicker from '@mui/lab/DateRangePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 
-export default function SearchBar() {
+export default function SearchBar(props) {
+  var backend_url = "http://localhost:8080";
 
-  const [value, setValue] = React.useState([null, null]);
+  const [dates, setDates] = React.useState([null, null]);
+  const [location, setLocation] = React.useState("");
+  const [numGuests, setNumGuests] = React.useState(0);
+  const [locations, setLocations] = React.useState([]);
+  const [hotels, setHotels] = React.useState([]);
+  const { onSearch, isLandingPage } = props;
+
+  const navigate = useNavigate();
+
+  const startSearch = (e) => {
+    onSearch(location, dates, numGuests);
+    e.preventDefault();
+  }
+
+  const navigateToMainSearchPage = (e) => {
+    navigate('/hotel', { location: location, dates: dates, numGuests: numGuests });
+  }
+
+  useEffect(() => {
+    fetch(backend_url + "/room", { method: 'GET' })
+      .then(response => response.json())
+      .then(response => {
+        setTimeout(() => {
+          setHotels(response);
+        }, 1000);
+      })
+      .catch(e => {
+        console.log('error' + e);
+      })
+  }, []);
+
+  useEffect(() => {
+    let hotelLocations = [];
+    hotels.map((room) => {
+      if (!hotelLocations.includes(room.location)) {
+        hotelLocations.push(room.location);
+      }
+    })
+    setLocations(hotelLocations);
+  }, [hotels])
+
   return (
     <Box sx={{
       flexGrow: 0,
@@ -27,9 +69,18 @@ export default function SearchBar() {
             size="small"
             disablePortal
             id="combo-box-demo"
-            options={["San Francisco", "Los Angeles"]}
+            options={locations}
+            onChange={(_event, selectedOption) => setLocation(selectedOption)}
             sx={{ minWidth: 200 }}
-            renderInput={(params) => <TextField required={true} {...params} label="Location" />}
+            renderInput={(params) =>
+              <TextField required={true} {...params}
+                onChange={(event) => {
+                  setLocation(event.target.value);
+                }}
+                name="location"
+                label="Location"
+              />
+            }
           />
           <Box sx={{ mx: 0 }}></Box>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -37,9 +88,9 @@ export default function SearchBar() {
             <DateRangePicker
               startText="Check-in"
               endText="Check-out"
-              value={value}
+              value={dates}
               onChange={(newValue) => {
-                setValue(newValue);
+                setDates(newValue);
               }}
               renderInput={(startProps, endProps) => (
                 <React.Fragment>
@@ -51,11 +102,22 @@ export default function SearchBar() {
             />
           </LocalizationProvider>
           <Box sx={{ mx: .3 }}></Box>
-          <TextField id="Guests" label="Guests" required={true} size="small" sx={{ minWidth: 100 }} type="number" variant="outlined" />
+          <TextField id="Guests" label="Guests" name="numGuests" required={true} size="small" sx={{ minWidth: 100 }} onChange={(event) => { setNumGuests(event.target.value) }} type="number" variant="outlined" />
           <Box sx={{ mx: 1 }}></Box>
-          <IconButton edge="start" color="inherit" aria-label="menu" component={Link} to='/hotelTest' sx={{ backgroundColor: "#9BB40D", color: "#FFFFFF" }}>
-            <SearchIcon />
-          </IconButton>
+
+          {isLandingPage &&
+            <IconButton edge="start" color="inherit" aria-label="menu" onClick={navigateToMainSearchPage} sx={{ backgroundColor: "#9BB40D", color: "#FFFFFF" }}>
+              <SearchIcon />
+            </IconButton>
+            //   <IconButton edge="start" color="inherit" aria-label="menu" onClick={navigateToMainSearchPage} component={Link} to='/hotel' sx={{ backgroundColor: "#9BB40D", color: "#FFFFFF" }}>
+            //   <SearchIcon />
+            // </IconButton>
+          }
+          {!isLandingPage &&
+            <IconButton edge="start" color="inherit" aria-label="menu" onClick={startSearch} sx={{ backgroundColor: "#9BB40D", color: "#FFFFFF" }}>
+              <SearchIcon />
+            </IconButton>
+          }
         </Toolbar>
       </Paper>
     </Box>

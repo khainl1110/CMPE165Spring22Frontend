@@ -57,7 +57,7 @@ export default function App() {
     if (email !== '') {
       setIsLoggedIn(true);
     }
-  })
+  }, [])
 
   return (
     <ThemeProvider theme={theme}>
@@ -100,7 +100,7 @@ export default function App() {
               </Box>
             </Grid>
             <Grid item xs={0}>
-              <SearchBar />
+              <SearchBar isLandingPage={true} />
             </Grid>
             <Grid item xs={0}>
               <Box sx={{
