@@ -83,7 +83,7 @@ export default function HotelPage() {
 
         if (location && dates && numGuests) {
             fetch(
-                backend_url + "/room/fetch?locationName=" + location + "&numGuest=" + numGuests + "&isBooked=false",
+                backend_url + "/room/search?location=" + location + "&numGuest=" + numGuests,
                 { method: 'GET' }
             )
                 .then(response => response.json())
