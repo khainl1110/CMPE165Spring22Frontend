@@ -17,9 +17,9 @@ import PastReservationCard from "./PastReservationCard.jsx";
 export default function MyAccount() {
     const [rooms, setRooms] = useState([]);
     const [reservations, setReservations] = useState([]);
-    const [user, setUser] = useState();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+    const [user, setUser] = useState();
+    
     const theme = createTheme();
 
     const styles = {
