@@ -1,4 +1,4 @@
-import React, {Components} from 'react';
+import React, { Components } from 'react';
 import { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -39,6 +39,8 @@ export default function HotelPage() {
     let [sortBy, setSortBy] = useState('sort');
     let [hotels, setHotels] = useState([]);
     let [originalHotels, setOriginalHotels] = useState([]);
+    let [allHotels, setAllHotels] = useState([]);
+    let [inSearchMode, setInSearchMode] = useState(false);
     let [propertyNames, setPropertyNames] = useState([]);
     let card = [];
 
@@ -55,7 +57,7 @@ export default function HotelPage() {
             .then(response => {
                 setTimeout(() => {
                     setHotels(response);
-                    setOriginalHotels(response);
+                    setAllHotels(response);
                 }, 1000);
             })
             .catch(e => {
@@ -66,11 +68,40 @@ export default function HotelPage() {
     useEffect(() => {
         let hotelNames = [];
         hotels.map((room) => {
-            console.log(room.hotelName);
-            hotelNames.push(room.hotelName)
+            hotelNames.push(room.hotelName);
         })
         setPropertyNames(hotelNames);
-    }, [hotels])
+    }, [allHotels])
+
+    const onSearch = (location, dates, numGuests) => {
+        console.log("ON SEARCH CLICKED");
+        console.log("Dates: " + dates);
+        console.log("Location: " + location);
+        console.log("Number of Guests: " + numGuests);
+
+        setInSearchMode(true);
+
+        if (location && dates && numGuests) {
+            fetch(
+                backend_url + "/room/search?location=" + location + "&numGuest=" + numGuests,
+                { method: 'GET' }
+            )
+                .then(response => response.json())
+                .then(response => {
+                    setTimeout(() => {
+                        setHotels(response);
+                        setOriginalHotels(response);
+                    }, 1000);
+                })
+                .catch(e => {
+                    console.log('error' + e);
+                })
+        } else {
+            console.log("Did not fetch room because missing location or numGuests");
+            setInSearchMode(false);
+            setHotels(allHotels);
+        }
+    }
 
     const handleSort = (event) => {
         setSortBy(event.target.value);
@@ -110,13 +141,16 @@ export default function HotelPage() {
                 }
             })
             setHotels(selectedHotels);
-        } else if (selectedOption === null) {
+        } else if (selectedOption === null && inSearchMode) {
             setHotels(originalHotels);
+        } else if (selectedOption === null && !inSearchMode) {
+            setHotels(allHotels);
         }
     }
 
     for (let i = 0; i < hotels.length; i++) {
         num = i + 1;
+        console.log(hotels[i]);
         card.push(
             <Grid item xs={0}>
                 <Box>
@@ -139,7 +173,7 @@ export default function HotelPage() {
                 <Grid container direction="row" justifyContent="center" alignItems="center" spacing={2} sx={{ position: "relative", marginLeft: '-2%', }}>
                     <Grid item xs={0}>
                         <Box sx={{ marginTop: '8%' }}>
-                            <SearchBar />
+                            <SearchBar onSearch={onSearch} isLandingPage={false} />
                         </Box>
                     </Grid>
                     <Grid item xs={0}>
@@ -171,7 +205,7 @@ export default function HotelPage() {
                         </Box>
                     </Grid>
 
-                    <Grid container direction="column" justifyContent="flex-end" alignItems="left" spacing={2} sx={{ position: "relative", marginTop: '1%', marginLeft: '25%', marginRight: '0%', }}>
+                    <Grid container direction="column" justifyContent="flex-end" alignItems="left" spacing={2} sx={{ position: "relative", marginTop: '1%', marginLeft: '20%', marginRight: '0%', }}>
                         <Grid item xs={0}>
                             <Box sx={{ marginTop: '0%' }}>
                                 <Typography variant="h2" sx={{

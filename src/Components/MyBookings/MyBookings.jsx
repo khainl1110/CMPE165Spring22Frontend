@@ -18,6 +18,7 @@ export default function MyAccount() {
     const [rooms, setRooms] = useState([]);
     const [reservations, setReservations] = useState([]);
     const [user, setUser] = useState();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const theme = createTheme();
 
@@ -32,6 +33,14 @@ export default function MyAccount() {
         }
     };
 
+    useEffect(() => {
+        if(localStorage.getItem('email') !== '') {
+            setIsLoggedIn(true);
+        }
+        else {
+            window.location.replace("/");
+        }
+    })
 
     useEffect(() => {
         let email = localStorage.getItem('email');
@@ -107,6 +116,7 @@ export default function MyAccount() {
         <ThemeProvider theme={theme}>
             <Paper style={styles.paperContainer}>
                 <CssBaseline />
+                {isLoggedIn &&
                 <Container component="main" justifyContent="flex-start">
                     <LoggedInNavBar />
                     <Grid container direction="row" justifyContent="flex-start" alignItems="center" width="100%">
@@ -208,6 +218,7 @@ export default function MyAccount() {
 
                     </Grid>
                 </Container>
+                }
             </Paper>
         </ThemeProvider>
     )
