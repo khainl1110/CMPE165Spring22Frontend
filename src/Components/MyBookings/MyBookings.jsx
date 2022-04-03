@@ -33,6 +33,7 @@ export default function MyAccount() {
         }
     };
 
+    // redirect the landing page if the user is not logged in.
     useEffect(() => {
         if(localStorage.getItem('email') !== '') {
             setIsLoggedIn(true);
