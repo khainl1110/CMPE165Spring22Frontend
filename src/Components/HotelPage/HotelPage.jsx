@@ -68,7 +68,9 @@ export default function HotelPage() {
     useEffect(() => {
         let hotelNames = [];
         hotels.map((room) => {
-            hotelNames.push(room.hotelName);
+            if (!hotelNames.includes(room.hotelName)) {
+                hotelNames.push(room.hotelName);
+            }
         })
         setPropertyNames(hotelNames);
     }, [allHotels])
@@ -109,6 +111,10 @@ export default function HotelPage() {
             hotels.sort(sortLoHi('price'));
         } else if (event.target.value === 'hilo') {
             hotels.sort(sortHiLo('price'));
+        } else if (event.target.value === 'lohirating') {
+            hotels.sort(sortRatingLoHi('rating'));
+        } else if (event.target.value === 'hilorating') {
+            hotels.sort(sortRatingHiLo('rating'));
         }
     };
 
@@ -127,6 +133,26 @@ export default function HotelPage() {
             if (a[price] > b[price])
                 return 1;
             else if (a[price] < b[price])
+                return -1;
+            return 0
+        }
+    }
+
+    const sortRatingHiLo = (rating) => {
+        return function (a, b) {
+            if (a[rating] < b[rating])
+                return 1;
+            else if (a[rating] > b[rating])
+                return -1;
+            return 0
+        }
+    }
+
+    const sortRatingLoHi = (rating) => {
+        return function (a, b) {
+            if (a[rating] > b[rating])
+                return 1;
+            else if (a[rating] < b[rating])
                 return -1;
             return 0
         }
@@ -201,6 +227,8 @@ export default function HotelPage() {
                                 <MenuItem value={'sort'}>Sort By</MenuItem>
                                 <MenuItem value={'lohi'}>Price: Low to High</MenuItem>
                                 <MenuItem value={'hilo'}>Price: High to Low</MenuItem>
+                                <MenuItem value={'lohirating'}>Rating: Low to High</MenuItem>
+                                <MenuItem value={'hilorating'}>Rating: High to Low</MenuItem>
                             </Select>
                         </Box>
                     </Grid>
