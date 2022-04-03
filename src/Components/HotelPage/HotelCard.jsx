@@ -14,6 +14,8 @@ var img = "";
 var rate = "4";
 var desc = "test description here 1 2 3";
 var price = "333";
+var location = "test location";
+var roomInfo = "room info: 2 beds";
 
 const theme = createTheme({
 
@@ -21,7 +23,7 @@ const theme = createTheme({
 
 const styles = {
   cardContainer: {
-    minWidth: '800px',
+    minWidth: '920px',
     backgroundColor: '#F9FBF7',
     position: 'relative',
     width: '52vw',
@@ -29,7 +31,7 @@ const styles = {
   imageContainer: {
     backgroundSize: 'cover',
     position: 'relative',
-    height: '25vh',
+    height: '26vh',
     width: '19vw',
   }
 };
@@ -40,62 +42,70 @@ export default function HotelCard(props) {
   rate = props.room.rating;
   desc = props.room.description;
   price = props.room.price;
+  roomInfo = props.room.roomInfo;
+  location = props.room.location;
 
   // reaction of "reserve now" button for demo
   const onClickHandle = (event) => {
     let userEmail = localStorage.getItem('email');
     let roomId = props.room.id;
-    const postData = {roomId, userEmail};
+    const postData = { roomId, userEmail };
 
-    if(props.room.booked !== true) {
-        fetch(backend_url + "/reservation", {
-          method: 'POST',
-          body: JSON.stringify(postData),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-          }).then(
-            alert("Successfully booked!")
-          )
-        fetch(backend_url + "/room/" + roomId, {
-          method: 'PUT',
-          body: JSON.stringify({
-            hotelName: props.room.hotelName,
-            image: props.room.image,
-            location: props.room.location,
-            rating: props.room.rating,
-            description: props.room.description,
-            price: props.room.price,
-            booked: true
-          }),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
+    if (props.room.booked !== true) {
+      fetch(backend_url + "/reservation", {
+        method: 'POST',
+        body: JSON.stringify(postData),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(
+        alert("Successfully booked!")
+      )
+      fetch(backend_url + "/room/" + roomId, {
+        method: 'PUT',
+        body: JSON.stringify({
+          hotelName: props.room.hotelName,
+          image: props.room.image,
+          location: props.room.location,
+          rating: props.room.rating,
+          description: props.room.description,
+          price: props.room.price,
+          booked: true
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
         .then(response => response.json())
 
-        window.location.replace("/hotel");
+      window.location.replace("/hotel");
     }
     else {
       alert("The room is already booked");
     }
   };
-  
+
   return (
     <ThemeProvider theme={theme}>
-      <Paper sx={{
-        display: 'flex',
-        justifyContent: 'center'
-      }} style={styles.cardContainer} sx={{ padding: 2, marginBottom: 2 }}>
-        <Grid container direction="row" justifyContent="left" alignItems="center" spacing={0} sx={{ position: "static", marginTop: '2%' }}>
+      <Paper
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          padding: 2,
+          marginBottom: 2,
+          marginLeft: "0%",
+        }}
+        style={styles.cardContainer}
+      >
+        <Grid container direction="row" justifyContent="left" alignItems="center" spacing={0} sx={{ position: "static", marginTop: '0%' }}>
           <Grid item xs={0}>
             <Paper style={styles.imageContainer} sx={{ backgroundImage: `url(${img})`, }}>
             </Paper>
           </Grid>
 
-          <Grid item xs={4}>
-            <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0}  sx={{
-              position: "static", marginLeft: '10%'
+          <Grid item xs={5}>
+            <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} sx={{
+              position: "static", marginLeft: '10%', width: '100%'
             }}>
               <Grid item xs={0}>
                 <Typography variant="h3" sx={{
@@ -113,9 +123,9 @@ export default function HotelCard(props) {
                   fontWeight: 400,
                   fontSize: '18px',
                   color: '#606060',
-                  marginTop: '20%'
+                  marginTop: '2%'
                 }}>
-
+                  {location}
                 </Typography>
               </Grid>
               <Grid item xs={0}>
@@ -124,14 +134,24 @@ export default function HotelCard(props) {
                   fontWeight: 400,
                   fontSize: '18px',
                   color: '#606060',
-                  marginTop: '20%'
+                  marginTop: '5%'
                 }}>
-                  {desc}
+                  Room Type: {roomInfo}
                 </Typography>
               </Grid>
-
               <Grid item xs={0}>
-                <Grid container direction="row" justifyContent="left" alignItems="center" spacing={0} sx={{ position: "static", marginTop: '50%', }}>
+                <Typography variant="h2" sx={{
+                  fontFamily: 'Baloo-Bhaina-2',
+                  fontWeight: 400,
+                  fontSize: '18px',
+                  color: '#606060',
+                  marginTop: '2%'
+                }}>
+                  Description: {desc}
+                </Typography>
+              </Grid>
+              <Grid item xs={0}>
+                <Grid container direction="row" justifyContent="left" alignItems="center" spacing={0} sx={{ position: "static", marginTop: '20%', }}>
                   <Grid item xs={0}>
                     <Typography variant="h2" sx={{
                       fontFamily: 'Baloo-Bhaina-2',
@@ -169,7 +189,7 @@ export default function HotelCard(props) {
           </Grid>
 
           <Grid item xs={3}>
-            <Grid container direction="column" justifyContent="right" alignItems="flex-end" spacing={0} sx={{ marginLeft: '13%', position: "static" }}>
+            <Grid container direction="column" justifyContent="right" alignItems="flex-end" spacing={0} sx={{ marginLeft: '0%', position: "static" }}>
               <Grid item xs={0}>
                 <Grid container direction="row" justifyContent="left" alignItems="center" spacing={0} sx={{ position: "static", marginTop: "0%", }}>
                   <Grid item xs={0}>

@@ -14,6 +14,9 @@ const styles = {
     fontWeight: "bold",
     textDecoration: "none",
   },
+  logoContainer: {
+    flexGrow: "1",
+  },
   link: {
     textDecoration: "none",
     color: '#363D21',
@@ -30,9 +33,11 @@ export default function NavBar() {
   return (
     <AppBar style={styles.navbar}>
       <Toolbar>
-        <Link variant="h4" to="/" style={styles.logo}>
-          LikeHome
-        </Link>
+        <div style={styles.logoContainer}>
+          <Link variant="h4" to="/" style={styles.logo}>
+            LikeHome
+          </Link>
+        </div>
         <div style={styles.navlinks}>
           <Link to="/hotel" style={styles.link}>
             Search Hotels
