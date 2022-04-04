@@ -21,7 +21,7 @@ export default function SearchBar(props) {
   tomorrow.setDate(tomorrow.getDate() + 1);
 
   const [dates, setDates] = React.useState([today, tomorrow]);
-  const [location, setLocation] = React.useState("");
+  const [location, setLocation] = React.useState("Union Square, San Francisco");
   const [numGuests, setNumGuests] = React.useState(4);
   const [locations, setLocations] = React.useState([]);
   const [hotels, setHotels] = React.useState([]);
@@ -80,6 +80,7 @@ export default function SearchBar(props) {
                 freeSolo={true}
                 onChange={(_event, selectedOption) => setLocation(selectedOption)}
                 sx={{ minWidth: 200 }}
+                value={location}
                 renderInput={(params) =>
                   <TextField required={true} {...params}
                     onChange={(event) => {

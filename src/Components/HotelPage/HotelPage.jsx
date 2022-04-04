@@ -52,7 +52,10 @@ export default function HotelPage() {
     }, []);
 
     useEffect(() => {
-        fetch(backend_url + "/room", { method: 'GET' })
+        fetch(
+            backend_url + "/room/search?numGuest=4&location=Union Square, San Francisco",
+            { method: 'GET' }
+        )
             .then(response => response.json())
             .then(response => {
                 setTimeout(() => {
@@ -76,11 +79,6 @@ export default function HotelPage() {
     }, [allHotels])
 
     const onSearch = (location, dates, numGuests) => {
-        console.log("ON SEARCH CLICKED");
-        console.log("Dates: " + dates);
-        console.log("Location: " + location);
-        console.log("Number of Guests: " + numGuests);
-
         setInSearchMode(true);
 
         if (location && dates && numGuests) {
