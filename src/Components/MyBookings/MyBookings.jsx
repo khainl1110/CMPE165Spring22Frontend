@@ -33,19 +33,19 @@ export default function MyAccount() {
         }
     };
 
-    // redirect the landing page if the user is not logged in.
+    // combine all useEffect fundtions
     useEffect(() => {
-        if(localStorage.getItem('email') !== '') {
+        let email = localStorage.getItem('email');
+        
+        // redirec the landing page if the user is not logged in
+        if(email !== '') {
             setIsLoggedIn(true);
         }
         else {
             window.location.replace("/");
         }
-    })
 
-    useEffect(() => {
-        let email = localStorage.getItem('email');
-
+        // get user data
         fetch(backend_url + "/users/" + email, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
@@ -54,9 +54,8 @@ export default function MyAccount() {
             .catch(e => {
                 console.log('error' + e);
             })
-    }, [])
 
-    useEffect(() => {
+        // get reservation data
         fetch(backend_url + "/reservation", { method: 'GET' })
             .then(response => response.json())
             .then(data => {
@@ -65,9 +64,8 @@ export default function MyAccount() {
             .catch(e => {
                 console.log('error' + e);
             })
-    }, [])
-
-    useEffect(() => {
+        
+        // get room data
         fetch(backend_url + "/room", { method: 'GET' })
             .then(response => response.json())
             .then(data => {
@@ -76,6 +74,7 @@ export default function MyAccount() {
             .catch(e => {
                 console.log('error' + e);
             })
+
     }, [])
 
     // change the some values of isBooked from false to true
