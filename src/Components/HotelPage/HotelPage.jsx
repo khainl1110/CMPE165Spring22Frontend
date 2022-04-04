@@ -174,6 +174,16 @@ export default function HotelPage() {
         }
     }
 
+    useEffect(() => {
+        let hotelNames = [];
+        hotels.map((room) => {
+            if (!hotelNames.includes(room.hotelName)) {
+                hotelNames.push(room.hotelName);
+            }
+        })
+        setPropertyNames(hotelNames);
+    }, [originalHotels])
+
     for (let i = 0; i < hotels.length; i++) {
         num = i + 1;
         console.log(hotels[i]);
