@@ -2,7 +2,6 @@ import React, { Components } from 'react';
 import { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import { cardClasses, InputLabel } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import Grid from '@mui/material/Grid';
 import { CssBaseline } from '@mui/material';
@@ -82,6 +81,11 @@ export default function HotelPage() {
         setInSearchMode(true);
 
         if (location && dates && numGuests) {
+            if (numGuests >= 3) {
+                numGuests = 4;
+            } else {
+                numGuests = 2;
+            }
             fetch(
                 backend_url + "/room/search?location=" + location + "&numGuest=" + numGuests,
                 { method: 'GET' }
@@ -206,7 +210,7 @@ export default function HotelPage() {
                 }
                 <Grid container direction="row" justifyContent="center" alignItems="center" spacing={2} sx={{ position: "relative", marginLeft: '-2%', }}>
                     <Grid item xs={0}>
-                        <Box sx={{ marginTop: '8%' }}>
+                        <Box sx={{ marginTop: '10%' }}>
                             <SearchBar onSearch={onSearch} isLandingPage={false} />
                         </Box>
                     </Grid>

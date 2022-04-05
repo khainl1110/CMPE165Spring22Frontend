@@ -11,7 +11,6 @@ import {
 } from '@mui/material/';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import styled from 'styled-components';
-import axios from 'axios';
 import Image from '../../assets/signupPage/image5.png';
 import { Paper } from '@mui/material';
 import PerksInfo from "./PerksInfo";
@@ -97,7 +96,7 @@ export default function SignUpPage() {
     const nameRegex = /^[a-zA-Z]+$/;
     if (!nameRegex.test(firstName) || !nameRegex.test(lastName)) {
       setShowError(true);
-      setNameError('Please make sure you entered a name.');
+      setNameError('Please make sure your names are valid.');
     }
     else {
       setNameError('');
@@ -144,7 +143,7 @@ export default function SignUpPage() {
                   }}>
                   Sign Up
                 </Typography>
-                <Boxs component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+                <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
                   <FormControl component="fieldset" variant="standard">
                     <Grid container spacing={2}>
                       <Grid item xs={6}>
@@ -154,16 +153,21 @@ export default function SignUpPage() {
                           fullWidth
                           id="firstName"
                           name="firstName"
-                          label="First Name" />
+                          label="First Name"
+                          error={nameError !== '' || false}
+                        />
                       </Grid>
                       <Grid item xs={6}>
                         <TextField
                           required
                           autoFocus
+                          type="string"
                           fullWidth
                           id="lastName"
                           name="lastName"
-                          label="Last Name" />
+                          label="Last Name"
+                          error={nameError !== '' || false}
+                        />
                       </Grid>
                       <Grid item xs={12}>
                         <TextField
@@ -230,7 +234,7 @@ export default function SignUpPage() {
                       By creating an account, I agree to the LikeHome terms and conditions.
                     </Typography>
                   </FormControl>
-                </Boxs>
+                </Box>
               </Box>
             </Grid>
           </Grid>

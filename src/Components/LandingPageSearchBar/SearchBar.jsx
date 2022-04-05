@@ -111,7 +111,20 @@ export default function SearchBar(props) {
                 />
               </LocalizationProvider>
               <Box sx={{ mx: .3 }}></Box>
-              <TextField id="Guests" label="Guests" name="numGuests" required={true} size="small" sx={{ minWidth: 100 }} onChange={(event) => { setNumGuests(event.target.value) }} type="number" value={numGuests} variant="outlined" />
+              <TextField
+                id="Guests"
+                label="Guests"
+                name="numGuests"
+                required={true}
+                inputProps={{
+                  max: 6, min: 0
+                }}
+                size="small"
+                sx={{ minWidth: 100 }}
+                onChange={(event) => { setNumGuests(event.target.value) }}
+                type="number"
+                value={numGuests}
+                variant="outlined" />
               <Box sx={{ mx: 1 }}></Box>
 
               {isLandingPage &&
