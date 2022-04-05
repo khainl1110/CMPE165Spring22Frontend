@@ -25,7 +25,7 @@ ReactDOM.render(
         <Route path="hotel" element={<HotelPage />} />
         <Route path="myAccount" element={<MyAccountPage />} />
         <Route path="myBookings" element={<MyBookingsPage />} />
-          <Route path = "payment" element = {<Payment/>}/>
+        <Route path = "payment" element = {<Payment/>}/>
 
 
       </Routes>

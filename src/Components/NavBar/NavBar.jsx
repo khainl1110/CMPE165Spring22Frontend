@@ -22,7 +22,7 @@ const styles = {
     marginLeft: 40,
   },
   navbar: {
-    backgroundColor: "white",
+    backgroundColor: "white"
   }
 };
 

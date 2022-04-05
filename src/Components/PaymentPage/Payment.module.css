@@ -1,10 +1,13 @@
+
 .main{
-    margin: 2.5%;
+    height: 100%;
+    margin: 20px 7% 20px;
     font-family: 'Kumbh Sans';
-font-style: normal;
+    font-style: normal;
+
 }
 p{
-    font-family: 'Kumbh Sans';
+font-family: 'Kumbh Sans';
 font-style: normal;
 font-weight: 600;
 font-size: 30px;
@@ -14,22 +17,16 @@ letter-spacing: 0.005em;
 
 color: #424242;
 }
+.YourInfo{
+    background-color: aqua;
 
-.YourInfo ul{
-    list-style: none;
-    flex-wrap: wrap;
-    display: flex;
-    flex-direction: row;
-    justify-content:center;
 }
-
-.YourInfo ul li{
-    flex: 1 1 40%;
-    
+.YourInfo .tf{
+    margin-left: 1%;
+    width: 40%;
 }
 .tf{
-    margin: auto;
-    width: 500px;
+    width: fit-content;
     height: 5%;
     font-family: 'Kumbh Sans';
     font-style: normal;
@@ -37,14 +34,17 @@ color: #424242;
     font-size: 20px;
     line-height: 25px;
     letter-spacing: 0.005em;
-
     color: #646464;
 }
 
 .PaymentDetails{
+    background-color: aqua;
 
 }
-
+.PaymentDetails .tf{
+    margin-left: 1%;
+    width: 60%;
+}
 .PaymentDetails p{
     font-family: 'Kumbh Sans';
 font-style: normal;
@@ -57,7 +57,70 @@ color: #424242;
 }
 
 .states{
-    margin-top: 10;
-    width: 5%;
+    margin-left: 7%;
+    width: 100%;
+}
 
+.greenPrompt{
+    width: 50%;
+    height: 15%;
+    height: 60px;
+    background: #9BB40D;
+    border-radius: 15px;
+
+}
+.greenPrompt p{
+
+    font-family: 'Kumbh Sans';
+font-style: normal;
+font-weight: 600;
+font-size: 17px;
+padding: 1.5%;
+
+    color: aliceblue;
+    
+}
+
+.temp{
+    min-height: 200px;
+    width: 50%;
+    background-color: #9BB40D;
+    border-radius: 10px;
+}
+
+.date{
+    margin-left: 10%;
+}
+
+.mainul{
+
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+.mainul li{
+    margin: 20px 0px 20px;
+}
+
+.policy{
+    font-size: small;
+    height:10%;
+    width: 75%;
+}
+
+.policy p{
+    font-size: small;
+}
+
+.mop{
+    margin-left: 2%;
+    width: 50%;
+}
+.img{
+    height: 200px;
+    width: 200px;
+    background-color: rgb(53, 13, 165);
 }

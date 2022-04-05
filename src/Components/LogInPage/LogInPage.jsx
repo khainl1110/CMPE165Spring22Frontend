@@ -124,7 +124,7 @@ export default function LogInPage() {
                 <Boxs component="form" onSubmit={handleLogin} sx={{ mt: 1 }}>
                   <FormControl component="fieldset" variant="standard">
 
-                    <Grid container spacing={2}
+                    <Grid container spacing={2}>
                       <Grid item xs={12}>
                         <TextField
                           required

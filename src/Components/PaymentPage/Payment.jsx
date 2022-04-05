@@ -2,27 +2,52 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import style from '../PaymentPage/Payment.module.css';
-import { MenuItem } from '@mui/material';
+import { MenuItem, Button} from '@mui/material';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import Stack from '@mui/material/Stack';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Paper } from '@mui/material';
+import NavBar from '../NavBar/NavBar.jsx';
+import { backend_url } from "../../links";
+import Grid from '@mui/material/Grid';
+
 
 export default function Payment(){
     
-
     return(
-        <h1>Doing css this is an old push</h1>
+    <div className ={style.main}>
+      <Grid container direction = "column" justifyContent = "space-evenly" spacing ={6} >
+        <Grid item xs ={12}><NavBar/></Grid>
+        <Grid item xs = {12} align = "center"><HotelRoomDetails/></Grid>
+        <Grid item><GreenPrompt/></Grid>
+        <Grid item><UserInfo/></Grid>
+        <Grid item><PaymentDetails/></Grid>
+        <Grid item align = "center"><CancelationPolicy/></Grid>
+        <Grid item ><Button
+                      type="submit"
+                      variant="contained"
+                      sx={{ mt: 2, mb: 0, backgroundColor: '#9BB40D', fontWeight: '500' }}
+                    >
+                      Review Reservation
+                    </Button>
+        </Grid>
+      </Grid>
+    </div>
     )
 
 }
 
-const TextFieldComp = ({className,id,label, defaultValue = ""}) =>{
+
+const TextFieldComp = ({name,type,className,id,label, defaultValue = ""}) =>{
     return(
         
         <>
             <TextField
+              variant = "standard"
                 required
+                type = {type}
                 className = {className}
                 id={id}
                 label={label}
@@ -36,16 +61,17 @@ const TextFieldComp = ({className,id,label, defaultValue = ""}) =>{
 }
 
 const UserInfo = ({className}) =>{
-    className = {className};
+    className = {className}
     return (
     <div className = {style.YourInfo}>
         <p className = {style.p}>Your Info</p>
-        <ul>
-            <li><TextFieldComp className = {style.tf} id = "outlined-disabled" label = "First Name"/></li>
-            <li><TextFieldComp className = {style.tf} id = "outlined-disabled" label = "Last Name"/></li>
-            <li><TextFieldComp className = {style.tf} id = "outlined-disabled" label = "Email"/></li>
-            <li><TextFieldComp className = {style.tf} id = "outlined-disabled" label = "Phone"/></li>
-        </ul>
+          <Grid container spacing = {0}>
+            <Grid item xs ={6}><TextFieldComp className = {style.tf}id = "outlined-disabled" label = "First Name"/></Grid>
+            <Grid item xs ={6}><TextFieldComp className = {style.tf} id = "outlined-disabled" label = "Last Name"/></Grid>
+            <Grid item xs ={6}><TextFieldComp className = {style.tf} id = "outlined-disabled" label = "Email" type = "email"/></Grid>
+            <Grid item xs ={6}><TextFieldComp className = {style.tf} id = "outlined-disabled" label = "Phone"/></Grid>
+          </Grid>
+
     </div>
 )}
 
@@ -64,11 +90,14 @@ const ModeOfPayment = () =>{
 
     return (<>
         <TextField
+        variant = "standard"
           id="outlined-select-currency"
           select
           value={payment}
           onChange={handleChange}
-          className = {style.tf}
+          className = {style.mop}
+          size= "small"
+          margin = "dense"
         >
         {
             ModeOfPayments.map((x) =>(
@@ -84,17 +113,23 @@ const PaymentDetails = () =>{
     return(
         <div className = {style.PaymentDetails}>
             <p>Payment Details</p>
-            <ModeOfPayment/><br/>
-            <TextFieldComp className = {style.tf} id = "outlined-disabled" label = "Card Number"/>
-            <TextFieldComp password className = {style.tf} id = "outlined-disabled" label = "CVV"/>
-            <br/>
-            <MonthAndYear className = {style.tf}/>
-             <br/>
-            <TextFieldComp className = {style.tf} id = "outlined-disabled" label = "Billing Address"/>   
-            <TextFieldComp className = {style.tf} id = "outlined-disabled" label = "City"/>   
-            <br/>
-            <StateSelect/>
+            <Grid container spacing = {1.5} >
+            <Grid item xs ={6}><ModeOfPayment/></Grid>
+            <Grid item xs = {6}/>
+            <Grid item xs = {5}><TextFieldComp className = {style.tf} id = "outlined-disabled" label = "Card Number"/></Grid>
+            <Grid item xs ={1}><TextFieldComp password className = {style.tf} id = "outlined-disabled" label = "CVV" type = "password"/></Grid>
+            <Grid item xs={6}/>
+            <Grid item xs ={4}><MonthAndYear/></Grid>
+            <Grid item xs ={6}/>
 
+            <Grid item xs = {5}><TextFieldComp className = {style.tf} id = "outlined-disabled" label = "Billing Address"/></Grid>   
+            <Grid item xs = {5}><TextFieldComp className = {style.tf} id = "outlined-disabled" label = "City"/></Grid>    
+            <Grid item xs = {2}/>
+            <Grid item xs ={1}><StateSelect/></Grid>
+            <Grid item xs = {4}><TextFieldComp className = {style.tf} id = "outlined-disabled" label = "Country"/></Grid>
+            <Grid item xs = {1}><TextFieldComp className = {style.states} id = "outlined-disabled" label = "Zip Code"/></Grid> 
+
+            </Grid>
         </div>
     )
 }
@@ -105,7 +140,7 @@ const MonthAndYear = ({className}) =>{
         <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                     
-                    className = {className}
+                    className = {style.date}
                     views={['year', 'month']}
                     label="Year and Month"
                     minDate={new Date('2022-01-01')}
@@ -114,12 +149,74 @@ const MonthAndYear = ({className}) =>{
                     onChange={(newValue) => {
                         setValue(newValue);
                         }}
-                renderInput={(params) => <TextField {...params} helperText={null} />}
+                renderInput={(params) => <TextField className = {style.tf} {...params} helperText={null} />}
                 />  
         </LocalizationProvider> 
     )
 }
 
+const GreenPrompt = () =>{
+  
+  return(
+    <div className = {style.greenPrompt}>
+      <p>Wait! By signing up for a LikeHome account, you could earn 600 points for this reservation to redeem and save on future trips! Learn more here.</p>
+    </div>
+  )
+}
+
+const HotelRoomDetails = () =>{
+  return (
+    <div className = {style.temp}>
+        <Grid container spacing ={2}>
+          <Grid item xs ={4}><div className = {style.img}>alt</div></Grid>
+          <Grid item xs ={6} container direction = "column">
+            <Grid item xs>
+              Standard Room, 2 Queen
+            </Grid>
+            <Grid item xs>
+              No Smoking
+            </Grid>
+            <Grid item xs>
+              Fits 4
+            </Grid>
+            <Grid item xs>
+              2 queen beds
+            </Grid>
+            <Grid item container spacing = {2}> 
+              <Grid item xs ={4}>
+                Checkin 
+              </Grid>
+              <Grid item xs ={4}>
+                Checkout 
+              </Grid>
+              <Grid item xs ={4}>
+                Guests
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs ={2} container direction= "column">
+            <Grid item>
+              $600
+            </Grid> 
+            <Grid item>
+              For 2 nights
+            </Grid> 
+          </Grid>
+        </Grid>
+    </div>
+  )
+}
+
+const CancelationPolicy =() =>{
+  return(
+    <div className = {style.policy}>
+      <h1 align = "center">Cancellation Policy</h1>
+      <p><strong>Please Note:</strong> Booking cancellations are free until 1 week before the check-in date of your reservation. Cancellations within 1-week of your check-in date will result in a cancellation fee of $XXX.XX charged to the card used to make this reservation. We are unable to refund any payment for no-shows or early checkout.</p> 
+      <br/>
+      <p>By booking with LikeHome.com, you agree to the terms and conditions of our cancellation policy.</p>
+    </div>
+  )
+}
 const StateSelect = () =>{
     const states = [
         {
@@ -368,12 +465,16 @@ const StateSelect = () =>{
   
       return (<>
           <TextField
+          variant = "standard"
             id="outlined-select-currency"
             select
             value={payment}
             onChange={handleChange}
             className = {style.states}
             label= "State"
+            size= "small"
+
+          margin = "dense"
           >
           {
               states.map((x) =>(
