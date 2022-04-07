@@ -43,6 +43,9 @@ export default function SignUpPage() {
     const { firstName, lastName, email, password } = data;
     const putData = { firstName, lastName, email, password }; // no username
 
+    console.log(firstName)
+    console.log(lastName)
+
     // Post, create a user
     // axios return network error
     fetch(backend_url + "/users", {

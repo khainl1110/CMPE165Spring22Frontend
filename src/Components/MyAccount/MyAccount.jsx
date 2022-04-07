@@ -11,16 +11,18 @@ export default function MyAccount() {
     useEffect(() => {
         let email = localStorage.getItem('email');
 
-        fetch(backend_url + "/users/" + email, { method: 'GET' })
-            .then(response => response.json())
-            .then(data => {
-                setFirstName(data.firstName);
-                setLastName(data.lastName);
-                setEmail(data.email);
-            })
-            .catch(e => {
-                console.log('error' + e);
-            })
+        if (email !== '') {
+            fetch(backend_url + "/users/" + email, { method: 'GET' })
+                .then(response => response.json())
+                .then(data => {
+                    setFirstName(data.firstName);
+                    setLastName(data.lastName);
+                    setEmail(data.email);
+                })
+                .catch(e => {
+                    console.log('error' + e);
+                })
+        }
     })
 
     return (
