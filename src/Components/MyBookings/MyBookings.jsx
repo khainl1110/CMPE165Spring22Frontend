@@ -32,18 +32,20 @@ export default function MyAccount() {
         }
     };
 
+    const email = localStorage.getItem('email');
+
 
     useEffect(() => {
-        let email = localStorage.getItem('email');
-
-        fetch(backend_url + "/users/" + email, { method: 'GET' })
-            .then(response => response.json())
-            .then(data => {
-                setUser(data);
-            })
-            .catch(e => {
-                console.log('error' + e);
-            })
+        if (email !== '') {
+            fetch(backend_url + "/users/" + email, { method: 'GET' })
+                .then(response => response.json())
+                .then(data => {
+                    setUser(data);
+                })
+                .catch(e => {
+                    console.log('error' + e);
+                })
+        }
     }, [])
 
     useEffect(() => {
@@ -81,6 +83,7 @@ export default function MyAccount() {
 
     let roomId = [];
     for (let i = 0; i < reservations.length; i++) {
+        console.log(user.email);
         if (reservations[i].userEmail === user.email) {
             roomId.push(reservations[i].roomId);
         }

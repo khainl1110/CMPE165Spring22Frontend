@@ -16,9 +16,13 @@ import { FormControl } from '@mui/material';
 export default function SearchBar(props) {
   var backend_url = "http://localhost:8080";
 
-  const [dates, setDates] = React.useState([null, null]);
-  const [location, setLocation] = React.useState("");
-  const [numGuests, setNumGuests] = React.useState(0);
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const [dates, setDates] = React.useState([today, tomorrow]);
+  const [location, setLocation] = React.useState("Union Square, San Francisco");
+  const [numGuests, setNumGuests] = React.useState(4);
   const [locations, setLocations] = React.useState([]);
   const [hotels, setHotels] = React.useState([]);
   const { onSearch, isLandingPage } = props;
@@ -76,6 +80,7 @@ export default function SearchBar(props) {
                 freeSolo={true}
                 onChange={(_event, selectedOption) => setLocation(selectedOption)}
                 sx={{ minWidth: 200 }}
+                value={location}
                 renderInput={(params) =>
                   <TextField required={true} {...params}
                     onChange={(event) => {
@@ -98,15 +103,28 @@ export default function SearchBar(props) {
                   }}
                   renderInput={(startProps, endProps) => (
                     <React.Fragment>
-                      <TextField required={true} size="small" sx={{ minWidth: 150 }} {...startProps} />
+                      <TextField required={true} size="small" sx={{ minWidth: 150 }} value={dates[0]} {...startProps} />
                       <Box sx={{ mx: .3 }}></Box>
-                      <TextField size="small" required={true} sx={{ minWidth: 150 }} {...endProps} />
+                      <TextField size="small" required={true} sx={{ minWidth: 150 }} value={dates[1]} {...endProps} />
                     </React.Fragment>
                   )}
                 />
               </LocalizationProvider>
               <Box sx={{ mx: .3 }}></Box>
-              <TextField id="Guests" label="Guests" name="numGuests" required={true} size="small" sx={{ minWidth: 100 }} onChange={(event) => { setNumGuests(event.target.value) }} type="number" variant="outlined" />
+              <TextField
+                id="Guests"
+                label="Guests"
+                name="numGuests"
+                required={true}
+                inputProps={{
+                  max: 6, min: 0
+                }}
+                size="small"
+                sx={{ minWidth: 100 }}
+                onChange={(event) => { setNumGuests(event.target.value) }}
+                type="number"
+                value={numGuests}
+                variant="outlined" />
               <Box sx={{ mx: 1 }}></Box>
 
               {isLandingPage &&

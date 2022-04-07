@@ -70,7 +70,7 @@ export default function HotelCard(props) {
           rating: props.room.rating,
           description: props.room.description,
           price: props.room.price,
-          booked: true
+          booked: true,
         }),
         headers: {
           'Content-Type': 'application/json'
