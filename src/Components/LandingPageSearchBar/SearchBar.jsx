@@ -12,17 +12,18 @@ import DateRangePicker from '@mui/lab/DateRangePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { FormControl } from '@mui/material';
+import { backend_url } from "../../links";
 
 export default function SearchBar(props) {
-  var backend_url = "http://localhost:8080";
+
 
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
 
   const [dates, setDates] = React.useState([today, tomorrow]);
-  const [location, setLocation] = React.useState("Union Square, San Francisco");
-  const [numGuests, setNumGuests] = React.useState(4);
+  const [location, setLocation] = React.useState(props.location);
+  const [numGuests, setNumGuests] = React.useState(props.numGuests);
   const [locations, setLocations] = React.useState([]);
   const [hotels, setHotels] = React.useState([]);
   const { onSearch, isLandingPage } = props;
@@ -35,7 +36,7 @@ export default function SearchBar(props) {
   }
 
   const navigateToMainSearchPage = (e) => {
-    navigate('/hotel', { location: location, dates: dates, numGuests: numGuests });
+    navigate('/hotel', {state:{location: location, dates: dates, numGuests: numGuests}});
   }
 
   useEffect(() => {

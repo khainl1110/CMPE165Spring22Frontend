@@ -12,11 +12,12 @@ import NavBar from '../../Components/NavBar/NavBar.jsx';
 import LoggedInNavBar from '../../Components/NavBar/LoggedInNavBar.jsx';
 import SearchBar from '../../Components/LandingPageSearchBar/SearchBar.jsx';
 import HotelCard from '../../Components/HotelPage/HotelCard.jsx';
+import { useLocation } from 'react-router-dom';
+import { backend_url } from "../../links";
 
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
-var backend_url = "http://localhost:8080";
 var num;
 
 const theme = createTheme({
@@ -32,7 +33,10 @@ const styles = {
     },
 };
 
-export default function HotelPage() {
+export default function HotelPage(props) {
+
+    const location = useLocation();
+    console.log(location);
 
     let [isLoggedIn, setIsLoggedIn] = useState(false);
     let [sortBy, setSortBy] = useState('sort');
@@ -52,7 +56,7 @@ export default function HotelPage() {
 
     useEffect(() => {
         fetch(
-            backend_url + "/room/search?numGuest=4&location=Union Square, San Francisco",
+            backend_url + "/room/search?location=" + location.state.location + "&numGuest=" + location.state.numGuests,
             { method: 'GET' }
         )
             .then(response => response.json())
@@ -211,7 +215,7 @@ export default function HotelPage() {
                 <Grid container direction="row" justifyContent="center" alignItems="center" spacing={2} sx={{ position: "relative", marginLeft: '-2%', }}>
                     <Grid item xs={0}>
                         <Box sx={{ marginTop: '10%' }}>
-                            <SearchBar onSearch={onSearch} isLandingPage={false} />
+                            <SearchBar onSearch={onSearch} location={location.state.location} dates={location.state.dates} numGuests={location.state.numGuests} isLandingPage={false} />
                         </Box>
                     </Grid>
                     <Grid item xs={0}>
