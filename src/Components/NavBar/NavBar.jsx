@@ -40,7 +40,7 @@ export default function NavBar() {
           </Link>
         </div>
         <div style={styles.navlinks}>
-          <Link to={{pathname:"/hotel"}} style={styles.link}>
+          <Link to="/hotel" style={styles.link}>
             Search Hotels
           </Link>
           <Link to="/login" style={styles.link}>
