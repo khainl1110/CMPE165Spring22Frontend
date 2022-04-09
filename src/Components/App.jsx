@@ -48,6 +48,9 @@ const styles = {
 
 export default function App() {
 
+  const [location, setLocation] = React.useState("Union Square, San Francisco");
+  const [numGuests, setNumGuests] = React.useState(4);
+
   let [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -100,7 +103,7 @@ export default function App() {
               </Box>
             </Grid>
             <Grid item xs={0}>
-              <SearchBar isLandingPage={true} />
+              <SearchBar location={location} numGuests={numGuests} isLandingPage={true} />
             </Grid>
             <Grid item xs={0}>
               <Box sx={{

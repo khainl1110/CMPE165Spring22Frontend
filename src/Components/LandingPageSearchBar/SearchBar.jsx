@@ -15,20 +15,32 @@ import { FormControl } from '@mui/material';
 import { backend_url } from "../../links";
 
 export default function SearchBar(props) {
-
+  console.log(props);
 
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
 
   const [dates, setDates] = React.useState([today, tomorrow]);
-  const [location, setLocation] = React.useState(props.location);
-  const [numGuests, setNumGuests] = React.useState(props.numGuests);
+  const [location, setLocation] = React.useState("Union Square, San Francisco");
+  const [numGuests, setNumGuests] = React.useState(4);
   const [locations, setLocations] = React.useState([]);
   const [hotels, setHotels] = React.useState([]);
   const { onSearch, isLandingPage } = props;
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if(props.location != null){
+      setLocation(props.location);
+    }
+  }, [props.location]);
+
+  useEffect(() => {
+    if(props.numGuests != ""){
+      setNumGuests(props.numGuests);
+    }
+  }, [props.numGuests]);
 
   const startSearch = (e) => {
     onSearch(location, dates, numGuests);
