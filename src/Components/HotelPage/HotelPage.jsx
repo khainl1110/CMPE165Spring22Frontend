@@ -12,11 +12,12 @@ import NavBar from '../../Components/NavBar/NavBar.jsx';
 import LoggedInNavBar from '../../Components/NavBar/LoggedInNavBar.jsx';
 import SearchBar from '../../Components/LandingPageSearchBar/SearchBar.jsx';
 import HotelCard from '../../Components/HotelPage/HotelCard.jsx';
+import { useLocation } from 'react-router-dom';
+import { backend_url } from "../../links";
 
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
-var backend_url = "http://localhost:8080";
 var num;
 
 const theme = createTheme({
@@ -32,7 +33,27 @@ const styles = {
     },
 };
 
-export default function HotelPage() {
+export default function HotelPage(props) {
+
+    const location = useLocation();
+    console.log(location);
+
+    let [locat, setLocat] = useState("Union Square, San Francisco");
+    let [numGuests, setNumGuests] = useState(4);
+
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const [dates, setDates] = React.useState([today, tomorrow]);
+
+    useEffect(() => {
+        if(location.state != null){
+            setLocat(location.state.location);
+            setNumGuests(location.state.numGuests);
+            setDates(location.state.dates);
+        }
+    }, []);
 
     let [isLoggedIn, setIsLoggedIn] = useState(false);
     let [sortBy, setSortBy] = useState('sort');
@@ -51,20 +72,70 @@ export default function HotelPage() {
     }, []);
 
     useEffect(() => {
-        fetch(
-            backend_url + "/room/search?numGuest=4&location=Union Square, San Francisco",
-            { method: 'GET' }
-        )
-            .then(response => response.json())
-            .then(response => {
-                setTimeout(() => {
-                    setHotels(response);
-                    setAllHotels(response);
-                }, 1000);
-            })
-            .catch(e => {
-                console.log('error' + e);
-            })
+        if(location.state == null){
+            fetch(
+                backend_url + "/room/search?location=" + "Union Square, San Francisco" + "&numGuest=" + "4",
+                { method: 'GET' }
+            )
+                .then(response => response.json())
+                .then(response => {
+                    setTimeout(() => {
+                        setHotels(response);
+                        setAllHotels(response);
+                    }, 1000);
+                })
+                .catch(e => {
+                    console.log('error' + e);
+                })
+        }
+        else if(location.state.location == null){
+            fetch(
+                backend_url + "/room/search?location=" + "Union Square, San Francisco" + "&numGuest=" + "4",
+                { method: 'GET' }
+            )
+                .then(response => response.json())
+                .then(response => {
+                    setTimeout(() => {
+                        setHotels(response);
+                        setAllHotels(response);
+                    }, 1000);
+                })
+                .catch(e => {
+                    console.log('error' + e);
+                })
+        }
+        else if(location.state.numGuests == ""){
+            fetch(
+                backend_url + "/room/search?location=" + location.state.location + "&numGuest=" + "4",
+                { method: 'GET' }
+            )
+                .then(response => response.json())
+                .then(response => {
+                    setTimeout(() => {
+                        setHotels(response);
+                        setAllHotels(response);
+                    }, 1000);
+                })
+                .catch(e => {
+                    console.log('error' + e);
+                })
+        }
+        else{
+            fetch(
+                backend_url + "/room/search?location=" + location.state.location + "&numGuest=" + location.state.numGuests,
+                { method: 'GET' }
+            )
+                .then(response => response.json())
+                .then(response => {
+                    setTimeout(() => {
+                        setHotels(response);
+                        setAllHotels(response);
+                    }, 1000);
+                })
+                .catch(e => {
+                    console.log('error' + e);
+                })
+        }
     }, []);
 
     useEffect(() => {
@@ -211,7 +282,7 @@ export default function HotelPage() {
                 <Grid container direction="row" justifyContent="center" alignItems="center" spacing={2} sx={{ position: "relative", marginLeft: '-2%', }}>
                     <Grid item xs={0}>
                         <Box sx={{ marginTop: '10%' }}>
-                            <SearchBar onSearch={onSearch} isLandingPage={false} />
+                            <SearchBar onSearch={onSearch} location={locat} dates={dates} numGuests={numGuests} isLandingPage={false} />
                         </Box>
                     </Grid>
                     <Grid item xs={0}>

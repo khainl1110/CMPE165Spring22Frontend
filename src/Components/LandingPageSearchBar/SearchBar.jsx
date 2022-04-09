@@ -12,9 +12,10 @@ import DateRangePicker from '@mui/lab/DateRangePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { FormControl } from '@mui/material';
+import { backend_url } from "../../links";
 
 export default function SearchBar(props) {
-  var backend_url = "http://localhost:8080";
+  console.log(props);
 
   const today = new Date();
   const tomorrow = new Date(today);
@@ -29,13 +30,25 @@ export default function SearchBar(props) {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if(props.location != null){
+      setLocation(props.location);
+    }
+  }, [props.location]);
+
+  useEffect(() => {
+    if(props.numGuests != ""){
+      setNumGuests(props.numGuests);
+    }
+  }, [props.numGuests]);
+
   const startSearch = (e) => {
     onSearch(location, dates, numGuests);
     e.preventDefault();
   }
 
   const navigateToMainSearchPage = (e) => {
-    navigate('/hotel', { location: location, dates: dates, numGuests: numGuests });
+    navigate('/hotel', {state:{location: location, dates: dates, numGuests: numGuests}});
   }
 
   useEffect(() => {

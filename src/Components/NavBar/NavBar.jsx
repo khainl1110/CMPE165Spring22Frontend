@@ -30,6 +30,7 @@ const styles = {
 };
 
 export default function NavBar() {
+
   return (
     <AppBar style={styles.navbar}>
       <Toolbar>
@@ -39,7 +40,7 @@ export default function NavBar() {
           </Link>
         </div>
         <div style={styles.navlinks}>
-          <Link to="/hotel" style={styles.link}>
+          <Link to={{pathname:"/hotel"}} style={styles.link}>
             Search Hotels
           </Link>
           <Link to="/login" style={styles.link}>
