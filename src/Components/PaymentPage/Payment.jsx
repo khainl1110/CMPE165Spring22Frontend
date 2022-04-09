@@ -12,18 +12,23 @@ import { Paper } from '@mui/material';
 import NavBar from '../NavBar/NavBar.jsx';
 import { backend_url } from "../../links";
 import Grid from '@mui/material/Grid';
-
+import { fontFamily } from '@mui/system';
+import Image from '../../assets/temp_holder.png';
+import { FormControl } from '@mui/material';
 
 export default function Payment(){
     
     return(
     <div className ={style.main}>
-      <Grid container direction = "column" justifyContent = "space-evenly" spacing ={6} >
+      <Grid container direction = "column" justifyContent = "space-evenly" spacing ={5} >
         <Grid item xs ={12}><NavBar/></Grid>
-        <Grid item xs = {12} align = "center"><HotelRoomDetails/></Grid>
-        <Grid item><GreenPrompt/></Grid>
+        <Grid item xs ={12}/>
+        <Grid item xs={12}><YourRoomReservation/></Grid>
+        <Grid item xs = {12} align = "center" ><HotelRoomDetails/></Grid>
+        <Grid item><GreenPrompt style ={{"padding-top":"0px"}}/></Grid>
         <Grid item><UserInfo/></Grid>
         <Grid item><PaymentDetails/></Grid>
+        <Grid item xs = {12}><RequestForRoom/></Grid>
         <Grid item align = "center"><CancelationPolicy/></Grid>
         <Grid item ><Button
                       type="submit"
@@ -39,14 +44,19 @@ export default function Payment(){
 
 }
 
-
-const TextFieldComp = ({name,type,className,id,label, defaultValue = ""}) =>{
+const YourRoomReservation =() =>(
+  <>
+    <p style ={{"font-family":'Gill Sans', fontWeight: 600}}>Your room reservation: <u style = {{color:"#9BB40D"}}>Yamanokami Onsen Yuuken</u></p>
+  </>
+)
+const TextFieldComp = ({name,type,className,id,label, defaultValue = "",onChange}) =>{
     return(
         
         <>
             <TextField
               variant = "standard"
                 required
+                onChange = {onChange}
                 type = {type}
                 className = {className}
                 id={id}
@@ -54,6 +64,7 @@ const TextFieldComp = ({name,type,className,id,label, defaultValue = ""}) =>{
                 defaultValue={defaultValue}
                 size = "small"
                 margin = "dense"
+                style ={{"font-family": "Gill Sans"}}
             />
         
         </>
@@ -61,15 +72,34 @@ const TextFieldComp = ({name,type,className,id,label, defaultValue = ""}) =>{
 }
 
 const UserInfo = ({className}) =>{
+    
+  const[name,updateName] = React.useState();
+    const handleName = (event) =>{
+      updateName(event.target.value);
+    }
+
+    const[email,updateEmail] = React.useState();
+    const handleEmail = (event) =>{
+      updateEmail(event.target.value);
+    }
+    const[lName,updatelName] = React.useState();
+    const handlelName = (event) =>{
+      updatelName(event.target.value);
+    }
+    const[phone,updatePhone] = React.useState();
+    const handlePhone = (event) =>{
+      updatePhone(event.target.value);
+    }
     className = {className}
     return (
     <div className = {style.YourInfo}>
         <p className = {style.p}>Your Info</p>
+
           <Grid container spacing = {0}>
-            <Grid item xs ={6}><TextFieldComp className = {style.tf}id = "outlined-disabled" label = "First Name"/></Grid>
-            <Grid item xs ={6}><TextFieldComp className = {style.tf} id = "outlined-disabled" label = "Last Name"/></Grid>
-            <Grid item xs ={6}><TextFieldComp className = {style.tf} id = "outlined-disabled" label = "Email" type = "email"/></Grid>
-            <Grid item xs ={6}><TextFieldComp className = {style.tf} id = "outlined-disabled" label = "Phone"/></Grid>
+            <Grid item xs ={6}><TextFieldComp className = {style.tf}id = "outlined-disabled" label = "First Name" onChange ={handleName}/></Grid>
+            <Grid item xs ={6}><TextFieldComp className = {style.tf} id = "outlined-disabled" label = "Last Name" onChange ={handlelName}/></Grid>
+            <Grid item xs ={6}><TextFieldComp className = {style.tf} id = "email" name ="email" label = "Email" type = "email" onChange ={handleEmail}/></Grid>
+            <Grid item xs ={6}><TextFieldComp className = {style.tf} id = "outlined-disabled" label = "Phone" onChange ={handlePhone}/></Grid>
           </Grid>
 
     </div>
@@ -167,21 +197,26 @@ const GreenPrompt = () =>{
 const HotelRoomDetails = () =>{
   return (
     <div className = {style.temp}>
-        <Grid container spacing ={2}>
+        <Grid container spacing ={1}>
           <Grid item xs ={4}><div className = {style.img}>alt</div></Grid>
-          <Grid item xs ={6} container direction = "column">
-            <Grid item xs>
+          <Grid item xs ={6} container direction = "column" align = "left">
+            <Grid item xs style ={{"font-weight":"600", "font-size":"1.5em","margin-bottom":"0%"}}>
               Standard Room, 2 Queen
             </Grid>
-            <Grid item xs>
-              No Smoking
+            <Grid item xs style ={{"font-size": "0.9em"}}>
+              No Smoking, Acessible, Mountain view
             </Grid>
+            <br/>
             <Grid item xs>
               Fits 4
             </Grid>
             <Grid item xs>
               2 queen beds
             </Grid>
+            <Grid item xs>
+              1 shower/bathtub
+            </Grid>
+            <br/>
             <Grid item container spacing = {2}> 
               <Grid item xs ={4}>
                 Checkin 
@@ -193,9 +228,21 @@ const HotelRoomDetails = () =>{
                 Guests
               </Grid>
             </Grid>
+            <Grid item container spacing = {2}> 
+              <Grid item xs ={4}>
+              03/05/22 
+              </Grid>
+              <Grid item xs ={4}>
+              03/05/22
+              </Grid>
+              <Grid item xs ={4}>
+                2 adults, 2 kids
+              </Grid>
+              
+            </Grid>
           </Grid>
           <Grid item xs ={2} container direction= "column">
-            <Grid item>
+            <Grid item style ={{"font-weight":"650", "font-size":"2em"}}>
               $600
             </Grid> 
             <Grid item>
@@ -206,6 +253,24 @@ const HotelRoomDetails = () =>{
     </div>
   )
 }
+
+const RequestForRoom = () =>(
+  <>
+    <Grid container>
+      <Grid item xs ={12}><h2>Special requests for the hotel</h2></Grid>
+      <Grid item xs = {12}>
+      <TextField
+          id="outlined-multiline-static"
+          label=""
+          multiline
+          rows={4}
+          style = {{"width": "100%","height":"30%"}}
+        />
+      </Grid>
+    </Grid>
+  </>
+)
+  
 
 const CancelationPolicy =() =>{
   return(

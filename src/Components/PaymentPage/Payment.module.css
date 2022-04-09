@@ -2,12 +2,13 @@
 .main{
     height: 100%;
     margin: 20px 7% 20px;
-    font-family: 'Kumbh Sans';
+
     font-style: normal;
 
 }
 p{
-font-family: 'Kumbh Sans';
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
 font-style: normal;
 font-weight: 600;
 font-size: 30px;
@@ -18,7 +19,7 @@ letter-spacing: 0.005em;
 color: #424242;
 }
 .YourInfo{
-    background-color: aqua;
+
 
 }
 .YourInfo .tf{
@@ -38,54 +39,58 @@ color: #424242;
 }
 
 .PaymentDetails{
-    background-color: aqua;
+
 
 }
 .PaymentDetails .tf{
-    margin-left: 1%;
+
     width: 60%;
 }
 .PaymentDetails p{
-    font-family: 'Kumbh Sans';
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 font-style: normal;
 font-weight: 600;
 font-size: 25px;
 line-height: 43px;
 letter-spacing: 0.005em;
 
-color: #424242;
+
 }
 
 .states{
-    margin-left: 7%;
+    margin-left: 15%;
     width: 100%;
 }
 
 .greenPrompt{
-    width: 50%;
+
+    width: 65%;
     height: 15%;
-    height: 60px;
+
     background: #9BB40D;
     border-radius: 15px;
-
+    color: #FFFFFF;
+    margin-left: 18%;
 }
 .greenPrompt p{
 
-    font-family: 'Kumbh Sans';
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 font-style: normal;
 font-weight: 600;
-font-size: 17px;
+font-size: 1em;
 padding: 1.5%;
+color: #FFFFFF;
+letter-spacing: 0.005em;
 
-    color: aliceblue;
-    
 }
 
 .temp{
-    min-height: 200px;
-    width: 50%;
-    background-color: #9BB40D;
+    height: 10%;
+    width: 75%;
+    background: #FCFCFC;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     border-radius: 10px;
+    margin-bottom: 0%;
 }
 
 .date{
@@ -120,7 +125,10 @@ padding: 1.5%;
     width: 50%;
 }
 .img{
-    height: 200px;
-    width: 200px;
-    background-color: rgb(53, 13, 165);
+    height: 98%;
+    width: 80%;
+    background-image: url('../../assets/temp_holder.png');
+    background-size:     cover;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: center center;   
 }
