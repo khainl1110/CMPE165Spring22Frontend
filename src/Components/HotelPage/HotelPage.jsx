@@ -121,8 +121,13 @@ export default function HotelPage(props) {
                 })
         }
         else{
+            if (location.state.numGuests >= 3) {
+                numGuests = 4;
+            } else {
+                numGuests = 2;
+            }
             fetch(
-                backend_url + "/room/search?location=" + location.state.location + "&numGuest=" + location.state.numGuests,
+                backend_url + "/room/search?location=" + location.state.location + "&numGuest=" + numGuests,
                 { method: 'GET' }
             )
                 .then(response => response.json())
