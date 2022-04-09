@@ -45,7 +45,7 @@ export default function LoggedInNavBar() {
                     </Link>
                 </div>
                 <div style={styles.navlinks}>
-                    <Link to={{pathname:"/hotel"}} style={styles.link}>
+                    <Link to="/hotel" style={styles.link}>
                         Search Hotels
                     </Link>
                     <Link to="/myBookings" style={styles.link}>
