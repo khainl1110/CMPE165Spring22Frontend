@@ -5,8 +5,7 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-import { render } from '@testing-library/react';
+import { Link, useNavigate } from 'react-router-dom';
 
 var backend_url = "http://localhost:8080";
 var name = "testname";
@@ -45,44 +44,26 @@ export default function HotelCard(props) {
   roomInfo = props.room.roomInfo;
   location = props.room.location;
 
-  // reaction of "reserve now" button for demo
+  const navigate = useNavigate();
+
   const onClickHandle = (event) => {
-    let userEmail = localStorage.getItem('email');
-    let roomId = props.room.id;
-    const postData = { roomId, userEmail };
-
-    if (props.room.booked !== true) {
-      fetch(backend_url + "/reservation", {
-        method: 'POST',
-        body: JSON.stringify(postData),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(
-        alert("Successfully booked!")
-      )
-      fetch(backend_url + "/room/" + roomId, {
-        method: 'PUT',
-        body: JSON.stringify({
-          hotelName: props.room.hotelName,
-          image: props.room.image,
-          location: props.room.location,
-          rating: props.room.rating,
-          description: props.room.description,
+    alert(props.dates[0] + " " + props.dates[1]);
+    console.log(props.dates)
+    navigate('/payment',
+      {
+        state: {
+          name: props.room.hotelName,
+          img: props.room.image,
+          rate: props.room.rating,
+          desc: props.room.description,
           price: props.room.price,
-          booked: true,
-        }),
-        headers: {
-          'Content-Type': 'application/json'
+          roomInfo: props.room.roomInfo,
+          location: props.room.location,
+          checkin: props.dates[0],
+          checkout: props.dates[1],
+          numGuests: props.numGuests,
         }
-      })
-        .then(response => response.json())
-
-      window.location.replace("/hotel");
-    }
-    else {
-      alert("The room is already booked");
-    }
+      });
   };
 
   return (

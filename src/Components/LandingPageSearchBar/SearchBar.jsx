@@ -31,16 +31,22 @@ export default function SearchBar(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(props.location != null){
+    if (props.location !== null) {
       setLocation(props.location);
     }
   }, [props.location]);
 
   useEffect(() => {
-    if(props.numGuests != ""){
+    if (props.numGuests !== "") {
       setNumGuests(props.numGuests);
     }
   }, [props.numGuests]);
+
+  useEffect(() => {
+    if (props.dates !== undefined) {
+      setDates(props.dates);
+    }
+  }, [props.dates]);
 
   const startSearch = (e) => {
     onSearch(location, dates, numGuests);
@@ -48,7 +54,7 @@ export default function SearchBar(props) {
   }
 
   const navigateToMainSearchPage = (e) => {
-    navigate('/hotel', {state:{location: location, dates: dates, numGuests: numGuests}});
+    navigate('/hotel', { state: { location: location, dates: dates, numGuests: numGuests } });
   }
 
   useEffect(() => {
@@ -112,13 +118,16 @@ export default function SearchBar(props) {
                   endText="Check-out"
                   value={dates}
                   onChange={(newValue) => {
-                    setDates(newValue);
+                    if (newValue[0] !== null && newValue[1] !== null) {
+                      setDates(newValue);
+                    }
+                    console.log(newValue);
                   }}
                   renderInput={(startProps, endProps) => (
                     <React.Fragment>
-                      <TextField required={true} size="small" sx={{ minWidth: 150 }} value={dates[0]} {...startProps} />
+                      <TextField required={true} size="small" sx={{ minWidth: 150 }} {...startProps} />
                       <Box sx={{ mx: .3 }}></Box>
-                      <TextField size="small" required={true} sx={{ minWidth: 150 }} value={dates[1]} {...endProps} />
+                      <TextField size="small" required={true} sx={{ minWidth: 150 }} {...endProps} />
                     </React.Fragment>
                   )}
                 />

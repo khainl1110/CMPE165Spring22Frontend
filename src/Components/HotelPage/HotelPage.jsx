@@ -48,7 +48,7 @@ export default function HotelPage(props) {
     const [dates, setDates] = React.useState([today, tomorrow]);
 
     useEffect(() => {
-        if(location.state != null){
+        if (location.state != null) {
             setLocat(location.state.location);
             setNumGuests(location.state.numGuests);
             setDates(location.state.dates);
@@ -72,7 +72,7 @@ export default function HotelPage(props) {
     }, []);
 
     useEffect(() => {
-        if(location.state == null){
+        if (location.state == null) {
             fetch(
                 backend_url + "/room/search?location=" + "Union Square, San Francisco" + "&numGuest=" + "4",
                 { method: 'GET' }
@@ -88,7 +88,7 @@ export default function HotelPage(props) {
                     console.log('error' + e);
                 })
         }
-        else if(location.state.location == null){
+        else if (location.state.location == null) {
             fetch(
                 backend_url + "/room/search?location=" + "Union Square, San Francisco" + "&numGuest=" + "4",
                 { method: 'GET' }
@@ -104,7 +104,7 @@ export default function HotelPage(props) {
                     console.log('error' + e);
                 })
         }
-        else if(location.state.numGuests == ""){
+        else if (location.state.numGuests == "") {
             fetch(
                 backend_url + "/room/search?location=" + location.state.location + "&numGuest=" + "4",
                 { method: 'GET' }
@@ -120,7 +120,7 @@ export default function HotelPage(props) {
                     console.log('error' + e);
                 })
         }
-        else{
+        else {
             if (location.state.numGuests >= 3) {
                 numGuests = 4;
             } else {
@@ -155,6 +155,9 @@ export default function HotelPage(props) {
 
     const onSearch = (location, dates, numGuests) => {
         setInSearchMode(true);
+        setDates({ dates });
+        setNumGuests({ numGuests });
+        console.log("Set Dates in onSearch" + dates);
 
         if (location && dates && numGuests) {
             if (numGuests >= 3) {
@@ -264,11 +267,10 @@ export default function HotelPage(props) {
 
     for (let i = 0; i < hotels.length; i++) {
         num = i + 1;
-        console.log(hotels[i]);
         card.push(
             <Grid item xs={0}>
                 <Box>
-                    <HotelCard room={hotels[i]} />
+                    <HotelCard room={hotels[i]} dates={dates} numGuests={numGuests} />
                 </Box>
             </Grid>
         );
