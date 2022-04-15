@@ -36,6 +36,7 @@ const styles = {
 };
 
 export default function HotelCard(props) {
+  var id = props.room.id;
   name = props.room.hotelName;
   img = props.room.image;
   rate = props.room.rating;
@@ -52,6 +53,7 @@ export default function HotelCard(props) {
     navigate('/payment',
       {
         state: {
+          id: props.room.id,
           name: props.room.hotelName,
           img: props.room.image,
           rate: props.room.rating,

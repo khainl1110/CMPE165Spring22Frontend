@@ -8,23 +8,123 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import { Paper } from '@mui/material';
 import NavBar from '../NavBar/NavBar.jsx';
+import LoggedInNavBar from '../NavBar/LoggedInNavBar';
 import { backend_url } from "../../links";
 import Grid from '@mui/material/Grid';
 import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export default function Payment() {
+    const email = localStorage.getItem('email');
+    const [user, setUser] = React.useState();
+    const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+    const roomObj = useLocation();
+    const roomID = roomObj.state.id;
+    const differenceInTime = roomObj.state.checkout.getTime() - roomObj.state.checkin.getTime();
+    const days = differenceInTime / (1000 * 3600 * 24);
+    const totalPrice = days * roomObj.state.price;
+
+    useEffect(() => {
+        console.log(email);
+        console.log(roomID);
+        if (email !== '') {
+            setIsLoggedIn(true);
+            fetch(backend_url + "/users/" + email, { method: 'GET' })
+                .then(response => response.json())
+                .then(data => {
+                    setUser(data);
+                })
+                .catch(e => {
+                    console.log('error' + e);
+                })
+        }
+    }, [])
+
+    // This code is under construction.
+    const confirmReservation = (e) => {
+        e.preventDefault();
+        const data = new FormData(e.currentTarget);
+        const reservationData = {
+            // firstName: data.get('firstName'),
+            // lastName: data.get('lastName'),
+            // phone: data.get('phone'),
+            userEmail: data.get('email'),
+            roomId: roomID,
+            price: totalPrice,
+            check_in: roomObj.state.checkin,
+            check_out: roomObj.state.checkout,
+            numGuest: roomObj.state.numGuests,
+        }
+        const paymentData = {
+            name: data.get('firstName') + " " + data.get('lastName'),
+            number: data.get('cardNumber'),
+            code: data.get('cvcCode'),
+            expiration: data.get('exp'),
+        }
+        console.log(reservationData);
+        console.log(paymentData);
+
+        fetch(backend_url + "/payment", {
+            method: 'POST',
+            body: JSON.stringify(paymentData),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(data => {
+                if (data.status !== 200)
+                    alert("Having error")
+                else {
+                    console.log("Successfully payed!");
+                }
+            })
+
+        fetch(backend_url + "/reservation", {
+            method: 'POST',
+            body: JSON.stringify(reservationData),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(
+            alert("Successfully booked!")
+        )
+
+        // fetch(backend_url + "/room/" + roomId, {
+        //     method: 'PUT',
+        //     body: JSON.stringify({
+        //         hotelName: props.room.hotelName,
+        //         image: props.room.image,
+        //         location: props.room.location,
+        //         rating: props.room.rating,
+        //         description: props.room.description,
+        //         price: props.room.price,
+        //         booked: true,
+        //     }),
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     }
+        // })
+        //     .then(response => response.json())
+    }
+
     return (
         <div className={style.main}>
             <Grid container direction="column" justifyContent="space-evenly" spacing={5} >
-
-                <Grid item xs={12}><NavBar /></Grid>
+                <Grid item xs={12}>
+                    {isLoggedIn &&
+                        <LoggedInNavBar />
+                    }
+                    {!isLoggedIn &&
+                        <NavBar />
+                    }
+                </Grid>
                 <Grid item xs={12} />
                 <Grid item xs={12}><YourRoomReservation /></Grid>
                 <Grid item xs={12} align="center" ><HotelRoomDetails /></Grid>
                 <Grid item><GreenPrompt style={{ "padding-top": "0px" }} /></Grid>
                 <Box component="form" onSubmit={confirmReservation}>
                     <FormControl component="fieldset" variant="standard">
-                        <Grid item><UserInfo /></Grid>
+                        <Grid item><UserInfo user={user} /></Grid>
                         <Grid item><PaymentDetails /></Grid>
                         <Grid item align="center"><CancelationPolicy /></Grid>
                         <Grid item >
@@ -43,54 +143,13 @@ export default function Payment() {
     )
 }
 
-// This code is under construction.
-const confirmReservation = () => {
-    alert("RESERVATION CONFIRMED")
-    // let userEmail = localStorage.getItem('email');
-    // let roomId = props.room.id;
-    // const postData = { roomId, userEmail };
-
-    // if (props.room.booked !== true) {
-    //     fetch(backend_url + "/reservation", {
-    //         method: 'POST',
-    //         body: JSON.stringify(postData),
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         }
-    //     }).then(
-    //         alert("Successfully booked!")
-    //     )
-    //     fetch(backend_url + "/room/" + roomId, {
-    //         method: 'PUT',
-    //         body: JSON.stringify({
-    //             hotelName: props.room.hotelName,
-    //             image: props.room.image,
-    //             location: props.room.location,
-    //             rating: props.room.rating,
-    //             description: props.room.description,
-    //             price: props.room.price,
-    //             booked: true,
-    //         }),
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         }
-    //     })
-    //         .then(response => response.json())
-
-    //     window.location.replace("/hotel");
-    // }
-    // else {
-    //     alert("The room is already booked");
-    // }
-}
-
 const YourRoomReservation = () => (
     <>
         <p style={{ fontWeight: 600 }}>Create Your Reservation: </p>
         {/* "font-family": 'Gill Sans' */}
     </>
 )
-const TextFieldComp = ({ name, type, className, id, label, defaultValue = "", onChange }) => {
+const TextFieldComp = ({ name, type, className, id, label, defaultValue = "", onChange, value }) => {
     return (
 
         <>
@@ -99,8 +158,10 @@ const TextFieldComp = ({ name, type, className, id, label, defaultValue = "", on
                 required
                 onChange={onChange}
                 type={type}
+                value={value}
                 className={className}
                 id={id}
+                name={name}
                 label={label}
                 defaultValue={defaultValue}
                 size="small"
@@ -112,18 +173,25 @@ const TextFieldComp = ({ name, type, className, id, label, defaultValue = "", on
     );
 }
 
-const UserInfo = ({ className }) => {
+const UserInfo = ({ className, user }) => {
+    useEffect(() => {
+        if (user !== undefined) {
+            updateName(user.firstName);
+            updatelName(user.lastName);
+            updateEmail(user.email);
+        }
+    }, [user])
 
-    const [name, updateName] = React.useState();
+    const [name, updateName] = React.useState('');
     const handleName = (event) => {
         updateName(event.target.value);
     }
 
-    const [email, updateEmail] = React.useState();
+    const [email, updateEmail] = React.useState('');
     const handleEmail = (event) => {
         updateEmail(event.target.value);
     }
-    const [lName, updatelName] = React.useState();
+    const [lName, updatelName] = React.useState('');
     const handlelName = (event) => {
         updatelName(event.target.value);
     }
@@ -136,11 +204,11 @@ const UserInfo = ({ className }) => {
         <div className={style.YourInfo}>
             <p className={style.p}>Your Info</p>
             <Grid container spacing={0}>
-                <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="First Name" onChange={handleName} /></Grid>
-                <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Last Name" onChange={handlelName} /></Grid>
+                <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="First Name" name="firstName" onChange={handleName} value={name} /></Grid>
+                <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Last Name" name="lastName" onChange={handlelName} value={lName} /></Grid>
                 <Grid item xs={4}></Grid>
-                <Grid item xs={4}><TextFieldComp className={style.tf} id="email" name="email" label="Email" type="email" onChange={handleEmail} /></Grid>
-                <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Phone" onChange={handlePhone} /></Grid>
+                <Grid item xs={4}><TextFieldComp className={style.tf} id="email" name="email" label="Email" type="email" onChange={handleEmail} value={email} /></Grid>
+                <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Phone" name="phone" onChange={handlePhone} /></Grid>
             </Grid>
         </div>
     )
@@ -186,16 +254,16 @@ const PaymentDetails = () => {
             <Grid container spacing={1} >
                 <Grid item xs={6}><ModeOfPayment /></Grid>
                 <Grid item xs={6} />
-                <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Card Number" /></Grid>
-                <Grid item xs={3}><TextFieldComp password className={style.tf} id="outlined-disabled" label="CVV" type="password" /></Grid>
+                <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Card Number" name="cardNumber" /></Grid>
+                <Grid item xs={3}><TextFieldComp password className={style.tf} id="outlined-disabled" label="CVC" type="password" name="cvcCode" /></Grid>
                 <Grid item xs={3}><MonthAndYear /></Grid>
 
-                <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Billing Address" /> </Grid>
-                <Grid item xs={3}><TextFieldComp className={style.tf} id="outlined-disabled" label="City" /></Grid>
+                <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Billing Address" name="billingAddress" /> </Grid>
+                <Grid item xs={3}><TextFieldComp className={style.tf} id="outlined-disabled" label="City" name="city" /></Grid>
 
                 <Grid item xs={2}><StateSelect /></Grid>
-                <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Country" /></Grid>
-                <Grid item xs={3}><TextFieldComp className={style.tf} id="outlined-disabled" label="Zip Code" /></Grid>
+                <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Country" name="country" /></Grid>
+                <Grid item xs={3}><TextFieldComp className={style.tf} id="outlined-disabled" label="Zip Code" name="zipCode" /></Grid>
             </Grid>
         </div>
     )
@@ -215,7 +283,7 @@ const MonthAndYear = ({ className }) => {
                 onChange={(newValue) => {
                     setValue(newValue);
                 }}
-                renderInput={(params) => <TextField className={style.tf} {...params} helperText={null} />}
+                renderInput={(params) => <TextField className={style.tf} {...params} name='exp' value={value} helperText={null} />}
             />
         </LocalizationProvider>
     )
@@ -232,7 +300,6 @@ const GreenPrompt = () => {
 
 const HotelRoomDetails = () => {
     const roomObj = useLocation();
-    console.log(roomObj);
 
     const differenceInTime = roomObj.state.checkout.getTime() - roomObj.state.checkin.getTime();
     const days = differenceInTime / (1000 * 3600 * 24);
