@@ -43,8 +43,9 @@ export default function SearchBar(props) {
   }, [props.numGuests]);
 
   useEffect(() => {
+    console.log(props.dates);
     if (props.dates !== undefined) {
-      setDates(props.dates);
+      setDates([props.dates[0], props.dates[1]]);
     }
   }, [props.dates]);
 
