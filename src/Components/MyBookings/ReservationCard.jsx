@@ -21,7 +21,7 @@ export default function ReservationCard(props) {
     //instant info payment detail
     const cardNumber = "12323123213";
     const zipCode = "00000";
-    const guest = "2 adult, 0 kids, 0 pets";
+    const guest = "2";
 
     const [open, setOpen] = useState(false);
 

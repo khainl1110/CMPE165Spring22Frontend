@@ -25,8 +25,6 @@ export default function Payment() {
     const totalPrice = days * roomObj.state.price;
 
     useEffect(() => {
-        console.log(email);
-        console.log(roomID);
         if (email !== '') {
             setIsLoggedIn(true);
             fetch(backend_url + "/users/" + email, { method: 'GET' })
@@ -40,28 +38,16 @@ export default function Payment() {
         }
     }, [])
 
-    // This code is under construction.
     const confirmReservation = (e) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
-        const reservationData = {
-            // firstName: data.get('firstName'),
-            // lastName: data.get('lastName'),
-            // phone: data.get('phone'),
-            userEmail: data.get('email'),
-            roomId: roomID,
-            price: totalPrice,
-            check_in: roomObj.state.checkin,
-            check_out: roomObj.state.checkout,
-            numGuest: roomObj.state.numGuests,
-        }
+
         const paymentData = {
             name: data.get('firstName') + " " + data.get('lastName'),
             number: data.get('cardNumber'),
             code: data.get('cvcCode'),
             expiration: data.get('exp'),
         }
-        console.log(reservationData);
         console.log(paymentData);
 
         fetch(backend_url + "/payment", {
@@ -76,18 +62,34 @@ export default function Payment() {
                     alert("Having error")
                 else {
                     console.log("Successfully payed!");
+                    return data;
                 }
             })
-
-        fetch(backend_url + "/reservation", {
-            method: 'POST',
-            body: JSON.stringify(reservationData),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(
-            alert("Successfully booked!")
-        )
+            .then(response => response.json())
+            .then((res) => {
+                const reservationData = {
+                    // firstName: data.get('firstName'),
+                    // lastName: data.get('lastName'),
+                    // phone: data.get('phone'),
+                    userEmail: data.get('email'),
+                    roomId: roomID,
+                    price: totalPrice,
+                    check_in: roomObj.state.checkin,
+                    check_out: roomObj.state.checkout,
+                    numGuest: roomObj.state.numGuests,
+                    paymentID: res.id,
+                }
+                fetch(backend_url + "/reservation", {
+                    method: 'POST',
+                    body: JSON.stringify(reservationData),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(
+                    alert("Successfully booked!")
+                )
+                console.log(reservationData);
+            })
 
         // fetch(backend_url + "/room/" + roomId, {
         //     method: 'PUT',
@@ -106,7 +108,7 @@ export default function Payment() {
         // })
         //     .then(response => response.json())
     }
-
+    
     return (
         <div className={style.main}>
             <Grid container direction="column" justifyContent="space-evenly" spacing={5} >
@@ -121,7 +123,7 @@ export default function Payment() {
                 <Grid item xs={12} />
                 <Grid item xs={12}><YourRoomReservation /></Grid>
                 <Grid item xs={12} align="center" ><HotelRoomDetails /></Grid>
-                <Grid item><GreenPrompt style={{ "padding-top": "0px" }} /></Grid>
+                {/* <Grid item><GreenPrompt style={{ "padding-top": "0px" }} /></Grid> */}
                 <Box component="form" onSubmit={confirmReservation}>
                     <FormControl component="fieldset" variant="standard">
                         <Grid item><UserInfo user={user} /></Grid>

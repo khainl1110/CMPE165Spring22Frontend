@@ -53,6 +53,7 @@ export default function MyAccount() {
             .then(response => response.json())
             .then(data => {
                 setReservations(data);
+                console.log(data);
             })
             .catch(e => {
                 console.log('error' + e);
@@ -64,6 +65,7 @@ export default function MyAccount() {
             .then(response => response.json())
             .then(data => {
                 setRooms(data);
+                console.log(data);
             })
             .catch(e => {
                 console.log('error' + e);
@@ -76,9 +78,7 @@ export default function MyAccount() {
     let isBookedRooms = [];
 
     for (let i = 0; i < rooms.length; i++) {
-        if (rooms[i].booked === true) {
-            isBookedRooms.push(rooms[i]);
-        }
+        isBookedRooms.push(rooms[i]);
     }
 
     let roomId = [];
