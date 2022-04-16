@@ -30,6 +30,7 @@ const styles = {
 };
 
 export default function NavBar() {
+
   return (
     <AppBar style={styles.navbar}>
       <Toolbar>

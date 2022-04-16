@@ -2,7 +2,6 @@ import React, { Components } from 'react';
 import { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import { cardClasses, InputLabel } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import Grid from '@mui/material/Grid';
 import { CssBaseline } from '@mui/material';
@@ -13,11 +12,12 @@ import NavBar from '../../Components/NavBar/NavBar.jsx';
 import LoggedInNavBar from '../../Components/NavBar/LoggedInNavBar.jsx';
 import SearchBar from '../../Components/LandingPageSearchBar/SearchBar.jsx';
 import HotelCard from '../../Components/HotelPage/HotelCard.jsx';
+import { useLocation } from 'react-router-dom';
+import { backend_url } from "../../links";
 
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
-var backend_url = "http://localhost:8080";
 var num;
 
 const theme = createTheme({
@@ -33,7 +33,27 @@ const styles = {
     },
 };
 
-export default function HotelPage() {
+export default function HotelPage(props) {
+
+    const location = useLocation();
+    console.log(location);
+
+    let [locat, setLocat] = useState("Union Square, San Francisco");
+    let [numGuests, setNumGuests] = useState(4);
+
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const [dates, setDates] = React.useState([today, tomorrow]);
+
+    useEffect(() => {
+        if (location.state != null) {
+            setLocat(location.state.location);
+            setNumGuests(location.state.numGuests);
+            setDates(location.state.dates);
+        }
+    }, []);
 
     let [isLoggedIn, setIsLoggedIn] = useState(false);
     let [sortBy, setSortBy] = useState('sort');
@@ -52,36 +72,99 @@ export default function HotelPage() {
     }, []);
 
     useEffect(() => {
-        fetch(backend_url + "/room", { method: 'GET' })
-            .then(response => response.json())
-            .then(response => {
-                setTimeout(() => {
-                    setHotels(response);
-                    setAllHotels(response);
-                }, 1000);
-            })
-            .catch(e => {
-                console.log('error' + e);
-            })
+        if (location.state == null) {
+            fetch(
+                backend_url + "/room/search?location=" + "Union Square, San Francisco" + "&numGuest=" + "4",
+                { method: 'GET' }
+            )
+                .then(response => response.json())
+                .then(response => {
+                    setTimeout(() => {
+                        setHotels(response);
+                        setAllHotels(response);
+                    }, 1000);
+                })
+                .catch(e => {
+                    console.log('error' + e);
+                })
+        }
+        else if (location.state.location == null) {
+            fetch(
+                backend_url + "/room/search?location=" + "Union Square, San Francisco" + "&numGuest=" + "4",
+                { method: 'GET' }
+            )
+                .then(response => response.json())
+                .then(response => {
+                    setTimeout(() => {
+                        setHotels(response);
+                        setAllHotels(response);
+                    }, 1000);
+                })
+                .catch(e => {
+                    console.log('error' + e);
+                })
+        }
+        else if (location.state.numGuests == "") {
+            fetch(
+                backend_url + "/room/search?location=" + location.state.location + "&numGuest=" + "4",
+                { method: 'GET' }
+            )
+                .then(response => response.json())
+                .then(response => {
+                    setTimeout(() => {
+                        setHotels(response);
+                        setAllHotels(response);
+                    }, 1000);
+                })
+                .catch(e => {
+                    console.log('error' + e);
+                })
+        }
+        else {
+            if (location.state.numGuests >= 3) {
+                numGuests = 4;
+            } else {
+                numGuests = 2;
+            }
+            fetch(
+                backend_url + "/room/search?location=" + location.state.location + "&numGuest=" + numGuests,
+                { method: 'GET' }
+            )
+                .then(response => response.json())
+                .then(response => {
+                    setTimeout(() => {
+                        setHotels(response);
+                        setAllHotels(response);
+                    }, 1000);
+                })
+                .catch(e => {
+                    console.log('error' + e);
+                })
+        }
     }, []);
 
     useEffect(() => {
         let hotelNames = [];
         hotels.map((room) => {
-            hotelNames.push(room.hotelName);
+            if (!hotelNames.includes(room.hotelName)) {
+                hotelNames.push(room.hotelName);
+            }
         })
         setPropertyNames(hotelNames);
     }, [allHotels])
 
     const onSearch = (location, dates, numGuests) => {
-        console.log("ON SEARCH CLICKED");
-        console.log("Dates: " + dates);
-        console.log("Location: " + location);
-        console.log("Number of Guests: " + numGuests);
-
         setInSearchMode(true);
+        setDates({ dates });
+        setNumGuests({ numGuests });
+        console.log("Set Dates in onSearch" + dates);
 
         if (location && dates && numGuests) {
+            if (numGuests >= 3) {
+                numGuests = 4;
+            } else {
+                numGuests = 2;
+            }
             fetch(
                 backend_url + "/room/search?location=" + location + "&numGuest=" + numGuests,
                 { method: 'GET' }
@@ -109,6 +192,10 @@ export default function HotelPage() {
             hotels.sort(sortLoHi('price'));
         } else if (event.target.value === 'hilo') {
             hotels.sort(sortHiLo('price'));
+        } else if (event.target.value === 'lohirating') {
+            hotels.sort(sortRatingLoHi('rating'));
+        } else if (event.target.value === 'hilorating') {
+            hotels.sort(sortRatingHiLo('rating'));
         }
     };
 
@@ -132,6 +219,26 @@ export default function HotelPage() {
         }
     }
 
+    const sortRatingHiLo = (rating) => {
+        return function (a, b) {
+            if (a[rating] < b[rating])
+                return 1;
+            else if (a[rating] > b[rating])
+                return -1;
+            return 0
+        }
+    }
+
+    const sortRatingLoHi = (rating) => {
+        return function (a, b) {
+            if (a[rating] > b[rating])
+                return 1;
+            else if (a[rating] < b[rating])
+                return -1;
+            return 0
+        }
+    }
+
     const filterByProperty = (selectedOption) => {
         if (selectedOption !== null) {
             let selectedHotels = [];
@@ -148,13 +255,22 @@ export default function HotelPage() {
         }
     }
 
+    useEffect(() => {
+        let hotelNames = [];
+        hotels.map((room) => {
+            if (!hotelNames.includes(room.hotelName)) {
+                hotelNames.push(room.hotelName);
+            }
+        })
+        setPropertyNames(hotelNames);
+    }, [originalHotels])
+
     for (let i = 0; i < hotels.length; i++) {
         num = i + 1;
-        console.log(hotels[i]);
         card.push(
             <Grid item xs={0}>
                 <Box>
-                    <HotelCard room={hotels[i]} />
+                    <HotelCard room={hotels[i]} dates={dates} numGuests={numGuests} />
                 </Box>
             </Grid>
         );
@@ -172,8 +288,8 @@ export default function HotelPage() {
                 }
                 <Grid container direction="row" justifyContent="center" alignItems="center" spacing={2} sx={{ position: "relative", marginLeft: '-2%', }}>
                     <Grid item xs={0}>
-                        <Box sx={{ marginTop: '8%' }}>
-                            <SearchBar onSearch={onSearch} isLandingPage={false} />
+                        <Box sx={{ marginTop: '10%' }}>
+                            <SearchBar onSearch={onSearch} location={locat} dates={dates} numGuests={numGuests} isLandingPage={false} />
                         </Box>
                     </Grid>
                     <Grid item xs={0}>
@@ -201,6 +317,8 @@ export default function HotelPage() {
                                 <MenuItem value={'sort'}>Sort By</MenuItem>
                                 <MenuItem value={'lohi'}>Price: Low to High</MenuItem>
                                 <MenuItem value={'hilo'}>Price: High to Low</MenuItem>
+                                <MenuItem value={'lohirating'}>Rating: Low to High</MenuItem>
+                                <MenuItem value={'hilorating'}>Rating: High to Low</MenuItem>
                             </Select>
                         </Box>
                     </Grid>

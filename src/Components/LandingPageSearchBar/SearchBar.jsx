@@ -12,18 +12,42 @@ import DateRangePicker from '@mui/lab/DateRangePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { FormControl } from '@mui/material';
+import { backend_url } from "../../links";
 
 export default function SearchBar(props) {
-  var backend_url = "http://localhost:8080";
+  console.log(props);
 
-  const [dates, setDates] = React.useState([null, null]);
-  const [location, setLocation] = React.useState("");
-  const [numGuests, setNumGuests] = React.useState(0);
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const [dates, setDates] = React.useState([today, tomorrow]);
+  const [location, setLocation] = React.useState("Union Square, San Francisco");
+  const [numGuests, setNumGuests] = React.useState(4);
   const [locations, setLocations] = React.useState([]);
   const [hotels, setHotels] = React.useState([]);
   const { onSearch, isLandingPage } = props;
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (props.location !== null) {
+      setLocation(props.location);
+    }
+  }, [props.location]);
+
+  useEffect(() => {
+    if (props.numGuests !== "") {
+      setNumGuests(props.numGuests);
+    }
+  }, [props.numGuests]);
+
+  useEffect(() => {
+    console.log(props.dates);
+    if (props.dates !== undefined) {
+      setDates([props.dates[0], props.dates[1]]);
+    }
+  }, [props.dates]);
 
   const startSearch = (e) => {
     onSearch(location, dates, numGuests);
@@ -31,7 +55,7 @@ export default function SearchBar(props) {
   }
 
   const navigateToMainSearchPage = (e) => {
-    navigate('/hotel', { location: location, dates: dates, numGuests: numGuests });
+    navigate('/hotel', { state: { location: location, dates: dates, numGuests: numGuests } });
   }
 
   useEffect(() => {
@@ -76,6 +100,7 @@ export default function SearchBar(props) {
                 freeSolo={true}
                 onChange={(_event, selectedOption) => setLocation(selectedOption)}
                 sx={{ minWidth: 200 }}
+                value={location}
                 renderInput={(params) =>
                   <TextField required={true} {...params}
                     onChange={(event) => {
@@ -94,7 +119,10 @@ export default function SearchBar(props) {
                   endText="Check-out"
                   value={dates}
                   onChange={(newValue) => {
-                    setDates(newValue);
+                    if (newValue[0] !== null && newValue[1] !== null) {
+                      setDates(newValue);
+                    }
+                    console.log(newValue);
                   }}
                   renderInput={(startProps, endProps) => (
                     <React.Fragment>
@@ -106,7 +134,20 @@ export default function SearchBar(props) {
                 />
               </LocalizationProvider>
               <Box sx={{ mx: .3 }}></Box>
-              <TextField id="Guests" label="Guests" name="numGuests" required={true} size="small" sx={{ minWidth: 100 }} onChange={(event) => { setNumGuests(event.target.value) }} type="number" variant="outlined" />
+              <TextField
+                id="Guests"
+                label="Guests"
+                name="numGuests"
+                required={true}
+                inputProps={{
+                  max: 6, min: 0
+                }}
+                size="small"
+                sx={{ minWidth: 100 }}
+                onChange={(event) => { setNumGuests(event.target.value) }}
+                type="number"
+                value={numGuests}
+                variant="outlined" />
               <Box sx={{ mx: 1 }}></Box>
 
               {isLandingPage &&
