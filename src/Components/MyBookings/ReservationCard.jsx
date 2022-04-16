@@ -8,6 +8,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import ListItem from '@mui/material/ListItem';
 import EditIcon from '@mui/icons-material/Edit';
 import ListItemIcon from '@mui/material/ListItemIcon';
+import { useNavigate } from "react-router-dom";
 
 import {
     Box,
@@ -16,25 +17,33 @@ import {
 } from '@mui/material/';
 
 export default function ReservationCard(props) {
-    const { hotelName, description, price, checkIn, checkOut, image, firstName, lastName, email } = props;
+    const { hotelName, description, price, checkIn, checkOut, image, firstName, lastName, email, numGuest, roomInfo, amenities, roomId } = props;
 
     //instant info payment detail
     const cardNumber = "12323123213";
     const zipCode = "00000";
-    const guest = "2 adult, 0 kids, 0 pets";
 
     const [open, setOpen] = useState(false);
-
+   
     const handleClick = () => {
         setOpen(!open);
+    };
+
+
+    // pass the roomId to editReservation page
+    const navigate = useNavigate();
+    const editClick = () => {
+        navigate('/editReservation', {
+            state: {roomId, checkIn, checkOut, firstName, lastName}
+        });
     };
 
     const styles = {
         imageContainer: {
             backgroundSize: 'cover',
             position: 'relative',
-            height: '200px',
-            width: '300px',
+            minHeight: '200px',
+            minWidth: '300px',
         }
     };
 
@@ -51,7 +60,8 @@ export default function ReservationCard(props) {
                         <React.Fragment>
                             <Typography sx={{
                                 fontSize: 20,
-                                fontWeight: 600
+                                fontWeight: 600,
+                                fontFamily: 'Baloo-Bhaina-2',
                             }}>
                                 Reservation on {checkIn} to {checkOut}
                             </Typography>
@@ -81,12 +91,13 @@ export default function ReservationCard(props) {
                                 fontSize: 20,
                                 fontWeight: 600,
                                 width: "50%",
-                                textDecoration: 'underline'
+                                textDecoration: 'underline',
+                                fontFamily: 'Baloo-Bhaina-2',
                             }}>
                                 {hotelName}
                             </Typography>
 
-                            <ListItemButton sx={{
+                            <ListItemButton onClick={editClick} sx={{
                                 marginLeft: "20%",
                                 maxWidth: "25%"
                             }}>
@@ -99,36 +110,54 @@ export default function ReservationCard(props) {
 
                         <ListItem>
                             <Paper style={styles.imageContainer} sx={{ backgroundImage: `url(${image})`, }} />
-                            <Typography sx={{
-                                marginLeft: "3%"
-                            }}>
-                                {description}
-                            </Typography>
+                            <ListItemText>
+                                <Typography sx={{
+                                    marginLeft: "3%",
+                                    fontFamily: 'Baloo-Bhaina-2',
+                                }}>
+                                    {description}
+                                </Typography>
+                                <Typography sx={{
+                                    marginLeft: "3%",
+                                    fontFamily: 'Baloo-Bhaina-2',
+                                }}>
+                                    {roomInfo}
+                                </Typography>
+                                <Typography sx={{
+                                    marginLeft: "3%",
+                                    fontFamily: 'Baloo-Bhaina-2',
+                                }}>
+                                    {amenities}
+                                </Typography>
+                            </ListItemText>
                         </ListItem>
 
                         <ListItem>
                             <Typography sx={{
-                                fontWeight: 600
+                                fontWeight: 600,
+                                fontFamily: 'Baloo-Bhaina-2',
                             }}>Check In: </Typography>
                             <Typography marginLeft={1}>{checkIn}</Typography>
                             <Typography sx={{
                                 fontWeight: 600,
-                                marginLeft: "3%"
+                                marginLeft: "3%",
+                                fontFamily: 'Baloo-Bhaina-2',
                             }}>Check Out:</Typography>
                             <Typography marginLeft={1}>{checkOut}</Typography>
                         </ListItem>
 
                         <ListItem>
                             <Typography sx={{
-                                fontWeight: 600
+                                fontWeight: 600,
+                                fontFamily: 'Baloo-Bhaina-2',
                             }}>
                                 Guest: </Typography>
-                            <Typography marginLeft={1}>{guest}</Typography>
+                            <Typography marginLeft={1} sx={{fontFamily: 'Baloo-Bhaina-2',}}>{numGuest}</Typography>
                         </ListItem>
 
                         <ListItem>
                             <Box width="70% " bgcolor="#9BB40D" padding="5px" borderRadius="10px">
-                                <Typography marginLeft="2%" color="white">
+                                <Typography marginLeft="2%" color="white" sx={{fontFamily: 'Baloo-Bhaina-2',}}>
                                     You redeemed ___ points and earned ___ points from this stay.
                                     ${price} a night for 1 night - $__ = $___, including taxes.
                                 </Typography>
@@ -139,6 +168,7 @@ export default function ReservationCard(props) {
                             <Typography sx={{
                                 fontSize: 22,
                                 fontWeight: 600,
+                                fontFamily: 'Baloo-Bhaina-2',
                             }}>
                                 Your Info
                             </Typography>
@@ -146,41 +176,47 @@ export default function ReservationCard(props) {
 
                         <ListItem>
                             <Typography sx={{
-                                fontWeight: 600
+                                fontWeight: 600,
+                                fontFamily: 'Baloo-Bhaina-2',
                             }}>First Name: </Typography>
                             <Typography marginLeft={1}> {firstName}</Typography>
                             <Typography sx={{
                                 fontWeight: 600,
-                                marginLeft: "3%"
+                                marginLeft: "3%",
+                                fontFamily: 'Baloo-Bhaina-2',
                             }}>Last Name: </Typography>
-                            <Typography marginLeft={1}>{lastName}</Typography>
+                            <Typography marginLeft={1} sx={{fontFamily: 'Baloo-Bhaina-2',}}>{lastName}</Typography>
                         </ListItem>
 
                         <ListItem>
                             <Typography sx={{
-                                fontWeight: 600
+                                fontWeight: 600,
+                                fontFamily: 'Baloo-Bhaina-2',
                             }}>Email: </Typography>
-                            <Typography marginLeft={1}>{email}</Typography>
+                            <Typography marginLeft={1} sx={{fontFamily: 'Baloo-Bhaina-2',}}>{email}</Typography>
                         </ListItem>
 
                         <ListItem>
                             <Typography sx={{
                                 fontSize: 22,
                                 fontWeight: 600,
+                                fontFamily: 'Baloo-Bhaina-2',
                             }}>
                                 Payment Details</Typography>
                         </ListItem>
 
                         <ListItem>
                             <Typography sx={{
-                                fontWeight: 600
+                                fontWeight: 600,
+                                fontFamily: 'Baloo-Bhaina-2',
                             }}>Card Number: </Typography>
-                            <Typography marginLeft={1}>{cardNumber}</Typography>
+                            <Typography marginLeft={1} sx={{fontFamily: 'Baloo-Bhaina-2',}}>{cardNumber}</Typography>
                             <Typography sx={{
                                 fontWeight: 600,
-                                marginLeft: "3%"
+                                marginLeft: "3%",
+                                fontFamily: 'Baloo-Bhaina-2',
                             }}>Zip Code: </Typography>
-                            <Typography marginLeft={1}>{zipCode}</Typography>
+                            <Typography marginLeft={1} sx={{fontFamily: 'Baloo-Bhaina-2',}}>{zipCode}</Typography>
                         </ListItem>
 
                     </Box>
