@@ -89,6 +89,31 @@ export default function Payment() {
                     alert("Successfully booked!")
                 )
                 console.log(reservationData);
+
+                // If user is logged in, add points to their account.
+                // Each 2$ spent is 1 point earned. 
+                // 50 points = 5$ is redeemable.
+                if (isLoggedIn && user) {
+                    const updatedUserData = {
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        email: user.email,
+                        password: user.password,
+                        points: user.points + totalPrice / 2.0,
+                        paymentId: user.paymentId,
+                    }
+
+                    fetch(backend_url + "/users/" + email, {
+                        method: 'PUT',
+                        body: JSON.stringify(updatedUserData),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }).then(
+                        console.log('Updated user points:' + user.points + ' --> ' + (totalPrice / 2.0))
+                    )
+                }
+
             })
 
         // fetch(backend_url + "/room/" + roomId, {
@@ -108,7 +133,7 @@ export default function Payment() {
         // })
         //     .then(response => response.json())
     }
-    
+
     return (
         <div className={style.main}>
             <Grid container direction="column" justifyContent="space-evenly" spacing={5} >

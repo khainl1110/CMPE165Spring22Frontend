@@ -18,7 +18,7 @@ export default function MyAccount() {
     const [rooms, setRooms] = useState([]);
     const [reservations, setReservations] = useState([]);
     const [user, setUser] = useState();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [email, setEmail] = useState(localStorage.getItem('email'));
 
     const theme = createTheme();
 
@@ -33,7 +33,15 @@ export default function MyAccount() {
         }
     };
 
-    const email = localStorage.getItem('email');
+    useEffect(() => {
+        const e = localStorage.getItem('email');
+        if (e) {
+            console.log(email);
+            setEmail(email);
+        } else { console.log("NO EMAIL") }
+    }, [])
+
+    // const email = localStorage.getItem('email');
 
     useEffect(() => {
         if (email !== '') {
@@ -45,8 +53,6 @@ export default function MyAccount() {
                 .catch(e => {
                     console.log('error' + e);
                 })
-            
-            setIsLoggedIn(true);
         }
         else {
             window.location.replace('/');
@@ -82,9 +88,7 @@ export default function MyAccount() {
     let isBookedRooms = [];
 
     for (let i = 0; i < rooms.length; i++) {
-        if (rooms[i].booked === true) {
-            isBookedRooms.push(rooms[i]);
-        }
+        isBookedRooms.push(rooms[i]);
     }
 
     let roomId = [];
@@ -116,10 +120,9 @@ export default function MyAccount() {
         <ThemeProvider theme={theme}>
             <Paper style={styles.paperContainer}>
                 <CssBaseline />
-                {isLoggedIn &&
-                <Container component="main" justifyContent="flex-start">
+                <Container component="main" sx={{ justifyContent: "flex-start" }} >
                     <LoggedInNavBar />
-                    <Grid container direction="row" justifyContent="flex-start" alignItems="center" width="100%">
+                    <Grid container direction="row" alignItems="center" width="100%" sx={{ justifyContent: "flex-start" }}>
                         <List sx={{
                             width: '70%',
                             minWidth: '600px',
@@ -149,10 +152,14 @@ export default function MyAccount() {
                                 }}>
                                     <Box>
                                         {
-                                            
+
                                             reservedRooms.map(room => {
-                                                for(let i = 0; i < reservations.length; i++) {
-                                                    if(room.id === reservations[i].roomId && now < Date.parse(reservations[i].check_in)) {
+                                                for (let i = 0; i < reservations.length; i++) {
+                                                    if (room.id === reservations[i].roomId && now < Date.parse(reservations[i].check_in)) {
+                                                        let checkInDateObj = new Date(reservations[i].check_in);
+                                                        let checkOutDateObj = new Date(reservations[i].check_out)
+                                                        let checkIn = checkInDateObj.getMonth() + 1 + "/" + checkInDateObj.getDate() + "/" + checkInDateObj.getFullYear();
+                                                        let checkOut = checkOutDateObj.getMonth() + 1 + "/" + checkOutDateObj.getDate() + "/" + checkOutDateObj.getFullYear();
                                                         return (
                                                             <Grid container sx={{
                                                                 border: 1,
@@ -164,12 +171,12 @@ export default function MyAccount() {
                                                                     description={room.description}
                                                                     price={room.price}
                                                                     image={room.image}
-                                                                    checkIn={reservations[i].check_in}
-                                                                    checkOut={reservations[i].check_out}
+                                                                    checkIn={checkIn}
+                                                                    checkOut={checkOut}
                                                                     firstName={user.firstName}
                                                                     lastName={user.lastName}
                                                                     email={user.email}
-                                                                    guest={room.numGuest}
+                                                                    numGuest={reservations[i].numGuest}
                                                                     roomInfo={room.roomInfo}
                                                                     amenities={room.amenities}
                                                                     roomId={room.id}
@@ -178,7 +185,7 @@ export default function MyAccount() {
                                                         )
                                                     }
                                                 }
-                                                
+
                                             })
                                         }
                                     </Box>
@@ -200,11 +207,15 @@ export default function MyAccount() {
                                     width: '100%',
                                 }}>
                                     <Box>
-                                    {
-                                            
+                                        {
+
                                             reservedRooms.map(room => {
-                                                for(let i = 0; i < reservations.length; i++) {
-                                                    if(room.id === reservations[i].roomId && (now > Date.parse(reservations[i].check_in) || reservations[i].check_in===null)) {
+                                                for (let i = 0; i < reservations.length; i++) {
+                                                    if (room.id === reservations[i].roomId && (now > Date.parse(reservations[i].check_in) || reservations[i].check_in === null)) {
+                                                        let checkInDateObj = new Date(reservations[i].check_in);
+                                                        let checkOutDateObj = new Date(reservations[i].check_out)
+                                                        let checkIn = checkInDateObj.getMonth() + 1 + "/" + checkInDateObj.getDate() + "/" + checkInDateObj.getFullYear();
+                                                        let checkOut = checkOutDateObj.getMonth() + 1 + "/" + checkOutDateObj.getDate() + "/" + checkOutDateObj.getFullYear();
                                                         return (
                                                             <Grid container sx={{
                                                                 border: 1,
@@ -216,12 +227,12 @@ export default function MyAccount() {
                                                                     description={room.description}
                                                                     price={room.price}
                                                                     image={room.image}
-                                                                    checkIn={reservations[i].check_in}
-                                                                    checkOut={reservations[i].check_out}
+                                                                    checkIn={checkIn}
+                                                                    checkOut={checkOut}
                                                                     firstName={user.firstName}
                                                                     lastName={user.lastName}
                                                                     email={user.email}
-                                                                    guest={room.numGuest}
+                                                                    numGuest={reservations[i].numGuest}
                                                                     roomInfo={room.roomInfo}
                                                                     amenities={room.amenities}
                                                                     roomId={room.id}
@@ -230,7 +241,7 @@ export default function MyAccount() {
                                                         )
                                                     }
                                                 }
-                                                
+
                                             })
                                         }
                                     </Box>
@@ -240,7 +251,6 @@ export default function MyAccount() {
 
                     </Grid>
                 </Container>
-                }
             </Paper>
         </ThemeProvider>
     )

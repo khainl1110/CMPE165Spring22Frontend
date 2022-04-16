@@ -283,7 +283,7 @@ export default function HotelPage(props) {
                 {!isLoggedIn &&
                     <NavBar />
                 }
-                <Grid container direction="row" justifyContent="center" alignItems="center" spacing={2} sx={{ position: "relative", marginLeft: '-2%', }}>
+                <Grid container direction="row" alignItems="center" spacing={2} sx={{ position: "relative", marginLeft: '-2%', justifyContent: "center" }}>
                     <Grid item xs={0}>
                         <Box sx={{ marginTop: '10%' }}>
                             <SearchBar onSearch={onSearch} location={locat} dates={dates} numGuests={numGuests} isLandingPage={false} />
@@ -320,7 +320,7 @@ export default function HotelPage(props) {
                         </Box>
                     </Grid>
 
-                    <Grid container direction="column" justifyContent="flex-end" alignItems="left" spacing={2} sx={{ position: "relative", marginTop: '1%', marginLeft: '20%', marginRight: '0%', }}>
+                    <Grid container direction="column" alignItems="left" spacing={2} sx={{ position: "relative", marginTop: '1%', marginLeft: '20%', marginRight: '0%', justifyContent: "flex-end" }}>
                         <Grid item xs={0}>
                             <Box sx={{ marginTop: '0%' }}>
                                 <Typography variant="h2" sx={{
