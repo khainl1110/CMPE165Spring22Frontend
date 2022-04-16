@@ -7,6 +7,7 @@ import LogInPage from './Components/LogInPage/LogInPage';
 import HotelPage from './Components/HotelPage/HotelPage';
 import MyAccountPage from './Components/MyAccount/MyAccount';
 import MyBookingsPage from './Components/MyBookings/MyBookings';
+import ReservationCancel from './Components/MyBookings/ReservationCancel/CancelPage';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -21,6 +22,7 @@ ReactDOM.render(
         <Route path="hotel" element={<HotelPage />} />
         <Route path="myAccount" element={<MyAccountPage />} />
         <Route path="myBookings" element={<MyBookingsPage />} />
+        <Route path="cancel" element={<ReservationCancel />} />
       </Routes>
     </React.StrictMode>
   </BrowserRouter>,
