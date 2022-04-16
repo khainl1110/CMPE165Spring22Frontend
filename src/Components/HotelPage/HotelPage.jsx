@@ -18,12 +18,6 @@ import { backend_url } from "../../links";
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
-var num;
-
-const theme = createTheme({
-
-});
-
 const styles = {
     paperContainer: {
         backgroundColor: `#E5E5E5`,
@@ -36,15 +30,12 @@ const styles = {
 export default function HotelPage(props) {
 
     const location = useLocation();
-    console.log(location);
-
     let [locat, setLocat] = useState("Union Square, San Francisco");
     let [numGuests, setNumGuests] = useState(4);
 
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
-
     const [dates, setDates] = React.useState([today, tomorrow]);
 
     useEffect(() => {
@@ -155,8 +146,8 @@ export default function HotelPage(props) {
 
     const onSearch = (location, dates, numGuests) => {
         setInSearchMode(true);
-        setDates({ dates });
-        setNumGuests({ numGuests });
+        setDates(dates);
+        setNumGuests(numGuests);
         console.log("Set Dates in onSearch" + dates);
 
         if (location && dates && numGuests) {
