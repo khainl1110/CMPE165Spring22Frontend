@@ -30,8 +30,10 @@ const theme = createTheme({
 
 const styles = {
     paperContainer: {
+        backgroundSize: 'cover',
         position: 'static',
         width: '100%',
+        backgroundColor: '#E5E5E5',
     },
 
     imageContainer: {
