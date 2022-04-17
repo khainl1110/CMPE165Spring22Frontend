@@ -38,11 +38,12 @@ export default function Payment() {
         }
     }, [])
 
-    const confirmReservation = (e) => {
+    const confirmReservation = async (e) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
 
-        let check = checkOverlapReservation()
+        let check = await checkOverlapReservation()
+        //console.log("check " + check)
         if (check == true) {
             alert("Overlap reservation")
             return
@@ -140,41 +141,39 @@ export default function Payment() {
         //     .then(response => response.json())
     }
 
-    const checkOverlapReservation = () => {
-        let userReservation = []
-        // first get the reservation from this user
+    const checkOverlapReservation = async () => {
+         // first get the reservation from this user
         // url: localhost:8080/reservation/find?userEmail=[email]
-
-        fetch(backend_url + "/reservation/find?userEmail=" + email, {method: 'GET'})
+        let userReservation = await fetch(backend_url + "/reservation/find?userEmail=" + email, {method: 'GET'})
         .then(data => data.json())
-        .then(data => {
-            let overlap = false
-            /*
-                Loop through each reservation and check whether it overlaps or not
-                Overlap: max start time < min end time of 2 reservations
-            */
-            let checkinForm = new Date(roomObj.state.checkin)
-            let checkoutForm = new Date(roomObj.state.checkout)
+        .then(data => {return data} )
 
-            data.forEach(d => {
-                var checkin = new Date(d.check_in)
-                var checkout = new Date(d.check_out)
+        let overlap = false
+        /*
+            Loop through each reservation and check whether it overlaps or not
+            Overlap: max start time < min end time of 2 reservations
+        */
+        let checkinForm = new Date(roomObj.state.checkin)
+        let checkoutForm = new Date(roomObj.state.checkout)
 
-                var max_start = Math.max( checkinForm.getTime(), checkin.getTime() )
-                var min_end = Math.max( checkoutForm.getTime(), checkout.getTime() )
+        // use traditional for loop so that we can return
+        // if we use forEach, it will just loop everytime even with break
+        for (let i = 0; i < userReservation.length; i++) {
+            let d = userReservation[i];
+            var checkin = new Date(d.check_in)
+            var checkout = new Date(d.check_out)
 
-                if (max_start <= min_end) {
-                    console.log("Overlap")
-                    overlap = true
-        
-                }
-                else {
-                    console.log("Not overlap")
-                }
-                    
-            })
-            return overlap
-        })
+            var max_start = Math.max( checkinForm.getTime(), checkin.getTime() )
+            var min_end = Math.max( checkoutForm.getTime(), checkout.getTime() )
+
+            if (max_start <= min_end) {
+                //console.log("Overlap")
+                return true;
+            }
+                
+        }
+        return false
+
     }
 
     return (
