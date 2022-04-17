@@ -42,6 +42,12 @@ export default function Payment() {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
 
+        let check = checkOverlapReservation()
+        if (check == true) {
+            alert("Overlap reservation")
+            return
+        }
+
         const paymentData = {
             name: data.get('firstName') + " " + data.get('lastName'),
             number: data.get('cardNumber'),
@@ -115,7 +121,7 @@ export default function Payment() {
                 }
 
             })
-
+        
         // fetch(backend_url + "/room/" + roomId, {
         //     method: 'PUT',
         //     body: JSON.stringify({
@@ -134,27 +140,40 @@ export default function Payment() {
         //     .then(response => response.json())
     }
 
-    const checkEligibility = () => {
-        let userPastReservation = []
-        /*
-            var g1 = new Date(data[0].check_out)
-            console.log(g1)
-
-            console.log(data[0].check_out)
-            var checkin = new Date(data[0].check_in)
-            var checkout = new Date(data[0].check_out)
-            
-            var less = Math.min(checkin.getTime(), checkout.getTime())
-            var more = Math.max(checkin.getTime(), checkout.getTime());
-            console.log("less " + new Date);
-            console.log("more " + more);
-        */
+    const checkOverlapReservation = () => {
+        let userReservation = []
         // first get the reservation from this user
         // url: localhost:8080/reservation/find?userEmail=[email]
+
         fetch(backend_url + "/reservation/find?userEmail=" + email, {method: 'GET'})
         .then(data => data.json())
         .then(data => {
-            
+            let overlap = false
+            /*
+                Loop through each reservation and check whether it overlaps or not
+                Overlap: max start time < min end time of 2 reservations
+            */
+            let checkinForm = new Date(roomObj.state.checkin)
+            let checkoutForm = new Date(roomObj.state.checkout)
+
+            data.forEach(d => {
+                var checkin = new Date(d.check_in)
+                var checkout = new Date(d.check_out)
+
+                var max_start = Math.max( checkinForm.getTime(), checkin.getTime() )
+                var min_end = Math.max( checkoutForm.getTime(), checkout.getTime() )
+
+                if (max_start <= min_end) {
+                    console.log("Overlap")
+                    overlap = true
+        
+                }
+                else {
+                    console.log("Not overlap")
+                }
+                    
+            })
+            return overlap
         })
     }
 
@@ -187,7 +206,7 @@ export default function Payment() {
                                 Confirm Reservation
                             </Button>
                             <Button
-                                onClick={checkEligibility}
+                                onClick={checkOverlapReservation}
                                 variant="contained"
                                 sx={{ mt: 2, mb: 0, backgroundColor: '#9BB40D', fontWeight: '500' }}
                             >
