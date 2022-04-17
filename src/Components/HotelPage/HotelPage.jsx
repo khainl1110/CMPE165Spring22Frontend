@@ -36,19 +36,16 @@ const styles = {
 export default function HotelPage(props) {
 
     const location = useLocation();
-    console.log(location);
-
     let [locat, setLocat] = useState("Union Square, San Francisco");
     let [numGuests, setNumGuests] = useState(4);
 
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
-
     const [dates, setDates] = React.useState([today, tomorrow]);
 
     useEffect(() => {
-        if(location.state != null){
+        if (location.state != null) {
             setLocat(location.state.location);
             setNumGuests(location.state.numGuests);
             setDates(location.state.dates);
@@ -72,7 +69,7 @@ export default function HotelPage(props) {
     }, []);
 
     useEffect(() => {
-        if(location.state == null){
+        if (location.state == null) {
             fetch(
                 backend_url + "/room/search?location=" + "Union Square, San Francisco" + "&numGuest=" + "4",
                 { method: 'GET' }
@@ -88,7 +85,7 @@ export default function HotelPage(props) {
                     console.log('error' + e);
                 })
         }
-        else if(location.state.location == null){
+        else if (location.state.location == null) {
             fetch(
                 backend_url + "/room/search?location=" + "Union Square, San Francisco" + "&numGuest=" + "4",
                 { method: 'GET' }
@@ -104,7 +101,7 @@ export default function HotelPage(props) {
                     console.log('error' + e);
                 })
         }
-        else if(location.state.numGuests == ""){
+        else if (location.state.numGuests == "") {
             fetch(
                 backend_url + "/room/search?location=" + location.state.location + "&numGuest=" + "4",
                 { method: 'GET' }
@@ -120,7 +117,7 @@ export default function HotelPage(props) {
                     console.log('error' + e);
                 })
         }
-        else{
+        else {
             if (location.state.numGuests >= 3) {
                 numGuests = 4;
             } else {
@@ -155,6 +152,9 @@ export default function HotelPage(props) {
 
     const onSearch = (location, dates, numGuests) => {
         setInSearchMode(true);
+        setDates(dates);
+        setNumGuests(numGuests);
+        console.log("Set Dates in onSearch" + dates);
 
         if (location && dates && numGuests) {
             if (numGuests >= 3) {
@@ -264,11 +264,10 @@ export default function HotelPage(props) {
 
     for (let i = 0; i < hotels.length; i++) {
         num = i + 1;
-        console.log(hotels[i]);
         card.push(
             <Grid item xs={0}>
                 <Box>
-                    <HotelCard room={hotels[i]} />
+                    <HotelCard room={hotels[i]} dates={dates} numGuests={numGuests} />
                 </Box>
             </Grid>
         );
@@ -284,7 +283,7 @@ export default function HotelPage(props) {
                 {!isLoggedIn &&
                     <NavBar />
                 }
-                <Grid container direction="row" justifyContent="center" alignItems="center" spacing={2} sx={{ position: "relative", marginLeft: '-2%', }}>
+                <Grid container direction="row" alignItems="center" spacing={2} sx={{ position: "relative", marginLeft: '-2%', justifyContent: "center" }}>
                     <Grid item xs={0}>
                         <Box sx={{ marginTop: '10%' }}>
                             <SearchBar onSearch={onSearch} location={locat} dates={dates} numGuests={numGuests} isLandingPage={false} />
@@ -321,7 +320,7 @@ export default function HotelPage(props) {
                         </Box>
                     </Grid>
 
-                    <Grid container direction="column" justifyContent="flex-end" alignItems="left" spacing={2} sx={{ position: "relative", marginTop: '1%', marginLeft: '20%', marginRight: '0%', }}>
+                    <Grid container direction="column" alignItems="left" spacing={2} sx={{ position: "relative", marginTop: '1%', marginLeft: '20%', marginRight: '0%', justifyContent: "flex-end" }}>
                         <Grid item xs={0}>
                             <Box sx={{ marginTop: '0%' }}>
                                 <Typography variant="h2" sx={{

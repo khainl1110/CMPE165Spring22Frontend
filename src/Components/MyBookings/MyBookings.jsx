@@ -18,6 +18,7 @@ export default function MyAccount() {
     const [rooms, setRooms] = useState([]);
     const [reservations, setReservations] = useState([]);
     const [user, setUser] = useState();
+    const [email, setEmail] = useState(localStorage.getItem('email'));
 
     const theme = createTheme();
 
@@ -32,8 +33,15 @@ export default function MyAccount() {
         }
     };
 
-    const email = localStorage.getItem('email');
+    useEffect(() => {
+        const e = localStorage.getItem('email');
+        if (e) {
+            console.log(email);
+            setEmail(email);
+        } else { console.log("NO EMAIL") }
+    }, [])
 
+    // const email = localStorage.getItem('email');
 
     useEffect(() => {
         if (email !== '') {
@@ -46,6 +54,9 @@ export default function MyAccount() {
                     console.log('error' + e);
                 })
         }
+        else {
+            window.location.replace('/');
+        }
     }, [])
 
     useEffect(() => {
@@ -53,6 +64,7 @@ export default function MyAccount() {
             .then(response => response.json())
             .then(data => {
                 setReservations(data);
+                console.log(data);
             })
             .catch(e => {
                 console.log('error' + e);
@@ -76,14 +88,11 @@ export default function MyAccount() {
     let isBookedRooms = [];
 
     for (let i = 0; i < rooms.length; i++) {
-        if (rooms[i].booked === true) {
-            isBookedRooms.push(rooms[i]);
-        }
+        isBookedRooms.push(rooms[i]);
     }
 
     let roomId = [];
     for (let i = 0; i < reservations.length; i++) {
-        console.log(user.email);
         if (reservations[i].userEmail === user.email) {
             roomId.push(reservations[i].roomId);
         }
@@ -99,20 +108,21 @@ export default function MyAccount() {
         }
     }
 
-    // instant value for demo
-    let now = new Date();
-    const checkIn = "3/30/2022";
-    const checkOut = "3/31/2022";
-    const pastCheckIn = "2/18/2022";
-    const pastCheckOut = "2/19/2022";
+    // the check in and check out time values are from reservations
+    // without payment, they might be null
+
+    // time now
+    const today = new Date().toLocaleDateString('en-US');
+    const now = Date.parse(today);
+
 
     return (
         <ThemeProvider theme={theme}>
             <Paper style={styles.paperContainer}>
                 <CssBaseline />
-                <Container component="main" justifyContent="flex-start">
+                <Container component="main" sx={{ justifyContent: "flex-start" }} >
                     <LoggedInNavBar />
-                    <Grid container direction="row" justifyContent="flex-start" alignItems="center" width="100%">
+                    <Grid container direction="row" alignItems="center" width="100%" sx={{ justifyContent: "flex-start" }}>
                         <List sx={{
                             width: '70%',
                             minWidth: '600px',
@@ -124,7 +134,7 @@ export default function MyAccount() {
                             <Typography sx={{
                                 fontSize: 26,
                                 fontWeight: 600,
-
+                                fontFamily: 'Baloo-Bhaina-2',
                             }}>My Bookings</Typography>
                             <Box sx={{
                                 marginTop: "3%"
@@ -133,7 +143,8 @@ export default function MyAccount() {
                                 <Typography bgcolor="#475718" color="white" sx={{
                                     padding: 2,
                                     fontSize: 20,
-                                    fontWeight: 600
+                                    fontWeight: 600,
+                                    fontFamily: 'Baloo-Bhaina-2',
                                 }}>Current Bookings</Typography>
 
                                 <List sx={{
@@ -141,26 +152,40 @@ export default function MyAccount() {
                                 }}>
                                     <Box>
                                         {
+
                                             reservedRooms.map(room => {
-                                                return (
-                                                    <Grid container sx={{
-                                                        border: 1,
-                                                        borderColor: "#eeeeee",
-                                                        backgroundColor: "#fafafa"
-                                                    }}>
-                                                        <ReservationCard
-                                                            hotelName={room.hotelName}
-                                                            description={room.description}
-                                                            price={room.price}
-                                                            image={room.image}
-                                                            checkIn={checkIn}
-                                                            checkOut={checkOut}
-                                                            firstName={user.firstName}
-                                                            lastName={user.lastName}
-                                                            email={user.email}
-                                                        />
-                                                    </Grid>
-                                                )
+                                                for (let i = 0; i < reservations.length; i++) {
+                                                    if (room.id === reservations[i].roomId && now < Date.parse(reservations[i].check_in)) {
+                                                        let checkInDateObj = new Date(reservations[i].check_in);
+                                                        let checkOutDateObj = new Date(reservations[i].check_out)
+                                                        let checkIn = checkInDateObj.getMonth() + 1 + "/" + checkInDateObj.getDate() + "/" + checkInDateObj.getFullYear();
+                                                        let checkOut = checkOutDateObj.getMonth() + 1 + "/" + checkOutDateObj.getDate() + "/" + checkOutDateObj.getFullYear();
+                                                        return (
+                                                            <Grid container sx={{
+                                                                border: 1,
+                                                                borderColor: "#eeeeee",
+                                                                backgroundColor: "#fafafa"
+                                                            }}>
+                                                                <ReservationCard
+                                                                    hotelName={room.hotelName}
+                                                                    description={room.description}
+                                                                    price={room.price}
+                                                                    image={room.image}
+                                                                    checkIn={checkIn}
+                                                                    checkOut={checkOut}
+                                                                    firstName={user.firstName}
+                                                                    lastName={user.lastName}
+                                                                    email={user.email}
+                                                                    numGuest={reservations[i].numGuest}
+                                                                    roomInfo={room.roomInfo}
+                                                                    amenities={room.amenities}
+                                                                    roomId={room.id}
+                                                                />
+                                                            </Grid>
+                                                        )
+                                                    }
+                                                }
+
                                             })
                                         }
                                     </Box>
@@ -174,7 +199,8 @@ export default function MyAccount() {
                                 <Typography bgcolor="#475718" color="white" sx={{
                                     padding: 2,
                                     fontSize: 20,
-                                    fontWeight: 600
+                                    fontWeight: 600,
+                                    fontFamily: 'Baloo-Bhaina-2',
                                 }}>Past Bookings</Typography>
 
                                 <List sx={{
@@ -182,26 +208,40 @@ export default function MyAccount() {
                                 }}>
                                     <Box>
                                         {
+
                                             reservedRooms.map(room => {
-                                                return (
-                                                    <Grid container sx={{
-                                                        border: 1,
-                                                        borderColor: "#eeeeee",
-                                                        backgroundColor: "#fafafa"
-                                                    }}>
-                                                        <PastReservationCard
-                                                            hotelName={room.hotelName}
-                                                            description={room.description}
-                                                            price={room.price}
-                                                            image={room.image}
-                                                            checkIn={pastCheckIn}
-                                                            checkOut={pastCheckOut}
-                                                            firstName={user.firstName}
-                                                            lastName={user.lastName}
-                                                            email={user.email}
-                                                        />
-                                                    </Grid>
-                                                )
+                                                for (let i = 0; i < reservations.length; i++) {
+                                                    if (room.id === reservations[i].roomId && (now > Date.parse(reservations[i].check_in) || reservations[i].check_in === null)) {
+                                                        let checkInDateObj = new Date(reservations[i].check_in);
+                                                        let checkOutDateObj = new Date(reservations[i].check_out)
+                                                        let checkIn = checkInDateObj.getMonth() + 1 + "/" + checkInDateObj.getDate() + "/" + checkInDateObj.getFullYear();
+                                                        let checkOut = checkOutDateObj.getMonth() + 1 + "/" + checkOutDateObj.getDate() + "/" + checkOutDateObj.getFullYear();
+                                                        return (
+                                                            <Grid container sx={{
+                                                                border: 1,
+                                                                borderColor: "#eeeeee",
+                                                                backgroundColor: "#fafafa"
+                                                            }}>
+                                                                <ReservationCard
+                                                                    hotelName={room.hotelName}
+                                                                    description={room.description}
+                                                                    price={room.price}
+                                                                    image={room.image}
+                                                                    checkIn={checkIn}
+                                                                    checkOut={checkOut}
+                                                                    firstName={user.firstName}
+                                                                    lastName={user.lastName}
+                                                                    email={user.email}
+                                                                    numGuest={reservations[i].numGuest}
+                                                                    roomInfo={room.roomInfo}
+                                                                    amenities={room.amenities}
+                                                                    roomId={room.id}
+                                                                />
+                                                            </Grid>
+                                                        )
+                                                    }
+                                                }
+
                                             })
                                         }
                                     </Box>

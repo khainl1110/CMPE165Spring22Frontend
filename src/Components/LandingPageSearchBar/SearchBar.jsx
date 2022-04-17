@@ -15,8 +15,6 @@ import { FormControl } from '@mui/material';
 import { backend_url } from "../../links";
 
 export default function SearchBar(props) {
-  console.log(props);
-
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
@@ -31,16 +29,22 @@ export default function SearchBar(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(props.location != null){
+    if (props.location !== null) {
       setLocation(props.location);
     }
   }, [props.location]);
 
   useEffect(() => {
-    if(props.numGuests != ""){
+    if (props.numGuests !== "") {
       setNumGuests(props.numGuests);
     }
   }, [props.numGuests]);
+
+  useEffect(() => {
+    if (props.dates !== undefined) {
+      setDates([props.dates[0], props.dates[1]]);
+    }
+  }, [props.dates]);
 
   const startSearch = (e) => {
     onSearch(location, dates, numGuests);
@@ -48,7 +52,7 @@ export default function SearchBar(props) {
   }
 
   const navigateToMainSearchPage = (e) => {
-    navigate('/hotel', {state:{location: location, dates: dates, numGuests: numGuests}});
+    navigate('/hotel', { state: { location: location, dates: dates, numGuests: numGuests } });
   }
 
   useEffect(() => {
@@ -111,14 +115,17 @@ export default function SearchBar(props) {
                   startText="Check-in"
                   endText="Check-out"
                   value={dates}
+                  name="dates"
                   onChange={(newValue) => {
-                    setDates(newValue);
+                    if (newValue[0] !== null && newValue[1] !== null) {
+                      setDates(newValue);
+                    }
                   }}
                   renderInput={(startProps, endProps) => (
                     <React.Fragment>
-                      <TextField required={true} size="small" sx={{ minWidth: 150 }} value={dates[0]} {...startProps} />
+                      <TextField required={true} size="small" sx={{ minWidth: 150 }} name="checkIn" {...startProps} />
                       <Box sx={{ mx: .3 }}></Box>
-                      <TextField size="small" required={true} sx={{ minWidth: 150 }} value={dates[1]} {...endProps} />
+                      <TextField size="small" required={true} sx={{ minWidth: 150 }} name="checkOut" {...endProps} />
                     </React.Fragment>
                   )}
                 />
@@ -144,9 +151,6 @@ export default function SearchBar(props) {
                 <IconButton edge="start" color="inherit" aria-label="menu" onClick={navigateToMainSearchPage} sx={{ backgroundColor: "#9BB40D", color: "#FFFFFF" }}>
                   <SearchIcon />
                 </IconButton>
-                //   <IconButton edge="start" color="inherit" aria-label="menu" onClick={navigateToMainSearchPage} component={Link} to='/hotel' sx={{ backgroundColor: "#9BB40D", color: "#FFFFFF" }}>
-                //   <SearchIcon />
-                // </IconButton>
               }
               {!isLandingPage &&
                 <IconButton edge="start" color="inherit" aria-label="menu" type="submit" sx={{ backgroundColor: "#9BB40D", color: "#FFFFFF" }}>
@@ -160,4 +164,3 @@ export default function SearchBar(props) {
     </Box>
   );
 }
-/*add onClick={()=>{}} to button above to pass search info and link to search page */

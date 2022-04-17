@@ -6,10 +6,10 @@ import { backend_url } from "../../links";
 export default function MyAccount() {
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
-    const [email, setEmail] = useState('')
+    const [email, setEmail] = useState(localStorage.getItem('email'))
 
     useEffect(() => {
-        let email = localStorage.getItem('email');
+        // let email = localStorage.getItem('email');
 
         if (email !== '') {
             fetch(backend_url + "/users/" + email, { method: 'GET' })
@@ -23,7 +23,7 @@ export default function MyAccount() {
                     console.log('error' + e);
                 })
         }
-    })
+    }, [email])
 
     return (
         <div>
