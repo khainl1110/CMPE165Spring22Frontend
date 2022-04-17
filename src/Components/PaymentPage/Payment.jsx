@@ -134,6 +134,30 @@ export default function Payment() {
         //     .then(response => response.json())
     }
 
+    const checkEligibility = () => {
+        let userPastReservation = []
+        /*
+            var g1 = new Date(data[0].check_out)
+            console.log(g1)
+
+            console.log(data[0].check_out)
+            var checkin = new Date(data[0].check_in)
+            var checkout = new Date(data[0].check_out)
+            
+            var less = Math.min(checkin.getTime(), checkout.getTime())
+            var more = Math.max(checkin.getTime(), checkout.getTime());
+            console.log("less " + new Date);
+            console.log("more " + more);
+        */
+        // first get the reservation from this user
+        // url: localhost:8080/reservation/find?userEmail=[email]
+        fetch(backend_url + "/reservation/find?userEmail=" + email, {method: 'GET'})
+        .then(data => data.json())
+        .then(data => {
+            
+        })
+    }
+
     return (
         <div className={style.main}>
             <Grid container direction="column" justifyContent="space-evenly" spacing={5} >
@@ -161,6 +185,13 @@ export default function Payment() {
                                 sx={{ mt: 2, mb: 0, backgroundColor: '#9BB40D', fontWeight: '500' }}
                             >
                                 Confirm Reservation
+                            </Button>
+                            <Button
+                                onClick={checkEligibility}
+                                variant="contained"
+                                sx={{ mt: 2, mb: 0, backgroundColor: '#9BB40D', fontWeight: '500' }}
+                            >
+                                Check Eligibility
                             </Button>
                         </Grid>
                     </FormControl>
