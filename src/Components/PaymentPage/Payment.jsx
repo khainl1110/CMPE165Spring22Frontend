@@ -103,7 +103,7 @@ export default function Payment() {
                         paymentId: user.paymentId,
                     }
 
-                    fetch(backend_url + "/users/" + email, {
+                    fetch(backend_url + "/users", {
                         method: 'PUT',
                         body: JSON.stringify(updatedUserData),
                         headers: {
