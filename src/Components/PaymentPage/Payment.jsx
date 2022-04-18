@@ -164,7 +164,7 @@ export default function Payment() {
             var checkout = new Date(d.check_out)
 
             var max_start = Math.max( checkinForm.getTime(), checkin.getTime() )
-            var min_end = Math.max( checkoutForm.getTime(), checkout.getTime() )
+            var min_end = Math.min( checkoutForm.getTime(), checkout.getTime() )
 
             if (max_start <= min_end) {
                 //console.log("Overlap")
