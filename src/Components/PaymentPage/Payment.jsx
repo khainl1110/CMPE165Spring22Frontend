@@ -45,7 +45,7 @@ export default function Payment() {
         let check = await checkOverlapReservation()
         //console.log("check " + check)
         if (check == true) {
-            alert("Overlap reservation")
+            alert("Users may not make multiple reservations that fall within their current reservation dates")
             return
         }
 
