@@ -148,7 +148,6 @@ export default function Payment() {
         .then(data => data.json())
         .then(data => {return data} )
 
-        let overlap = false
         /*
             Loop through each reservation and check whether it overlaps or not
             Overlap: max start time < min end time of 2 reservations
@@ -173,7 +172,6 @@ export default function Payment() {
                 
         }
         return false
-
     }
 
     return (
@@ -203,13 +201,6 @@ export default function Payment() {
                                 sx={{ mt: 2, mb: 0, backgroundColor: '#9BB40D', fontWeight: '500' }}
                             >
                                 Confirm Reservation
-                            </Button>
-                            <Button
-                                onClick={checkOverlapReservation}
-                                variant="contained"
-                                sx={{ mt: 2, mb: 0, backgroundColor: '#9BB40D', fontWeight: '500' }}
-                            >
-                                Check Eligibility
                             </Button>
                         </Grid>
                     </FormControl>
