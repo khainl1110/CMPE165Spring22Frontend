@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import style from '../PaymentPage/Payment.module.css';
 import { MenuItem, Button, FormControl } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
@@ -23,6 +24,12 @@ export default function Payment() {
     const differenceInTime = roomObj.state.checkout.getTime() - roomObj.state.checkin.getTime();
     const days = differenceInTime / (1000 * 3600 * 24);
     const totalPrice = days * roomObj.state.price;
+
+    const navigate = useNavigate();
+
+    const navigateToHotels = (e) => {
+        navigate('/hotel');
+    }
 
     useEffect(() => {
         if (email !== '') {
@@ -45,7 +52,7 @@ export default function Payment() {
         let check = await checkOverlapReservation()
         //console.log("check " + check)
         if (check == true) {
-            alert("Users may not make multiple reservations that fall within their current reservation dates")
+            alert("Users may not make multiple reservations that fall within their current reservation dates.")
             return
         }
 
@@ -121,8 +128,9 @@ export default function Payment() {
                     )
                 }
 
+                navigateToHotels();
             })
-        
+
         // fetch(backend_url + "/room/" + roomId, {
         //     method: 'PUT',
         //     body: JSON.stringify({
@@ -142,11 +150,11 @@ export default function Payment() {
     }
 
     const checkOverlapReservation = async () => {
-         // first get the reservation from this user
+        // first get the reservation from this user
         // url: localhost:8080/reservation/find?userEmail=[email]
-        let userReservation = await fetch(backend_url + "/reservation/find?userEmail=" + email, {method: 'GET'})
-        .then(data => data.json())
-        .then(data => {return data} )
+        let userReservation = await fetch(backend_url + "/reservation/find?userEmail=" + email, { method: 'GET' })
+            .then(data => data.json())
+            .then(data => { return data })
 
         /*
             Loop through each reservation and check whether it overlaps or not
@@ -162,14 +170,14 @@ export default function Payment() {
             var checkin = new Date(d.check_in)
             var checkout = new Date(d.check_out)
 
-            var max_start = Math.max( checkinForm.getTime(), checkin.getTime() )
-            var min_end = Math.min( checkoutForm.getTime(), checkout.getTime() )
+            var max_start = Math.max(checkinForm.getTime(), checkin.getTime())
+            var min_end = Math.min(checkoutForm.getTime(), checkout.getTime())
 
             if (max_start <= min_end) {
                 //console.log("Overlap")
                 return true;
             }
-                
+
         }
         return false
     }
@@ -462,7 +470,7 @@ const CancelationPolicy = () => {
     return (
         <div className={style.policy}>
             <h1 align="center">Cancellation Policy</h1>
-            <p><strong>Please Note:</strong> Booking cancellations are free until 1 week before the check-in date of your reservation. Cancellations within 1-week of your check-in date will result in a cancellation fee of $XXX.XX charged to the card used to make this reservation. We are unable to refund any payment for no-shows or early checkout.</p>
+            <p><strong>Please Note:</strong> Booking cancellations are free until 1 week before the check-in date of your reservation. Cancellations within 1-week of your check-in date will result in a cancellation fee of $20 per day charged to the card used to make this reservation. We are unable to refund any payment for no-shows or early checkout.</p>
             <br />
             <p>By booking with LikeHome.com, you agree to the terms and conditions of our cancellation policy.</p>
         </div>

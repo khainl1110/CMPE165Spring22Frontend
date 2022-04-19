@@ -51,8 +51,6 @@ export default function HotelCard(props) {
   const navigate = useNavigate();
 
   const onClickHandle = (event) => {
-    alert(props.dates[0] + " " + props.dates[1]);
-    console.log(props.dates)
     navigate('/payment',
       {
         state: {
