@@ -343,10 +343,10 @@ export default function CancelPage(props) {
                                     </Grid>
                                 </Grid>
 
-                                <Grid item xs={3}>
-                                    <Grid container direction="column" justifyContent="right" alignItems="flex-end" spacing={0} sx={{ marginLeft: '0%', position: "static" }}>
+                                <Grid item xs={0}>
+                                    <Grid container direction="column" justifyContent="right" alignItems="flex-end" spacing={0} sx={{ marginLeft: '50%', marginBottom: "160%", position: "static" }}>
                                         <Grid item xs={0}>
-                                            <Grid container direction="row" justifyContent="left" alignItems="center" spacing={0} sx={{ position: "static", marginTop: "-140%", }}>
+                                            <Grid container direction="row" justifyContent="left" alignItems="center" spacing={0} sx={{ position: "static", marginTop: "0%", }}>
                                                 <Grid item xs={0}>
                                                     <Typography variant="h2" sx={{
                                                         fontFamily: 'Baloo-Bhaina-2',
