@@ -48,12 +48,12 @@ export default function CancelPage(props) {
     var name = location.state.hotelName;
     var img = location.state.image;
     var desc = location.state.description;
-    var price = location.state.price;
-    var locat = "test location";
+    var amenities = location.state.amenities;
     var roomInfo = location.state.roomInfo;
     var guests = location.state.numGuest;
     var checkIn= location.state.checkIn;
     var checkOut = location.state.checkOut;
+    var roomId = location.state.roomId;
 
     const freeText = "You qualify for free cancellation!";
     const paidText = "Sorry, you don’t qualify for a free cancellation! You’ll be charged a cancellation fee of $XXX.XX to the card used to make this reservation";
@@ -61,6 +61,8 @@ export default function CancelPage(props) {
     const current = new Date();
     const today = `${current.getMonth()+1}/${current.getDate()}/${current.getFullYear()}`;
     const diff = differenceInCalendarDays(new Date(checkOut), new Date(today));
+
+    var price = location.state.price * diff;
 
     useEffect(() => {
         console.log(location.state);
@@ -75,9 +77,15 @@ export default function CancelPage(props) {
             setFreeCancel(true);
         }
         console.log(freeCancel);
+        price = price * diff;
     }, [diff])
     const onClickHandle = (event) => {
-
+        fetch(backend_url + "/reservation/" + roomId, {
+            method: 'DELETE',
+        }).then(
+            alert("Successfully canceled!")
+        )
+        navigateToMyBookings();
     }
 
     const navigate = useNavigate();
@@ -166,7 +174,7 @@ export default function CancelPage(props) {
                                 color: '#606060',
                                 marginTop: '2%'
                                 }}>
-                                {locat}
+                                {amenities}
                                 </Typography>
                             </Grid>
                             <Grid item xs={0}>
@@ -301,7 +309,7 @@ export default function CancelPage(props) {
                                     fontSize: '18px',
                                     color: '#606060',
                                     }}>
-                                    for N nights
+                                    for {diff} nights
                                     </Typography>
                                 </Grid>
 
