@@ -180,6 +180,7 @@ export default function MyAccount() {
                                                                     roomInfo={room.roomInfo}
                                                                     amenities={room.amenities}
                                                                     roomId={room.id}
+                                                                    id = {reservations[i].id}
                                                                 />
                                                             </Grid>
                                                         )

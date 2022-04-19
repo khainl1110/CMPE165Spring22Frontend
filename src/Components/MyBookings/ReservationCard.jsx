@@ -18,7 +18,7 @@ import {
 } from '@mui/material/';
 
 export default function ReservationCard(props) {
-    const { hotelName, description, price, checkIn, checkOut, image, firstName, lastName, email, numGuest, roomInfo, amenities, roomId } = props;
+    const { hotelName, description, price, checkIn, checkOut, image, firstName, lastName, email, numGuest, roomInfo, amenities, roomId, id } = props;
 
     //instant info payment detail
     const cardNumber = "12323123213";
@@ -41,7 +41,7 @@ export default function ReservationCard(props) {
 
     const cancelClick = (e) => {
         navigate('/cancel', {
-            state: { hotelName, description, price, checkIn, checkOut, image, firstName, lastName, numGuest, roomInfo, amenities }
+            state: { hotelName, description, price, checkIn, checkOut, image, firstName, lastName, numGuest, roomInfo, amenities, roomId, id }
         });
     };
 

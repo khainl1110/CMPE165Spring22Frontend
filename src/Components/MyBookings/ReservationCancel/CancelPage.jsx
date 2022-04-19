@@ -56,16 +56,17 @@ export default function CancelPage(props) {
     var guests = location.state.numGuest;
     var checkIn= location.state.checkIn;
     var checkOut = location.state.checkOut;
-    var roomId = location.state.roomId;
+    var id = location.state.id;
 
     const freeText = "You qualify for free cancellation!";
     const paidText = "Sorry, you don’t qualify for a free cancellation! You’ll be charged a cancellation fee of $XXX.XX to the card used to make this reservation";
 
     const current = new Date();
     const today = `${current.getMonth()+1}/${current.getDate()}/${current.getFullYear()}`;
-    const diff = differenceInCalendarDays(new Date(checkOut), new Date(today));
+    const diff = differenceInCalendarDays(new Date(checkIn), new Date(today));
+    const priceDays = differenceInCalendarDays(new Date(checkOut), new Date(checkIn));
 
-    var price = location.state.price * diff;
+    var price = location.state.price * priceDays;
 
     useEffect(() => {
         console.log(location.state);
@@ -73,6 +74,8 @@ export default function CancelPage(props) {
         console.log(today);
         
         console.log(diff);
+
+        console.log(id);
     }, [])
 
     useEffect(() => {
@@ -86,7 +89,7 @@ export default function CancelPage(props) {
     
     const onClickHandle = (event) => {
         if(checked1 && checked2 && checked3){
-            fetch(backend_url + "/reservation/" + roomId, {
+            fetch(backend_url + "/reservation/" + id, {
                 method: 'DELETE',
             }).then(
                 alert("Successfully canceled!")
@@ -331,7 +334,7 @@ export default function CancelPage(props) {
                                     fontSize: '18px',
                                     color: '#606060',
                                     }}>
-                                    for {diff} nights
+                                    for {priceDays} nights
                                     </Typography>
                                 </Grid>
 
