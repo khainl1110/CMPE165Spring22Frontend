@@ -76,7 +76,7 @@ export default function Payment() {
                     price: totalPrice,
                     check_in: roomObj.state.checkin,
                     check_out: roomObj.state.checkout,
-                    numGuest: roomObj.state.numGuests,
+                    numGuest: roomObj.state.numGuest,
                     paymentID: res.id,
                 }
                 fetch(backend_url + "/reservation", {
