@@ -58,15 +58,16 @@ export default function CancelPage(props) {
     var checkOut = location.state.checkOut;
     var id = location.state.id;
 
-    const freeText = "You qualify for free cancellation!";
-    const paidText = "Sorry, you don’t qualify for a free cancellation! You’ll be charged a cancellation fee of $XXX.XX to the card used to make this reservation";
-
     const current = new Date();
     const today = `${current.getMonth()+1}/${current.getDate()}/${current.getFullYear()}`;
     const diff = differenceInCalendarDays(new Date(checkIn), new Date(today));
     const priceDays = differenceInCalendarDays(new Date(checkOut), new Date(checkIn));
 
     var price = location.state.price * priceDays;
+    var cancelPrice = price/2;
+
+    const freeText = "You qualify for free cancellation!";
+    const paidText = "Sorry, you don’t qualify for a free cancellation! You’ll be charged a cancellation fee of $" + cancelPrice + " to the card used to make this reservation";
 
     useEffect(() => {
         console.log(location.state);
@@ -353,7 +354,7 @@ export default function CancelPage(props) {
                             color: '#373737',
                             marginLeft: '2%',
                             }}>
-                                Booking cancellations are free until 1 week before the check-in date of your reservation. Cancellations within 1-week of your check-in date will result in a cancellation fee of $XXX.XX charged to the card used to make this reservation. We are unable to refund any payment for no-shows or early checkout.
+                                Booking cancellations are free until 1 week before the check-in date of your reservation. Cancellations within 1-week of your check-in date will result in a cancellation fee of ${cancelPrice} charged to the card used to make this reservation. We are unable to refund any payment for no-shows or early checkout.
                             </Typography>
                             <Typography sx={{
                             fontFamily: 'Baloo-Bhaina-2',
