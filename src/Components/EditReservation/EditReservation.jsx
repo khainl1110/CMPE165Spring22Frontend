@@ -130,7 +130,7 @@ export default function EditReservation(props) {
     };
 
     const cancleClick = () => {
-        alert("You clicked CANCEL RESERVATION button");
+        window.location.replace("/cancel");
     };
 
     const backClick = () => {

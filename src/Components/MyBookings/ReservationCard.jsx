@@ -7,6 +7,7 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import ListItem from '@mui/material/ListItem';
 import EditIcon from '@mui/icons-material/Edit';
+import CloseIcon from '@mui/icons-material/Close';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { useNavigate } from "react-router-dom";
 
@@ -36,6 +37,9 @@ export default function ReservationCard(props) {
             state: {roomId, checkIn, checkOut, firstName, lastName, price, paymentId, guest, reservId}
         });
     };
+    const cancelClick = () => {
+        window.location.replace("/cancel");
+    }
 
     const styles = {
         imageContainer: {
@@ -103,12 +107,20 @@ export default function ReservationCard(props) {
 
                             <ListItemButton onClick={editClick} sx={{
                                 marginLeft: "20%",
-                                maxWidth: "25%"
+                               
                             }}>
                                 <ListItemIcon>
                                     <EditIcon />
                                 </ListItemIcon>
                                 <ListItemText primary="Edit Booking" sx={{ textDecoration: 'underline' }} />
+                            </ListItemButton>
+                            <ListItemButton onClick={cancelClick} sx={{
+
+                            }}>
+                                <ListItemIcon>
+                                    <CloseIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Cancel" sx={{ textDecoration: 'underline' }} />
                             </ListItemButton>
                         </ListItem>
 

@@ -147,7 +147,7 @@ export default function MyAccount() {
                     <LoggedInNavBar />
                     <Grid container direction="row" justifyContent="flex-start" alignItems="center" width="100%">
                         <List sx={{
-                            width: '70%',
+                            width: '100%',
                             minWidth: '600px',
                             marginTop: '8%',
                             marginBottom: "10%",
