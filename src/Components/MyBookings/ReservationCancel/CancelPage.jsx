@@ -344,7 +344,7 @@ export default function CancelPage(props) {
                                 </Grid>
 
                                 <Grid item xs={0}>
-                                    <Grid container direction="column" justifyContent="right" alignItems="flex-end" spacing={0} sx={{ marginLeft: '50%', marginBottom: "160%", position: "static" }}>
+                                    <Grid container direction="column" justifyContent="right" alignItems="flex-end" spacing={0} sx={{ marginLeft: '100%', marginBottom: "170%", position: "static" }}>
                                         <Grid item xs={0}>
                                             <Grid container direction="row" justifyContent="left" alignItems="center" spacing={0} sx={{ position: "static", marginTop: "0%", }}>
                                                 <Grid item xs={0}>
