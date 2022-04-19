@@ -7,7 +7,10 @@ import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link, useNavigate } from 'react-router-dom';
 
-var backend_url = "http://localhost:8080";
+import { render } from '@testing-library/react';
+import { backend_url } from "../../links";
+
+
 var name = "testname";
 var img = "";
 var rate = "4";
@@ -48,8 +51,6 @@ export default function HotelCard(props) {
   const navigate = useNavigate();
 
   const onClickHandle = (event) => {
-    alert(props.dates[0] + " " + props.dates[1]);
-    console.log(props.dates)
     navigate('/payment',
       {
         state: {

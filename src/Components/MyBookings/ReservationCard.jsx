@@ -7,6 +7,7 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import ListItem from '@mui/material/ListItem';
 import EditIcon from '@mui/icons-material/Edit';
+import CancelIcon from '@mui/icons-material/Cancel';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { useNavigate } from "react-router-dom";
 
@@ -17,7 +18,7 @@ import {
 } from '@mui/material/';
 
 export default function ReservationCard(props) {
-    const { hotelName, description, price, checkIn, checkOut, image, firstName, lastName, email, numGuest, roomInfo, amenities, roomId } = props;
+    const { hotelName, description, price, checkIn, checkOut, image, firstName, lastName, email, numGuest, roomInfo, amenities, roomId, id } = props;
 
     //instant info payment detail
     const cardNumber = "12323123213";
@@ -35,6 +36,12 @@ export default function ReservationCard(props) {
     const editClick = () => {
         navigate('/editReservation', {
             state: { roomId, checkIn, checkOut, firstName, lastName }
+        });
+    };
+
+    const cancelClick = (e) => {
+        navigate('/cancel', {
+            state: { hotelName, description, price, checkIn, checkOut, image, firstName, lastName, numGuest, roomInfo, amenities, roomId, id }
         });
     };
 
@@ -105,6 +112,16 @@ export default function ReservationCard(props) {
                                     <EditIcon />
                                 </ListItemIcon>
                                 <ListItemText primary="Edit Booking" sx={{ textDecoration: 'underline' }} />
+                            </ListItemButton>
+
+                            <ListItemButton onClick={cancelClick} sx={{
+                                marginLeft: "3%",
+                                maxWidth: "25%"
+                            }}>
+                                <ListItemIcon>
+                                    <CancelIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Cancel Booking" sx={{ textDecoration: 'underline' }} />
                             </ListItemButton>
                         </ListItem>
 
