@@ -44,6 +44,9 @@ export default function CancelPage(props) {
     const location = useLocation();
 
     let [freeCancel, setFreeCancel] = useState(false);
+    let [checked1, setChecked1] = React.useState(false);
+    let [checked2, setChecked2] = React.useState(false);
+    let [checked3, setChecked3] = React.useState(false);
 
     var name = location.state.hotelName;
     var img = location.state.image;
@@ -79,13 +82,32 @@ export default function CancelPage(props) {
         console.log(freeCancel);
         price = price * diff;
     }, [diff])
+
+    
     const onClickHandle = (event) => {
-        fetch(backend_url + "/reservation/" + roomId, {
-            method: 'DELETE',
-        }).then(
-            alert("Successfully canceled!")
-        )
-        navigateToMyBookings();
+        if(checked1 && checked2 && checked3){
+            fetch(backend_url + "/reservation/" + roomId, {
+                method: 'DELETE',
+            }).then(
+                alert("Successfully canceled!")
+            )
+            navigateToMyBookings();
+        }
+        else{
+            alert("Please accept agreements above")
+        }
+    }
+
+    const onCheck1 = (event) => {
+        setChecked1(event.target.checked);
+    }
+
+    const onCheck2 = (event) => {
+        setChecked2(event.target.checked);
+    }
+
+    const onCheck3 = (event) => {
+        setChecked3(event.target.checked);
     }
 
     const navigate = useNavigate();
@@ -407,7 +429,7 @@ export default function CancelPage(props) {
                         <Grid item xs={0}>
                             <Grid container direction="row" justifyContent="left" alignItems="center" spacing={1} sx={{ position: "static", marginTop: "0%", }}>
                                 <Grid item xs={0}>
-                                    <Checkbox size="small"/>
+                                    <Checkbox onChange={onCheck1} size="small"/>
                                 </Grid>
 
                                 <Grid item xs={0}>
@@ -425,7 +447,7 @@ export default function CancelPage(props) {
 
                             <Grid container direction="row" justifyContent="left" alignItems="center" spacing={1} sx={{ position: "static", marginTop: "0%", }}>
                                 <Grid item xs={0}>
-                                    <Checkbox size="small"/>
+                                    <Checkbox onChange={onCheck2} size="small"/>
                                 </Grid>
 
                                 <Grid item xs={0}>
@@ -443,7 +465,7 @@ export default function CancelPage(props) {
 
                             <Grid container direction="row" justifyContent="left" alignItems="center" spacing={1} sx={{ position: "static", marginTop: "0%", }}>
                                 <Grid item xs={0}>
-                                    <Checkbox size="small"/>
+                                    <Checkbox onChange={onCheck3} size="small"/>
                                 </Grid>
 
                                 <Grid item xs={0}>
