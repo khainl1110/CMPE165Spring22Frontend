@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import {
     CssBaseline,
     Grid,
@@ -15,15 +16,8 @@ import Button from '@mui/material/Button';
 
 import LoggedInNavBar from '../../NavBar/LoggedInNavBar.jsx';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 import { backend_url } from "../../../links";
-
-var name = "testname";
-var img = "";
-var rate = "4";
-var desc = "test description here 1 2 3";
-var price = "333";
-var location = "test location";
-var roomInfo = "room info: 2 beds";
 
 const theme = createTheme({
 });
@@ -45,7 +39,43 @@ const styles = {
 };
 
 
+
 export default function CancelPage(props) {
+    const location = useLocation();
+
+    let [freeCancel, setFreeCancel] = useState(false);
+
+    var name = location.state.hotelName;
+    var img = location.state.image;
+    var desc = location.state.description;
+    var price = location.state.price;
+    var locat = "test location";
+    var roomInfo = location.state.roomInfo;
+    var guests = location.state.numGuest;
+    var checkIn= location.state.checkIn;
+    var checkOut = location.state.checkOut;
+
+    const freeText = "You qualify for free cancellation!";
+    const paidText = "Sorry, you don’t qualify for a free cancellation! You’ll be charged a cancellation fee of $XXX.XX to the card used to make this reservation";
+
+    const current = new Date();
+    const today = `${current.getMonth()+1}/${current.getDate()}/${current.getFullYear()}`;
+    const diff = differenceInCalendarDays(new Date(checkOut), new Date(today));
+
+    useEffect(() => {
+        console.log(location.state);
+        console.log(location.state.checkOut);
+        console.log(today);
+        
+        console.log(diff);
+    }, [])
+
+    useEffect(() => {
+        if(diff >= 7){
+            setFreeCancel(true);
+        }
+        console.log(freeCancel);
+    }, [diff])
     const onClickHandle = (event) => {
 
     }
@@ -136,7 +166,7 @@ export default function CancelPage(props) {
                                 color: '#606060',
                                 marginTop: '2%'
                                 }}>
-                                {location}
+                                {locat}
                                 </Typography>
                             </Grid>
                             <Grid item xs={0}>
@@ -171,7 +201,7 @@ export default function CancelPage(props) {
                                             fontSize: '16px',
                                             color: '#646464',
                                             }}>
-                                            00/00/00
+                                            {checkIn}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -195,7 +225,7 @@ export default function CancelPage(props) {
                                             fontSize: '16px',
                                             color: '#646464',
                                             }}>
-                                            00/00/00
+                                            {checkOut}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -229,7 +259,7 @@ export default function CancelPage(props) {
                                             fontSize: '16px',
                                             color: '#646464',
                                             }}>
-                                            N
+                                            {guests}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -324,7 +354,7 @@ export default function CancelPage(props) {
                                     fontSize: '20px',
                                     color: '#424242',
                                     }}>
-                                        00/00/00
+                                        {today}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={0}>
@@ -344,7 +374,7 @@ export default function CancelPage(props) {
                                     fontSize: '20px',
                                     color: '#424242',
                                     }}>
-                                        00/00/00
+                                        {checkIn}
                                     </Typography>
                                 </Grid>
                             </Grid>
@@ -357,7 +387,12 @@ export default function CancelPage(props) {
                             color: '#424242',
                             marginTop: '2%',
                             }}>
-                                You qualify for free cancellation!
+                            {freeCancel &&
+                            freeText
+                            }
+                            {!freeCancel &&
+                            paidText
+                            }
                             </Typography>
                         </Grid>
 
@@ -418,7 +453,7 @@ export default function CancelPage(props) {
                         </Grid>
 
                         <Grid item xs={0}>
-                        <Button variant="contained" onClick={onClickHandle} sx={{ marginTop: '25%', backgroundColor: '#9BB40D' }}>
+                        <Button variant="contained" onClick={onClickHandle} sx={{ marginTop: '25%', marginBottom: '10%', backgroundColor: '#9BB40D' }}>
                             Cancel Reservation
                         </Button>
                         </Grid>

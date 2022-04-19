@@ -39,9 +39,9 @@ export default function ReservationCard(props) {
         });
     };
 
-    const cancelClick = () => {
+    const cancelClick = (e) => {
         navigate('/cancel', {
-            state: { roomId, checkIn, checkOut, firstName, lastName }
+            state: { hotelName, description, price, checkIn, checkOut, image, firstName, lastName, numGuest, roomInfo, amenities }
         });
     };
 
