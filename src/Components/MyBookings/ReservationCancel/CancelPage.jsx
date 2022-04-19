@@ -48,6 +48,24 @@ export default function CancelPage(props) {
     let [checked2, setChecked2] = React.useState(false);
     let [checked3, setChecked3] = React.useState(false);
 
+    const email = localStorage.getItem('email');
+    const [user, setUser] = React.useState();
+    const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+    useEffect(() => {
+        if (email !== '') {
+            setIsLoggedIn(true);
+            fetch(backend_url + "/users/" + email, { method: 'GET' })
+                .then(response => response.json())
+                .then(data => {
+                    setUser(data);
+                })
+                .catch(e => {
+                    console.log('error' + e);
+                })
+        }
+    }, [])
+
     var name = location.state.hotelName;
     var img = location.state.image;
     var desc = location.state.description;
@@ -65,6 +83,8 @@ export default function CancelPage(props) {
 
     var price = location.state.price * priceDays;
     var cancelPrice = price/2;
+
+    var points = price/2;
 
     const freeText = "You qualify for free cancellation!";
     const paidText = "Sorry, you don’t qualify for a free cancellation! You’ll be charged a cancellation fee of $" + cancelPrice + " to the card used to make this reservation";
@@ -89,11 +109,37 @@ export default function CancelPage(props) {
 
     
     const onClickHandle = (event) => {
+        if(!freeCancel){
+            var confText = "Successfully canceled! Your card on file has been charged $" + cancelPrice;
+        }
+        else{
+            var confText = "Successfully canceled!";
+        }
+
         if(checked1 && checked2 && checked3){
             fetch(backend_url + "/reservation/" + id, {
                 method: 'DELETE',
             }).then(
-                alert("Successfully canceled!")
+                
+                alert(confText)
+            )
+            const updatedUserData = {
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                password: user.password,
+                points: user.points - points,
+                paymentId: user.paymentId,
+            }
+
+            fetch(backend_url + "/users", {
+                method: 'PUT',
+                body: JSON.stringify(updatedUserData),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(
+                console.log('Updated user points:' + user.points + ' --> ' + (points))
             )
             navigateToMyBookings();
         }
