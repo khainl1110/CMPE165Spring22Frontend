@@ -34,8 +34,7 @@ export default function PastReservationCard(props) {
         }
     };
 
-    const check_in = checkIn.substring(0,10);
-    const check_out = checkOut.substring(0,10);
+    
     const differenceInTime = Date.parse(checkOut) - Date.parse(checkIn);
     const days = differenceInTime / (1000 * 3600 * 24);
 
@@ -55,7 +54,7 @@ export default function PastReservationCard(props) {
                                 fontWeight: 600,
                                 fontFamily: 'Baloo-Bhaina-2',
                             }}>
-                                Reservation on {check_in} to {check_out}
+                                Reservation on {checkIn} to {checkOut}
                             </Typography>
                         </React.Fragment>
                     }
@@ -124,13 +123,13 @@ export default function PastReservationCard(props) {
                                 fontWeight: 600,
                                 fontFamily: 'Baloo-Bhaina-2',
                             }}>Check In: </Typography>
-                            <Typography marginLeft={1}>{check_in}</Typography>
+                            <Typography marginLeft={1}>{checkIn}</Typography>
                             <Typography sx={{
                                 fontWeight: 600,
                                 marginLeft: "3%",
                                 fontFamily: 'Baloo-Bhaina-2',
                             }}>Check Out:</Typography>
-                            <Typography marginLeft={1}>{check_out}</Typography>
+                            <Typography marginLeft={1}>{checkOut}</Typography>
                         </ListItem>
 
                         <ListItem>
@@ -166,7 +165,7 @@ export default function PastReservationCard(props) {
                                 fontWeight: 600,
                                 fontFamily: 'Baloo-Bhaina-2',
                             }}>First Name: </Typography>
-                            <Typography marginLeft={1}> {firstName}</Typography>
+                            <Typography marginLeft={1} sx={{fontFamily: 'Baloo-Bhaina-2',}}> {firstName}</Typography>
                             <Typography sx={{
                                 fontWeight: 600,
                                 marginLeft: "3%",
