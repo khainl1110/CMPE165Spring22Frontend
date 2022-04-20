@@ -68,7 +68,7 @@ export default function CancelPage(props) {
     var desc = location.state.description;
     var amenities = location.state.amenities;
     var roomInfo = location.state.roomInfo;
-    var guests = location.state.guest;
+    var guests = location.state.numGuest;
     var checkIn = location.state.checkIn;
     var checkOut = location.state.checkOut;
     var id = location.state.id;
@@ -78,7 +78,7 @@ export default function CancelPage(props) {
     const diff = differenceInCalendarDays(new Date(checkIn), new Date(today));
     const priceDays = differenceInCalendarDays(new Date(checkOut), new Date(checkIn));
 
-    var price = location.state.price * priceDays;
+    var price = location.state.price;
     var cancelPrice = priceDays * 20;
 
     var points = price / 2;
@@ -274,7 +274,7 @@ export default function CancelPage(props) {
                                                                 fontSize: '16px',
                                                                 color: '#646464',
                                                             }}>
-                                                                {checkIn.substring(0,10)}
+                                                                {checkIn}
                                                             </Typography>
                                                         </Grid>
                                                     </Grid>
@@ -298,7 +298,7 @@ export default function CancelPage(props) {
                                                                 fontSize: '16px',
                                                                 color: '#646464',
                                                             }}>
-                                                                {checkOut.substring(0,10)}
+                                                                {checkOut}
                                                             </Typography>
                                                         </Grid>
                                                     </Grid>
@@ -437,7 +437,7 @@ export default function CancelPage(props) {
                                         fontSize: '18px',
                                         color: '#424242',
                                     }}>
-                                        {checkIn.substring(0,10)}
+                                        {checkIn}
                                     </Typography>
                                 </Grid>
                             </Grid>

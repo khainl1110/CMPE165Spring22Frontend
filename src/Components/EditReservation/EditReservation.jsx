@@ -322,23 +322,6 @@ export default function EditReservation(props) {
                                         </ListItemText>
                                         
                                     </ListItem>
-                                    <ListItem sx={{marginTop: "1%"}}>
-                                        <ListItemText>
-                                                <TextField
-                                                    required
-                                                    autoFocus
-                                                    type="email"
-                                                    id="email"
-                                                    name="email"
-                                                    label="Email" 
-                                                    defaultValue={email}
-                                                    sx={{
-                                                        width: "45%"
-                                                    }}
-                                                    />
-                                            </ListItemText>
-                                            
-                                    </ListItem>
                                 </Box>
 
                                 <Box sx={{marginTop: "5%"}}>
@@ -380,7 +363,7 @@ export default function EditReservation(props) {
                                         <Button onClick={nextClick} sx={{
                                             color: "white", 
                                             backgroundColor: "#9BB40D", 
-                                            width: "100px",
+                                            
                                             '&:hover': {
                                                 backgroundColor: '#9BB40D',
                                                 borderColor: '#0062cc',
@@ -389,8 +372,7 @@ export default function EditReservation(props) {
                                             '&:focus': {
                                             boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
                                             }
-                                            }}>Next</Button>
-                                        <Button onClick={cancleClick} sx={{color: "black", marginLeft: "10%"}}>Cancel Reservation</Button>
+                                            }}>Confirm Reservation</Button>
                                     </ListItemText>
                                 </Box>
                                 

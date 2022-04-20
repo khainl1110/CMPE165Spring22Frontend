@@ -181,6 +181,10 @@ export default function MyAccount() {
                                                 let pay = arr[5];
                                                 let checkInValue = Date.parse(reserv.check_in.substring(0,10));
                                                 let diff = checkInValue-now;
+                                                let checkInDateObj = new Date(reserv.check_in);
+                                                let checkOutDateObj = new Date(reserv.check_out)
+                                                let checkIn = checkInDateObj.getMonth() + 1 + "/" + checkInDateObj.getDate() + "/" + checkInDateObj.getFullYear();
+                                                let checkOut = checkOutDateObj.getMonth() + 1 + "/" + checkOutDateObj.getDate() + "/" + checkOutDateObj.getFullYear();
                                                 
                                                  if(diff >= 0) {
                                                     return (
@@ -194,8 +198,8 @@ export default function MyAccount() {
                                                                 description={room.description}
                                                                 price={reserv.price}
                                                                 image={room.image}
-                                                                checkIn={reserv.check_in}
-                                                                checkOut={reserv.check_out}
+                                                                checkIn={checkIn}
+                                                                checkOut={checkOut}
                                                                 firstName={user.firstName}
                                                                 lastName={user.lastName}
                                                                 email={user.email}
