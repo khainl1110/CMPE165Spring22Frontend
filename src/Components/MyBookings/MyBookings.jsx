@@ -206,6 +206,7 @@ export default function MyAccount() {
                                                                 cardNumber={pay.number}
                                                                 paymentId={pay.id}
                                                                 reservId={reserv.id}
+                                                                points={user.points}
                                                             />
                                                         </Grid>
                                                     )
@@ -261,7 +262,7 @@ export default function MyAccount() {
                                                                 amenities={room.amenities}
                                                                 roomId={room.id}
                                                                 cardNumber={pay.number}
-
+                                                                points={user.points}
                                                             />
                                                         </Grid>
                                                     )

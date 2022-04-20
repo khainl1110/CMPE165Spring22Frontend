@@ -16,9 +16,10 @@ import {
     Typography,
     Paper
 } from '@mui/material/';
+import userEvent from "@testing-library/user-event";
 
 export default function ReservationCard(props) {
-    const { hotelName, description, price, checkIn, checkOut, image, firstName, lastName, email, guest, roomInfo, amenities, roomId, cardNumber, paymentId, reservId } = props;
+    const { hotelName, description, price, checkIn, checkOut, image, firstName, lastName, email, guest, roomInfo, amenities, roomId, cardNumber, paymentId, reservId, points } = props;
 
     //instant info payment detail
     const zipCode = "00000";
@@ -38,7 +39,9 @@ export default function ReservationCard(props) {
         });
     };
     const cancelClick = () => {
-        window.location.replace("/cancel");
+        navigate('/cancel', {
+            state: { hotelName, image, description, amenities, roomInfo, guest, checkIn, checkOut, reservId }
+        });
     }
 
     const styles = {
@@ -54,6 +57,9 @@ export default function ReservationCard(props) {
     const check_out = checkOut.substring(0,10);
     const differenceInTime = Date.parse(checkOut) - Date.parse(checkIn);
     const days = differenceInTime / (1000 * 3600 * 24);
+    const earningPoint = price/2;
+    const discount = points/10;
+    const finalPrice = price-discount;
 
     return (
         <List sx={{
@@ -179,8 +185,8 @@ export default function ReservationCard(props) {
                         <ListItem>
                             <Box width="70% " bgcolor="#9BB40D" padding="5px" borderRadius="10px">
                                 <Typography marginLeft="2%" color="white" sx={{fontFamily: 'Baloo-Bhaina-2',}}>
-                                    You redeemed ___ points and earned ___ points from this stay.
-                                    ${price} a night for {days} nights - $__ = $___, including taxes.
+                                    You redeemed {points} points and earned {earningPoint} points from this stay.
+                                    ${price} a night for {days} nights - ${discount} = ${finalPrice}, including taxes.
                                 </Typography>
                             </Box>
                         </ListItem>

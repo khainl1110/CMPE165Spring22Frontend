@@ -14,7 +14,7 @@ import {
 } from '@mui/material/';
 
 export default function PastReservationCard(props) {
-    const { hotelName, description, price, checkIn, checkOut, image, firstName, lastName, email, guest, roomInfo, amenities, roomId, cardNumber } = props;
+    const { hotelName, description, price, checkIn, checkOut, image, firstName, lastName, email, guest, roomInfo, amenities, roomId, cardNumber, points } = props;
 
     //instant info payment detail
     const zipCode = "00000";
@@ -145,7 +145,7 @@ export default function PastReservationCard(props) {
                         <ListItem>
                             <Box width="70% " bgcolor="#9BB40D" padding="5px" borderRadius="10px">
                                 <Typography marginLeft="2%" color="white" sx={{fontFamily: 'Baloo-Bhaina-2',}}>
-                                    You redeemed ___ points and earned ___ points from this stay.
+                                    You redeemed {points} points and earned ___ points from this stay.
                                     ${price} a night for {days} nights - $__ = $___, including taxes.
                                 </Typography>
                             </Box>
