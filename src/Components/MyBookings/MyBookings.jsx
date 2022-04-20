@@ -17,6 +17,7 @@ import PastReservationCard from "./PastReservationCard.jsx";
 export default function MyAccount() {
     
     const theme = createTheme();
+    const josh = "hello";
 
     const styles = {
         paperContainer: {
