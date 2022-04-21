@@ -37,6 +37,9 @@ export default function PastReservationCard(props) {
     
     const differenceInTime = Date.parse(checkOut) - Date.parse(checkIn);
     const days = differenceInTime / (1000 * 3600 * 24);
+    const earningPoint = price/2;
+    const discount = points/10;
+    const finalPrice = price-discount;
 
     return (
         <List sx={{
@@ -144,8 +147,8 @@ export default function PastReservationCard(props) {
                         <ListItem>
                             <Box width="70% " bgcolor="#9BB40D" padding="5px" borderRadius="10px">
                                 <Typography marginLeft="2%" color="white" sx={{fontFamily: 'Baloo-Bhaina-2',}}>
-                                    You redeemed {points} points and earned ___ points from this stay.
-                                    ${price} a night for {days} nights - $__ = $___, including taxes.
+                                    You redeemed {points} points and earned {earningPoint} points from this stay.
+                                    ${price} a night for {days} nights - ${discount} = ${finalPrice}, including taxes.
                                 </Typography>
                             </Box>
                         </ListItem>
@@ -189,6 +192,19 @@ export default function PastReservationCard(props) {
                                 fontFamily: 'Baloo-Bhaina-2',
                             }}>
                                 Payment Details</Typography>
+                        </ListItem>
+
+                        <ListItem>
+                            <Typography sx={{
+                                    fontWeight: 600,
+                                    fontFamily: 'Baloo-Bhaina-2',
+                                }}>Total Price: 
+                            </Typography>
+
+                            <Typography marginLeft={1} sx={{fontFamily: 'Baloo-Bhaina-2',}}>
+                                $ {finalPrice}
+                            </Typography>
+                           
                         </ListItem>
 
                         <ListItem>
