@@ -35,7 +35,7 @@ export default function ReservationCard(props) {
     const navigate = useNavigate();
     const editClick = () => {
         navigate('/editReservation', {
-            state: {roomId, checkIn, checkOut, firstName, lastName, price, paymentId, guest, reservId}
+            state: {roomId, checkIn, checkOut, firstName, lastName, price, paymentId, guest, reservId, points}
         });
     };
     const cancelClick = () => {
