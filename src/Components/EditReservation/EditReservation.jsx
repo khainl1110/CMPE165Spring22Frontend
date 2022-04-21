@@ -155,7 +155,7 @@ export default function EditReservation(props) {
                                 <ArrowBackIcon />
                             </ListItemIcon>
                             <ListItemText>
-                                <Typography sx={{fontFamily: 'Baloo-Bhaina-2', fontWeight: 600}}>
+                                <Typography sx={{fontFamily: 'Baloo-Bhaina-2', fontWeight: 700, fontSize: 20}}>
                                     Back to My Bookings
                                 </Typography>
                             </ListItemText>
@@ -164,7 +164,7 @@ export default function EditReservation(props) {
                         <List sx={{
                             width: '100%',
                             minWidth: '600px',
-                            marginTop: '3%',
+                            marginTop: '1%',
                             marginBottom: "10%",
                             alignItems: 'center',
                             justifyContent: "center",
@@ -197,56 +197,98 @@ export default function EditReservation(props) {
                                     <ListItemText>
                                         <Typography sx={{
                                             marginLeft: "3%",
-                                            fontFamily: 'Baloo-Bhaina-2'
-                                        }}>
-                                            {room.description}
-                                        </Typography>
-                                        <Typography sx={{
-                                            marginLeft: "3%",
-                                            fontFamily: 'Baloo-Bhaina-2'
+                                            fontFamily: 'Baloo-Bhaina-2',
+                                            fontSize: 22,
+                                            fontWeight: 600
                                         }}>
                                             {room.roomInfo}
                                         </Typography>
                                         <Typography sx={{
                                             marginLeft: "3%",
-                                            fontFamily: 'Baloo-Bhaina-2'
+                                            fontFamily: 'Baloo-Bhaina-2',
+                                            fontSize: 18,
+                                            fontWeight: 400
                                         }}>
                                             {room.amenities}
                                         </Typography>
+                                        <Typography sx={{
+                                            marginLeft: "3%",
+                                            fontFamily: 'Baloo-Bhaina-2',
+                                            fontSize: 18,
+                                            fontWeight: 400
+                                        }}>
+                                            {room.description}
+                                        </Typography>
+                                        
                                         <Box sx={{width: "75%", marginLeft: "10%"}}>
                                         <ListItem>
                                             <ListItemText>
                                                 <ListItem>
-                                                    <Typography sx={{fontFamily: 'Baloo-Bhaina-2'}}>
+                                                    <Typography sx={{
+                                                        fontFamily: 'Baloo-Bhaina-2',
+                                                        fontSize: 16,
+                                                        fontWeight: 600
+                                                        }}>
                                                         Check in
                                                     </Typography>
                                                 </ListItem>
                                                 <ListItem>
-                                                    <Typography sx={{fontSize: 20, fontFamily: 'Baloo-Bhaina-2'}}>
+                                                    <Typography sx={{
+                                                        fontFamily: 'Baloo-Bhaina-2',
+                                                        fontSize: 16,
+                                                        fontWeight: 300
+                                                        }}>
                                                     {check_in}
                                                     </Typography>
                                                 </ListItem>
                                             </ListItemText>
                                             <ListItemText>
                                             <ListItem>
-                                                    <Typography sx={{fontFamily: 'Baloo-Bhaina-2'}}>
+                                                    <Typography sx={{
+                                                        fontFamily: 'Baloo-Bhaina-2',
+                                                        fontSize: 16,
+                                                        fontWeight: 600
+                                                        }}>
                                                         Check out
                                                     </Typography>
                                                 </ListItem>
                                                 <ListItem>
-                                                    <Typography sx={{fontSize: 20, fontFamily: 'Baloo-Bhaina-2'}}>
+                                                    <Typography sx={{
+                                                        fontFamily: 'Baloo-Bhaina-2',
+                                                        fontSize: 16,
+                                                        fontWeight: 300
+                                                        }}>
                                                     {check_out}
                                                     </Typography>
                                                 </ListItem>
                                             </ListItemText>
                                             <ListItemText>
                                             <ListItem>
-                                                    <Typography sx={{fontFamily: 'Baloo-Bhaina-2'}}>
+                                                    <Typography sx={{
+                                                        fontFamily: 'Baloo-Bhaina-2',
+                                                        fontSize: 40,
+                                                        fontWeight: 300
+                                                        }}>
+                                                        |
+                                                    </Typography>
+                                                </ListItem>
+                                            </ListItemText>  
+                                            <ListItemText>
+                                            <ListItem>
+                                                    <Typography sx={{
+                                                        fontFamily: 'Baloo-Bhaina-2',
+                                                        fontSize: 16,
+                                                        fontWeight: 600
+                                                        }}>
                                                         Guest
                                                     </Typography>
                                                 </ListItem>
                                                 <ListItem>
-                                                    <Typography sx={{fonSize: 20, fontFamily: 'Baloo-Bhaina-2'}}>
+                                                    <Typography sx={{
+                                                        fontFamily: 'Baloo-Bhaina-2',
+                                                        fontSize: 16,
+                                                        fontWeight: 300
+                                                        }}>
                                                     {state.guest}
                                                     </Typography>
                                                 </ListItem>
@@ -260,17 +302,19 @@ export default function EditReservation(props) {
                                     <ListItemText>
                                         <Typography sx={{
                                             marginLeft: "10%",
-                                            fontSize: 30,
-                                            fontWeight: 600,
+                                            fontSize: 40,
+                                            fontWeight: 700,
                                             color: "red",
-                                            fontFamily: 'Baloo-Bhaina-2'
+                                            fontFamily: 'Baloo-Bhaina-2',
+                                            marginTop: "-35%"
                                         }}>
                                             ${totalPrice}
                                         </Typography>
                                         
                                         <Typography sx={{
                                             
-                                            fontWeight: 600,
+                                            fontWeight: 700,
+                                            fontSize: 18,
                                             color: "red",
                                             fontFamily: 'Baloo-Bhaina-2'
                                         }}>
@@ -352,7 +396,7 @@ export default function EditReservation(props) {
                                         
                                     </ListItem>
                                     <ListItem sx={{display:'flex', justifyContent:'flex-right', marginTop: "5%", marginLeft: "3%"}}>
-                                        <Typography sx={{fontFamily: 'Baloo-Bhaina-2', width: "80%"}}>
+                                        <Typography sx={{fontFamily: 'Baloo-Bhaina-2', width: "90%", fontSize: 18, fontWeight: 500}}>
                                         Modifications to reservations that change the check-in or check-out date are dependent on your hotel’s availability for your chosen room type. We cannot guarantee that your room will be available for your new dates. Your reservation will not change if your new dates are unavailable.
                                         </Typography>
                                     </ListItem>
