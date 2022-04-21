@@ -74,7 +74,12 @@ export default function EditReservation(props) {
     const differenceInTime = Date.parse(dates[1]) - Date.parse(dates[0]);
     const days = differenceInTime / (1000 * 3600 * 24);
     const totalPrice = days * room.price;
-    console.log(state.reservId);
+    const currentPoints = state.points - (Date.parse(state.checkOut) - Date.parse(state.checkIn))/(1000*3600*24)*room.price/2;
+    const changedPoints = currentPoints + totalPrice/2;
+    
+
+    console.log(currentPoints);
+    console.log(changedPoints);
 
     useEffect(() => {
         setTimeout(() => {
@@ -103,8 +108,38 @@ export default function EditReservation(props) {
         }, 100)  
     }, [])
 
+    const [user, setUser] = useState();
+    useEffect(() => {
+        fetch(backend_url + "/users/" + email, {method: 'GET'})
+        .then(response => response.json())
+        .then(data => {
+            setUser(data);
+        })
+        .catch(e => {
+            console.log('error' + e);
+        })
+    })
+
     // will be edited
     const nextClick = () => {
+        const pointData = {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            password: user.password,
+            points: changedPoints,
+            paymentId: user.paymentId,
+            email: email,
+        }
+        fetch(backend_url + "/users", {
+            method: 'PUT',
+            body: JSON.stringify(pointData),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(
+            window.location.replace("/myBookings")
+        )
+
         const reservationData = {
             firstName: state.firstName,
             lastName: state.lastName,
