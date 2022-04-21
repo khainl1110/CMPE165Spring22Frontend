@@ -162,13 +162,13 @@ export default function ReservationCard(props) {
                                 fontWeight: 600,
                                 fontFamily: 'Baloo-Bhaina-2',
                             }}>Check In: </Typography>
-                            <Typography marginLeft={1}>{checkIn}</Typography>
+                            <Typography marginLeft={1} sx={{fontFamily: 'Baloo-Bhaina-2'}}>{checkIn}</Typography>
                             <Typography sx={{
                                 fontWeight: 600,
                                 marginLeft: "3%",
                                 fontFamily: 'Baloo-Bhaina-2',
                             }}>Check Out:</Typography>
-                            <Typography marginLeft={1}>{checkOut}</Typography>
+                            <Typography marginLeft={1} sx={{fontFamily: 'Baloo-Bhaina-2'}}>{checkOut}</Typography>
                         </ListItem>
 
                         <ListItem>
