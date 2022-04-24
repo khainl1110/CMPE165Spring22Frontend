@@ -13,7 +13,7 @@ import reportWebVitals from './reportWebVitals';
 import EditReservation from './Components/EditReservation/EditReservation';
 import EditAccountPage from './Components/MyAccount/EditAccountInfo/EditAccount';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
+import Check from './Components/CheckReservation/Check';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -29,6 +29,7 @@ ReactDOM.render(
         <Route path="cancel" element={<ReservationCancel />} />
         <Route path="editReservation" element={<EditReservation />} />
         <Route path="editAccount" element={<EditAccountPage />} />
+        <Route path="checkReservation" element={<Check />} />
       </Routes>
     </React.StrictMode>
   </BrowserRouter>,
