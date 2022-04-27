@@ -1,77 +1,210 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
+import { Link, Route, Redirect, useNavigate } from "react-router-dom";
+import axios from 'axios';
+import { backend_url } from "../../links";
 import TextField from '@mui/material/TextField';
 import style from '../CheckReservation/check.module.css';
-import { Grid,Button } from '@mui/material';
+import { Grid, Button, Box } from '@mui/material';
 import NavBar from '../NavBar/NavBar.jsx';
 import LoggedInNavBar from '../NavBar/LoggedInNavBar';
 import FormControl from '@material-ui/core/FormControl';
+import ReservationDetail from './ReservationDetails';
 
-export default function Check(){
-    return(
-        <div className = {style.main}>
+export default function Check() {
+    const [email, setEmail] = React.useState();
+    const [conNum, setConNum] = React.useState();
+    const [rooms, setRooms] = React.useState([]);
+    const [reservations, setReservations] = React.useState([]);
+    const [data, setData]= React.useState();
+    const [user, setUser] = React.useState();
+    const [success, setSuccess] = React.useState(false);
+    const [detail, setDetail] = React.useState();
+
+    let navigate = useNavigate();
+    const routeChange=()=> {
+        navigate("/login");
+    }
+
+    React.useEffect(() => {
+        const e = localStorage.getItem('email');
+        if (e) {
+            console.log(email);
+            setEmail(email);
+        } else { console.log("NO EMAIL") }
+    }, [])
+
+    // const email = localStorage.getItem('email');
+
+    React.useEffect(() => {
+        if (email !== '') {
+            fetch(backend_url + "/users/" + email, { method: 'GET' })
+                .then(response => response.json())
+                .then(data => {
+                    setUser(data);
+                })
+                .catch(e => {
+                    console.log('error' + e);
+                })
+        }
+        else {
+            window.location.replace('/');
+        }
+    }, [])
+
+    React.useEffect(() => {
+        fetch(backend_url + "/reservation", { method: 'GET' })
+            .then(response => response.json())
+            .then(data => {
+                setReservations(data);
+                console.log(data);
+            })
+            .catch(e => {
+                console.log('error' + e);
+            })
+    }, [])
+
+    React.useEffect(() => {
+        fetch(backend_url + "/room", { method: 'GET' })
+            .then(response => response.json())
+            .then(data => {
+                setRooms(data);
+            })
+            .catch(e => {
+                console.log('error' + e);
+            })
+    }, [])
+
+    let isBookedRooms = [];
+
+    for (let i = 0; i < rooms.length; i++) {
+        isBookedRooms.push(rooms[i]);
+    }
+
+    let roomId = [];
+    for (let i = 0; i < reservations.length; i++) {
+        if (reservations[i].userEmail === user.email) {
+            roomId.push(reservations[i].roomId);
+        }
+    }
+
+    let reservedRooms = [];
+
+    for (let i = 0; i < roomId.length; i++) {
+        for (let j = 0; j < isBookedRooms.length; j++) {
+            if (roomId[i] === isBookedRooms[j].id) {
+                reservedRooms.push(isBookedRooms[j]);
+            }
+        }
+    }
+
+    const today = new Date().toLocaleDateString('en-US');
+    const now = Date.parse(today);
+
+    const handleClick = (e) => {
+        var d;
+        e.preventDefault();
+        let success = true;
+        fetch(backend_url + "/reservation/" + conNum, { method: 'GET' })
+            .then(data => data.json())
+            .then(data => { return data })
+            .then(data => (setDetail(data)))
+
+
+            console.log(detail);
+            setSuccess(true);
+        // routeChange();
+    }
+    
+
+
+
+    return (
+        <div className={style.main} >
+            
+            {
             <Grid container direction="column" justifyContent="space-evenly" spacing={5} >
                 <Grid item xs={12}>
                     <NavBar />
                 </Grid>
-                <Grid container direction ="row" justifyContent="space-evenly">
-                    <Grid item xs={6} ><EmailBox/></Grid>
-                    <Grid item xs={6}><ConfirmBox/></Grid>
-                </Grid>
-                <Grid container direction ="row" justifyContent="space-between">
-                    <Grid item xs={5.4} ></Grid>
+                <Grid container direction="row" spacing ={5}justifyContent= "space-between" alignItems="center" >
+                    <Grid item xs={4} ><EmailBox email={email} setEmail={setEmail} /></Grid>
+                    <Grid item xs={4}><ConfirmBox conNum={conNum} setConNum={setConNum} /></Grid>
                     <Grid item xs={4}>
                         <Button
-                        type="submit"
-                        variant="contained"
-                        sx={{backgroundColor: '#9BB40D', fontWeight: '500',width:"45%" , mt:5}}
+                            onClick={handleClick}
+                            type="submit"
+                            variant="contained"
+                            sx={{ backgroundColor: '#9BB40D', fontWeight: '500', width: "45%", ml: 5, mt:12 }}
                         >
-                        Check
+                            check
                         </Button>
-                    </Grid>
-                    <Grid item xs={2.6}></Grid>
-                    </Grid>
-                    
                 </Grid>
-        </div>
-    )
-}
-const EmailBox =() =>{
-    const[e,setEmail] = React.useState("");
-    let handleOnChange = ( email ) => {
+                </Grid>
+                    { success &&
+                    <Grid item xs ={12}>
+                        <Box>
+                            {
+                                
+                                reservedRooms.map(room => {
+                                    for (let i = 0; i < reservations.length; i++) {
+                                        if (room.id === reservations[i].roomId && (now > Date.parse(reservations[i].check_in) || reservations[i].check_in === null)) {
+                                            let checkInDateObj = new Date(reservations[i].check_in);
+                                            let checkOutDateObj = new Date(reservations[i].check_out)
+                                            let checkIn = checkInDateObj.getMonth() + 1 + "/" + checkInDateObj.getDate() + "/" + checkInDateObj.getFullYear();
+                                            let checkOut = checkOutDateObj.getMonth() + 1 + "/" + checkOutDateObj.getDate() + "/" + checkOutDateObj.getFullYear();
+                                            return(
+                                                <Grid container sx={{
+                                                    border: 1,
+                                                    borderColor: "#eeeeee",
+                                                    backgroundColor: "#fafafa"
+                                                }}>
+                                                    {<ReservationDetail
+                                                        hotelName={room.hotelName}
+                                                        description={room.description}
+                                                        price={room.price}
+                                                        image={room.image}
+                                                        checkIn={checkIn}
+                                                        checkOut={checkOut}
+                                                        firstName={user.firstName}
+                                                        lastName={user.lastName}
+                                                        email={user.email}
+                                                        numGuest={reservations[i].numGuest}
+                                                        roomInfo={room.roomInfo}
+                                                        amenities={room.amenities}
+                                                        roomId={room.id}
+                                                    />}
+                                                    
+                                                </Grid>)
+                                            
+                                        }
+                                    }
 
-        // don't remember from where i copied this code, but this works.
-        let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    
-        if ( re.test(email) ) {
-            // this is a valid email address
-            // call setState({email: email}) to update the email
-            // or update the data in redux store.
-            setEmail(email);
-            console.log(email)
-        }
-        else {
-            // invalid email, maybe show an error to the user.
-            return (
-                <TextField
-                error
-                id="outlined-error"
-                label="Error"
-                defaultValue="Hello World"
-              />
-            )
-        }
-    
-    }
-    return (<div className ={style.boxy}>
+                                })
+                            }
+                                    </Box>
+                    </Grid>}
+
+                    
+            </Grid>
+            }
+        </div>
+    )  
+}
+
+const EmailBox = ({ email, setEmail, onChange }) => {
+    return (<div className={style.boxy}>
         <h2 align="center">Your Email</h2>
-        <TextField type="email" onChange = {handleOnChange} id = "email" required label ="Email" sx ={{marginLeft:"25%",width:"50%"}}/>
+        <TextField value={email}
+            onChange={(e) => (setEmail(e.target.value))}
+            type="email" id="email" required label="Email" sx={{ marginLeft: "25%", width: "50%" }} />
     </div>)
 }
 
-const ConfirmBox =() =>(
-    <div className ={style.boxy}>
+const ConfirmBox = ({ conNum, setConNum }) => {
+    return (<div className={style.boxy}>
         <h2 align="center">Confirmation number</h2>
-        <TextField required id = "conNum" label ="Confirmaion number" sx ={{marginLeft:"25%",width:"50%"}}/>
-    </div>
-)
+        <TextField value={conNum}
+            onChange={(e) => (setConNum(e.target.value))}
+            required id="conNum" label="Confirmaion number" sx={{ marginLeft: "25%", width: "50%" }} />
+    </div>)
+}

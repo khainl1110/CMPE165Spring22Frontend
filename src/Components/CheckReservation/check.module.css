@@ -1,20 +1,25 @@
 .main{
+    /*background: url('../../assets/Checkbg.jpg') no-repeat center center fixed; */
+    background-color: black;
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
     background-image: url('../../assets/Checkbg.jpg'); 
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
-    padding: 10%;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-style: normal;
     font-weight: 600;
-font-size:larger
+    font-size:larger
 }
 .boxy{
-    padding-top: 9%;
+    margin-top: 20%;
+    padding-top: 5%;
+    padding-bottom: 5%;
     background: rgba(239, 241, 237, 0.9);
     border-radius: 18px;
-    margin-left: auto;
-    width: 90%;
-    height: 250px;
-    margin-top: 25%;
+   margin-left: 10%;
+    width: 100%;
+    height: 5%;
+
 }
