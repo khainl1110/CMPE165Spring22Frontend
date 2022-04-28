@@ -26,6 +26,8 @@ export default function Payment() {
     const differenceInTime = roomObj.state.checkout.getTime() - roomObj.state.checkin.getTime();
     const days = differenceInTime / (1000 * 3600 * 24);
     const totalPrice = days * roomObj.state.price;
+
+    var usepoints = false;
     
 
     const navigate = useNavigate();
@@ -49,16 +51,6 @@ export default function Payment() {
             setIsLoggedIn(true);      
         }
     }, [])
-
-    useEffect(() => {
-        console.log(user); 
-        totalPoints = user.points;
-        if(payPoints > user.points){
-            payPoints = user.points
-        }
-        console.log(user.points);
-        console.log("user retrieved");
-    }, [user.points])
 
     const confirmReservation = async (e) => {
         e.preventDefault();
@@ -211,7 +203,7 @@ export default function Payment() {
                 <Grid item xs={12} />
                 <Grid item xs={12}><YourRoomReservation /></Grid>
                 <Grid item xs={12} align="center" ><HotelRoomDetails /></Grid>
-                <Grid item><GreenPrompt totalPrice={totalPrice} totalPoints={totalPoints} payPoints={payPoints} style={{ "padding-top": "0px" }} /></Grid>
+                <Grid item><GreenPrompt totalPrice={totalPrice} user={user} style={{ "padding-top": "0px" }} /></Grid>
                 <Box component="form" onSubmit={confirmReservation}>
                     <FormControl component="fieldset" variant="standard">
                         <Grid item><UserInfo user={user} /></Grid>
@@ -383,8 +375,13 @@ const MonthAndYear = ({ className }) => {
 const GreenPrompt = (props) => {
     console.log(props);
     var totalPoints = 0;
-    var payPoints = totalPrice;
-    var usepoints = false;
+    var payPoints = props.totalPrice;
+
+    totalPoints = props.user.points;
+    if(payPoints > props.user.points){
+        payPoints = props.user.points
+    }
+    console.log(props.user.points);
     
     return (
         <div className={style.greenPrompt}>
@@ -393,7 +390,7 @@ const GreenPrompt = (props) => {
                 fontSize: '15px',
                 color: '#FFFFFF'
             }}>
-                With this reservation, you earn {props.totalPrice} points to redeem and save on future trips. You currently have: {props.totalPoints} points. Would you like to redeem them to save ${props.payPoints} on this reservation?
+                With this reservation, you earn {props.totalPrice} points to redeem and save on future trips. You currently have: {totalPoints} points. Would you like to redeem them to save ${payPoints} on this reservation?
             </Typography>
         </div>
     )
