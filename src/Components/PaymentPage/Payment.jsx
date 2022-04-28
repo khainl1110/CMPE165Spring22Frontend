@@ -25,9 +25,13 @@ export default function Payment() {
     const roomID = roomObj.state.id;
     const differenceInTime = roomObj.state.checkout.getTime() - roomObj.state.checkin.getTime();
     const days = differenceInTime / (1000 * 3600 * 24);
-    const totalPrice = days * roomObj.state.price;
+    var totalPrice = days * roomObj.state.price;
+    var payPoints = totalPrice;
 
-    var usepoints = false;
+    var pointPrice = 0;
+    var payPrice = totalPrice;
+
+    var usePoints = false;
     
 
     const navigate = useNavigate();
@@ -42,8 +46,11 @@ export default function Payment() {
                 .then(response => response.json())
                 .then(data => {
                     setUser(data);
-                    setTimeout(() => {}, 0);
-                    
+                    if(totalPrice > user.points){
+                    payPoints = user.points
+                    console.log(payPoints);
+                    pointPrice = totalPrice-payPoints;
+                    }
                 })
                 .catch(e => {
                     console.log('error' + e);
@@ -51,6 +58,17 @@ export default function Payment() {
             setIsLoggedIn(true);      
         }
     }, [])
+
+    const priceChange = () => {
+        if(usePoints){
+            totalPrice = pointPrice;
+            console.log(totalPrice);
+        }
+        else{
+            totalPrice = payPrice;
+            console.log(totalPrice);
+        }
+    }
 
     const confirmReservation = async (e) => {
         e.preventDefault();
@@ -108,9 +126,10 @@ export default function Payment() {
                     }
                 }).then(
                     alert("Successfully booked!")
+                    
                 )
                 console.log(reservationData);
-
+                
                 // If user is logged in, add points to their account.
                 // Each 2$ spent is 1 point earned. 
                 // 50 points = 5$ is redeemable.
@@ -120,9 +139,10 @@ export default function Payment() {
                         lastName: user.lastName,
                         email: user.email,
                         password: user.password,
-                        points: user.points + totalPrice / 2.0,
+                        points: user.points + ((totalPrice/2)&&(!usePoints*totalPrice/2)) - (payPoints&&(usePoints*payPoints)),
                         paymentId: user.paymentId,
                     }
+                
 
                     fetch(backend_url + "/users", {
                         method: 'PUT',
@@ -131,9 +151,9 @@ export default function Payment() {
                             'Content-Type': 'application/json'
                         }
                     }).then(
-                        console.log('Updated user points:' + user.points + ' --> ' + (totalPrice / 2.0))
+                        console.log('Updated user points:' + user.points + ' --> ' + ((totalPrice/2)&&(!usePoints*totalPrice/2)) - (payPoints&&(usePoints*payPoints)))
                     )
-                }
+                }      
 
                 navigateToHotels();
             })
@@ -202,8 +222,30 @@ export default function Payment() {
                 </Grid>
                 <Grid item xs={12} />
                 <Grid item xs={12}><YourRoomReservation /></Grid>
-                <Grid item xs={12} align="center" ><HotelRoomDetails /></Grid>
+                <Grid item xs={12} align="center" ><HotelRoomDetails totalPrice={totalPrice} usePoints={usePoints} /></Grid>
                 <Grid item><GreenPrompt totalPrice={totalPrice} user={user} style={{ "padding-top": "0px" }} /></Grid>
+                <Grid item>
+                    <Button
+                        variant="contained"
+                        onClick={() => {
+                            usePoints=true;
+                            priceChange();
+                          }}
+                        sx={{ mt: 1, mb: 10, ml: '40%', backgroundColor: '#9BB40D', fontWeight: '500' }}
+                    >
+                        Apply Points
+                    </Button>
+                    <Button
+                        variant="contained"
+                        onClick={() => {
+                            usePoints=false;
+                            priceChange();
+                          }}
+                        sx={{ mt: 1, mb: 10, ml: 1, backgroundColor: '#EFF1ED', color: '#646464', fontWeight: '500' }}
+                    >
+                        Maybe Next Time
+                    </Button>
+                            </Grid>
                 <Box component="form" onSubmit={confirmReservation}>
                     <FormControl component="fieldset" variant="standard">
                         <Grid item><UserInfo user={user} /></Grid>
@@ -397,7 +439,7 @@ const GreenPrompt = (props) => {
     
 }
 
-const HotelRoomDetails = () => {
+const HotelRoomDetails = (props) => {
     const roomObj = useLocation();
 
     const differenceInTime = roomObj.state.checkout.getTime() - roomObj.state.checkin.getTime();
@@ -405,7 +447,7 @@ const HotelRoomDetails = () => {
     const totalPrice = days * roomObj.state.price;
 
     return (
-        <div className={style.temp}>
+        <div className={style.temp} key={props.totalPrice}>
             <Grid container spacing={1}>
                 <Grid item xs={5}>
                     <Paper
@@ -461,7 +503,7 @@ const HotelRoomDetails = () => {
                 </Grid>
                 <Grid item xs={2} container direction="column">
                     <Grid item style={{ "font-weight": "650", "font-size": "2em" }}>
-                        ${totalPrice}
+                        ${props.totalPrice}
                     </Grid>
                     <Grid item>
                         For {days} nights
