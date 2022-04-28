@@ -43,6 +43,9 @@ export default function NavBar() {
           <Link to="/hotel" style={styles.link}>
             Search Hotels
           </Link>
+          <Link to="/checkReservation" style={styles.link}>
+            Check Reservation
+          </Link>
           <Link to="/login" style={styles.link}>
             Sign In
           </Link>

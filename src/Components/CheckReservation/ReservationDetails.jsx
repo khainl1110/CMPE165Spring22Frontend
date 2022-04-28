@@ -60,8 +60,7 @@ export default function ReservationDetail(props) {
             width: '100%',
         }}>
 
-            <ListItemButton onClick={handleClick}>
-
+            <ListItemButton onClick={handleClick} sx={{ backgroundColor: "#9BB40D" }}>
                 <ListItemText
                     primary={
                         <React.Fragment>
@@ -74,162 +73,153 @@ export default function ReservationDetail(props) {
                             </Typography>
                         </React.Fragment>
                     }
-
-                    sx={{
-                        backgroundColor:
-                            open ? "#9BB40D" : "#fafafa",
-                        color:
-                            open ? "white" : "black",
-
-                    }} />
-                {open ? <ExpandLess /> : <ExpandMore />}
+                />
             </ListItemButton>
 
 
-                <List component="div" disablePadding>
+            <List component="div" disablePadding>
+                <Box sx={{
+                    marginLeft: "3%",
+                    marginBottom: "5%"
+                }}>
 
-                    <Box sx={{
-                        marginLeft: "3%",
-                        marginBottom: "5%"
-                    }}>
+                    <ListItem>
+                        <Typography sx={{
+                            fontSize: 20,
+                            fontWeight: 600,
+                            width: "50%",
+                            textDecoration: 'underline',
+                            fontFamily: 'Baloo-Bhaina-2',
+                        }}>
+                            {hotelName}
+                        </Typography>
 
-                        <ListItem>
+                        <ListItemButton onClick={editClick} sx={{
+                            marginLeft: "20%",
+                            maxWidth: "25%"
+                        }}>
+                            <ListItemIcon>
+                                <EditIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Edit Booking" sx={{ textDecoration: 'underline' }} />
+                        </ListItemButton>
+
+                        <ListItemButton onClick={cancelClick} sx={{
+                            marginLeft: "3%",
+                            maxWidth: "25%"
+                        }}>
+                            <ListItemIcon>
+                                <CancelIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Cancel Booking" sx={{ textDecoration: 'underline' }} />
+                        </ListItemButton>
+                    </ListItem>
+
+                    <ListItem>
+                        <Paper style={styles.imageContainer} sx={{ backgroundImage: `url(${image})`, }} />
+                        <ListItemText>
                             <Typography sx={{
-                                fontSize: 20,
-                                fontWeight: 600,
-                                width: "50%",
-                                textDecoration: 'underline',
+                                marginLeft: "3%",
                                 fontFamily: 'Baloo-Bhaina-2',
                             }}>
-                                {hotelName}
+                                {description}
                             </Typography>
-
-                            <ListItemButton onClick={editClick} sx={{
-                                marginLeft: "20%",
-                                maxWidth: "25%"
-                            }}>
-                                <ListItemIcon>
-                                    <EditIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Edit Booking" sx={{ textDecoration: 'underline' }} />
-                            </ListItemButton>
-
-                            <ListItemButton onClick={cancelClick} sx={{
-                                marginLeft: "3%",
-                                maxWidth: "25%"
-                            }}>
-                                <ListItemIcon>
-                                    <CancelIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Cancel Booking" sx={{ textDecoration: 'underline' }} />
-                            </ListItemButton>
-                        </ListItem>
-
-                        <ListItem>
-                            <Paper style={styles.imageContainer} sx={{ backgroundImage: `url(${image})`, }} />
-                            <ListItemText>
-                                <Typography sx={{
-                                    marginLeft: "3%",
-                                    fontFamily: 'Baloo-Bhaina-2',
-                                }}>
-                                    {description}
-                                </Typography>
-                                <Typography sx={{
-                                    marginLeft: "3%",
-                                    fontFamily: 'Baloo-Bhaina-2',
-                                }}>
-                                    {roomInfo}
-                                </Typography>
-                                <Typography sx={{
-                                    marginLeft: "3%",
-                                    fontFamily: 'Baloo-Bhaina-2',
-                                }}>
-                                    {amenities}
-                                </Typography>
-                            </ListItemText>
-                        </ListItem>
-
-                        <ListItem>
                             <Typography sx={{
-                                fontWeight: 600,
-                                fontFamily: 'Baloo-Bhaina-2',
-                            }}>Check In: </Typography>
-                            <Typography marginLeft={1} sx={{ fontFamily: 'Baloo-Bhaina-2', }}>{checkIn}</Typography>
-                            <Typography sx={{
-                                fontWeight: 600,
                                 marginLeft: "3%",
                                 fontFamily: 'Baloo-Bhaina-2',
-                            }}>Check Out:</Typography>
-                            <Typography marginLeft={1} sx={{ fontFamily: 'Baloo-Bhaina-2', }}>{checkOut}</Typography>
-                        </ListItem>
-
-                        <ListItem>
-                            <Typography sx={{
-                                fontWeight: 600,
-                                fontFamily: 'Baloo-Bhaina-2',
                             }}>
-                                Guest: </Typography>
-                            <Typography marginLeft={1} sx={{ fontFamily: 'Baloo-Bhaina-2', }}>{numGuest}</Typography>
-                        </ListItem>
-
-
-                        <ListItem>
-                            <Typography sx={{
-                                fontSize: 22,
-                                fontWeight: 600,
-                                fontFamily: 'Baloo-Bhaina-2',
-                            }}>
-                                Your Info
+                                {roomInfo}
                             </Typography>
-                        </ListItem>
-
-                        <ListItem>
                             <Typography sx={{
-                                fontWeight: 600,
-                                fontFamily: 'Baloo-Bhaina-2',
-                            }}>First Name: </Typography>
-                            <Typography marginLeft={1} sx={{ fontFamily: 'Baloo-Bhaina-2', }}> {firstName}</Typography>
-                            <Typography sx={{
-                                fontWeight: 600,
                                 marginLeft: "3%",
-                                fontFamily: 'Baloo-Bhaina-2',
-                            }}>Last Name: </Typography>
-                            <Typography marginLeft={1} sx={{ fontFamily: 'Baloo-Bhaina-2', }}>{lastName}</Typography>
-                        </ListItem>
-
-                        <ListItem>
-                            <Typography sx={{
-                                fontWeight: 600,
-                                fontFamily: 'Baloo-Bhaina-2',
-                            }}>Email: </Typography>
-                            <Typography marginLeft={1} sx={{ fontFamily: 'Baloo-Bhaina-2', }}>{email}</Typography>
-                        </ListItem>
-
-                        <ListItem>
-                            <Typography sx={{
-                                fontSize: 22,
-                                fontWeight: 600,
                                 fontFamily: 'Baloo-Bhaina-2',
                             }}>
-                                Payment Details</Typography>
-                        </ListItem>
+                                {amenities}
+                            </Typography>
+                        </ListItemText>
+                    </ListItem>
 
-                        <ListItem>
-                            <Typography sx={{
-                                fontWeight: 600,
-                                fontFamily: 'Baloo-Bhaina-2',
-                            }}>Card Number: </Typography>
-                            <Typography marginLeft={1} sx={{ fontFamily: 'Baloo-Bhaina-2', }}>{cardNumber}</Typography>
-                            <Typography sx={{
-                                fontWeight: 600,
-                                marginLeft: "3%",
-                                fontFamily: 'Baloo-Bhaina-2',
-                            }}>Zip Code: </Typography>
-                            <Typography marginLeft={1} sx={{ fontFamily: 'Baloo-Bhaina-2', }}>{zipCode}</Typography>
-                        </ListItem>
+                    <ListItem>
+                        <Typography sx={{
+                            fontWeight: 600,
+                            fontFamily: 'Baloo-Bhaina-2',
+                        }}>Check In: </Typography>
+                        <Typography marginLeft={1} sx={{ fontFamily: 'Baloo-Bhaina-2', }}>{checkIn}</Typography>
+                        <Typography sx={{
+                            fontWeight: 600,
+                            marginLeft: "3%",
+                            fontFamily: 'Baloo-Bhaina-2',
+                        }}>Check Out:</Typography>
+                        <Typography marginLeft={1} sx={{ fontFamily: 'Baloo-Bhaina-2', }}>{checkOut}</Typography>
+                    </ListItem>
 
-                    </Box>
-                </List>
+                    <ListItem>
+                        <Typography sx={{
+                            fontWeight: 600,
+                            fontFamily: 'Baloo-Bhaina-2',
+                        }}>
+                            Guest: </Typography>
+                        <Typography marginLeft={1} sx={{ fontFamily: 'Baloo-Bhaina-2', }}>{numGuest}</Typography>
+                    </ListItem>
+
+
+                    <ListItem>
+                        <Typography sx={{
+                            fontSize: 22,
+                            fontWeight: 600,
+                            fontFamily: 'Baloo-Bhaina-2',
+                        }}>
+                            Your Info
+                        </Typography>
+                    </ListItem>
+
+                    <ListItem>
+                        <Typography sx={{
+                            fontWeight: 600,
+                            fontFamily: 'Baloo-Bhaina-2',
+                        }}>First Name: </Typography>
+                        <Typography marginLeft={1} sx={{ fontFamily: 'Baloo-Bhaina-2', }}> {firstName}</Typography>
+                        <Typography sx={{
+                            fontWeight: 600,
+                            marginLeft: "3%",
+                            fontFamily: 'Baloo-Bhaina-2',
+                        }}>Last Name: </Typography>
+                        <Typography marginLeft={1} sx={{ fontFamily: 'Baloo-Bhaina-2', }}>{lastName}</Typography>
+                    </ListItem>
+
+                    <ListItem>
+                        <Typography sx={{
+                            fontWeight: 600,
+                            fontFamily: 'Baloo-Bhaina-2',
+                        }}>Email: </Typography>
+                        <Typography marginLeft={1} sx={{ fontFamily: 'Baloo-Bhaina-2', }}>{email}</Typography>
+                    </ListItem>
+
+                    <ListItem>
+                        <Typography sx={{
+                            fontSize: 22,
+                            fontWeight: 600,
+                            fontFamily: 'Baloo-Bhaina-2',
+                        }}>
+                            Payment Details</Typography>
+                    </ListItem>
+
+                    <ListItem>
+                        <Typography sx={{
+                            fontWeight: 600,
+                            fontFamily: 'Baloo-Bhaina-2',
+                        }}>Card Number: </Typography>
+                        <Typography marginLeft={1} sx={{ fontFamily: 'Baloo-Bhaina-2', }}>{cardNumber}</Typography>
+                        <Typography sx={{
+                            fontWeight: 600,
+                            marginLeft: "3%",
+                            fontFamily: 'Baloo-Bhaina-2',
+                        }}>Zip Code: </Typography>
+                        <Typography marginLeft={1} sx={{ fontFamily: 'Baloo-Bhaina-2', }}>{zipCode}</Typography>
+                    </ListItem>
+
+                </Box>
+            </List>
         </List >
     )
 }
