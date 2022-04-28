@@ -17,7 +17,7 @@ export default function PastReservationCard(props) {
     const { hotelName, description, price, checkIn, checkOut, image, firstName, lastName, email, guest, roomInfo, amenities, roomId, cardNumber, points } = props;
 
     //instant info payment detail
-    const zipCode = "00000";
+    //const zipCode = "00000";
 
     const [open, setOpen] = useState(false);
    
@@ -213,12 +213,12 @@ export default function PastReservationCard(props) {
                                 fontFamily: 'Baloo-Bhaina-2',
                             }}>Card Number: </Typography>
                             <Typography marginLeft={1} sx={{fontFamily: 'Baloo-Bhaina-2',}}>{cardNumber}</Typography>
-                            <Typography sx={{
+                            {/* <Typography sx={{
                                 fontWeight: 600,
                                 marginLeft: "3%",
                                 fontFamily: 'Baloo-Bhaina-2',
                             }}>Zip Code: </Typography>
-                            <Typography marginLeft={1} sx={{fontFamily: 'Baloo-Bhaina-2',}}>{zipCode}</Typography>
+                            <Typography marginLeft={1} sx={{fontFamily: 'Baloo-Bhaina-2',}}>{zipCode}</Typography> */}
                         </ListItem>
 
                     </Box>

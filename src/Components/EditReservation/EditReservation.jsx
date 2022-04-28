@@ -7,7 +7,8 @@ import {
     Container,
     Paper,
     Box,
-    Button
+    Button,
+    FormControl
 } from '@mui/material/';
 import LoggedInNavBar from '../NavBar/LoggedInNavBar.jsx';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -27,9 +28,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 export default function EditReservation(props) {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    //const [reservations, setReservations] = useState([]);
-    
-    
+ 
     const theme = createTheme();
 
     const styles = {
@@ -52,7 +51,6 @@ export default function EditReservation(props) {
     const email = localStorage.getItem('email');
 
     useEffect(() => {
-        setRoomID(location.state.roomId);
         if (email !== '') {
             setIsLoggedIn(true);
         }
@@ -64,96 +62,58 @@ export default function EditReservation(props) {
     const location = useLocation();
 
     const [room, setRoom] = useState([]);
-    const [roomID, setRoomID] = useState(location.state.roomId);
     const [state, setState] = useState(location.state);
-    console.log(state);
 
     const [dates, setDates] = useState([state.checkIn, state.checkOut]);
     const check_in = state.checkIn.substring(0,10);
     const check_out = state.checkOut.substring(0,10);
     const differenceInTime = Date.parse(dates[1]) - Date.parse(dates[0]);
     const days = differenceInTime / (1000 * 3600 * 24);
-    const totalPrice = days * room.price;
-    const currentPoints = state.points - (Date.parse(state.checkOut) - Date.parse(state.checkIn))/(1000*3600*24)*room.price/2;
+    const totalPrice = days * state.price;
+    const currentPoints = state.points - (Date.parse(state.checkOut) - Date.parse(state.checkIn))/(1000*3600*24)*state.price/2;
     const changedPoints = currentPoints + totalPrice/2;
-    
-
-    console.log(currentPoints);
-    console.log(changedPoints);
+    const roomID = state.roomId;
 
     useEffect(() => {
-        setTimeout(() => {
-            if(roomID == undefined) {
-                setRoomID(location.state.roomId);
-                fetch(backend_url + "/room/" + roomID, { method: 'GET' })
-                .then(response => response.json())
-                .then(data => {
-                    setRoom(data);            
-                })
-                .catch(e => {
-                    console.log('error' + e);
-                })
-            }
-            else {
-                fetch(backend_url + "/room/" + roomID, { method: 'GET' })
-                .then(response => response.json())
-                .then(data => {
-                    setRoom(data);
-                })
-                .catch(e => {
-                    console.log('error' + e);
-                })
-            }
-            
-        }, 100)  
-    }, [])
-
-    const [user, setUser] = useState();
-    useEffect(() => {
-        fetch(backend_url + "/users/" + email, {method: 'GET'})
+        
+        fetch(backend_url + "/room/" + roomID, { method: 'GET' })
         .then(response => response.json())
         .then(data => {
-            setUser(data);
+            setRoom(data);
         })
         .catch(e => {
             console.log('error' + e);
         })
-    })
+    }, [])
 
-    // will be edited
-    const nextClick = () => {
-        const pointData = {
-            firstName: user.firstName,
-            lastName: user.lastName,
-            password: user.password,
-            points: changedPoints,
-            paymentId: user.paymentId,
-            email: email,
-        }
-        fetch(backend_url + "/users", {
-            method: 'PUT',
-            body: JSON.stringify(pointData),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(
-            window.location.replace("/myBookings")
-        )
-
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const data = new FormData(e.currentTarget);
         const reservationData = {
-            firstName: state.firstName,
-            lastName: state.lastName,
+            id: state.reservId,
+            firstName: data.get('firstName'),
+            lastName: data.get('lastName'),
             userEmail: email,
             roomId: roomID,
             price: totalPrice,
             check_in: dates[0],
             check_out: dates[1],
             numGuest: state.guest,
-            paymentID: state.paymentId,
+            paymentId: state.paymentId
         }
+
+        nextClick(reservationData);
+    }
+
+    const nextClick = async (data) => {
+        const { id, firstName, lastName, userEmail, roomId, price, check_in, check_out, numGuest, paymentId} = data;
+        const putData = {id, firstName, lastName, userEmail, roomId, price, check_in, check_out, numGuest, paymentId};
+        
+        console.log(putData);
+
         fetch(backend_url + "/reservation/" + state.reservId, {
             method: 'PUT',
-            body: JSON.stringify(reservationData),
+            body: JSON.stringify(putData),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -161,11 +121,6 @@ export default function EditReservation(props) {
             alert("Successfully booked!"),
             window.location.replace("/myBookings")
         )
-        console.log(reservationData);
-    };
-
-    const cancleClick = () => {
-        window.location.replace("/cancel");
     };
 
     const backClick = () => {
@@ -366,6 +321,8 @@ export default function EditReservation(props) {
                             <List sx={{
                                 width: '100%',
                             }}>
+                                <Box component="form" onSubmit={handleSubmit} sx={{marginLeft: "2%", marginTop: "5%"}}>
+                                <FormControl component="fieldset" variant="standard">
                                 <Box sx={{marginTop: "5%"}}>
                                     <Typography sx={{fontSize: 22,
                                         fontWeight: 600,
@@ -439,7 +396,7 @@ export default function EditReservation(props) {
                                 
                                 <Box  textAlign='center' sx={{marginTop: "5%"}}>
                                     <ListItemText>
-                                        <Button onClick={nextClick} sx={{
+                                        <Button type="submit" variant="contained" sx={{
                                             color: "white", 
                                             backgroundColor: "#9BB40D", 
                                             
@@ -453,6 +410,8 @@ export default function EditReservation(props) {
                                             }
                                             }}>Confirm Reservation</Button>
                                     </ListItemText>
+                                </Box>
+                                </FormControl>
                                 </Box>
                                 
                             </List>

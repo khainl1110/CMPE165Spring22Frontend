@@ -14,7 +14,7 @@ import List from '@mui/material/List';
 import ReservationCard from "./ReservationCard.jsx";
 import PastReservationCard from "./PastReservationCard.jsx";
 
-export default function MyAccount() {
+export default function MyBookings() {
     
     const theme = createTheme();
 
@@ -90,7 +90,6 @@ export default function MyAccount() {
                 window.location.replace("/myBookings");
             })
     }, [])
-    console.log(reservations);
 
     let roomIds = [];
     for(let i = 0; i < reservations.length; i++) {
@@ -120,15 +119,15 @@ export default function MyAccount() {
     let arr = new Array(reservation.length);
     for(let i = 0; i < arr.length; i++) {
         arr[i] = new Array(3);
-        arr[i].push(reservation[i]);
+        arr[i].splice(0, 0, reservation[i]);
         for(let j = 0; j < reservedRooms.length; j++) {
             if(reservedRooms[j].id === reservation[i].roomId) {
-                arr[i].push(reservedRooms[j]);
+                arr[i].splice(1, 0, reservedRooms[j]);
             }
         }
         for(let k = 0; k < payment.length; k++) {
             if(payment[k].id === reservation[i].paymentId) {
-                arr[i].push(payment[k]);
+                arr[i].splice(2, 0, payment[k]);
             }
         }        
     }
@@ -176,9 +175,9 @@ export default function MyAccount() {
                                     <Box>
                                         {
                                             arr.map((arr) => {
-                                                let reserv = arr[3];
-                                                let room = arr[4];
-                                                let pay = arr[5];
+                                                let reserv = arr[0];
+                                                let room = arr[1];
+                                                let pay = arr[2];
                                                 let checkInValue = Date.parse(reserv.check_in.substring(0,10));
                                                 let diff = checkInValue-now;
                                                 let checkInDateObj = new Date(reserv.check_in);
@@ -186,7 +185,7 @@ export default function MyAccount() {
                                                 let checkIn = checkInDateObj.getMonth() + 1 + "/" + checkInDateObj.getDate() + "/" + checkInDateObj.getFullYear();
                                                 let checkOut = checkOutDateObj.getMonth() + 1 + "/" + checkOutDateObj.getDate() + "/" + checkOutDateObj.getFullYear();
                                                 
-                                                 if(diff >= 0) {
+                                                 if(diff >= -86400000) {
                                                     return (
                                                         <Grid container sx={{
                                                             border: 1,
@@ -196,13 +195,13 @@ export default function MyAccount() {
                                                             <ReservationCard
                                                                 hotelName={room.hotelName}
                                                                 description={room.description}
-                                                                price={reserv.price}
+                                                                price={room.price}
                                                                 image={room.image}
                                                                 checkIn={checkIn}
                                                                 checkOut={checkOut}
-                                                                firstName={user.firstName}
-                                                                lastName={user.lastName}
-                                                                email={user.email}
+                                                                firstName={reserv.firstName}
+                                                                lastName={reserv.lastName}
+                                                                email={reserv.userEmail}
                                                                 guest={room.numGuest}
                                                                 roomInfo={room.roomInfo}
                                                                 amenities={room.amenities}
@@ -210,7 +209,7 @@ export default function MyAccount() {
                                                                 cardNumber={pay.number}
                                                                 paymentId={pay.id}
                                                                 reservId={reserv.id}
-                                                                points={user.points}
+                                                                points={reserv.pointsRedeemed}
                                                             />
                                                         </Grid>
                                                     )
@@ -238,9 +237,9 @@ export default function MyAccount() {
                                     <Box>
                                     {
                                             arr.map((arr) => {
-                                                let reserv = arr[3];
-                                                let room = arr[4];
-                                                let pay = arr[5];
+                                                let reserv = arr[0];
+                                                let room = arr[1];
+                                                let pay = arr[2];
                                                 let checkInValue = Date.parse(reserv.check_in);
                                                 let diff = checkInValue-now;
                                                 let checkInDateObj = new Date(reserv.check_in);
@@ -248,7 +247,7 @@ export default function MyAccount() {
                                                 let checkIn = checkInDateObj.getMonth() + 1 + "/" + checkInDateObj.getDate() + "/" + checkInDateObj.getFullYear();
                                                 let checkOut = checkOutDateObj.getMonth() + 1 + "/" + checkOutDateObj.getDate() + "/" + checkOutDateObj.getFullYear();
                                         
-                                                if(diff < 0) {
+                                                if(diff < -86400000) {
                                                     return (
                                                         <Grid container sx={{
                                                             border: 1,
@@ -258,19 +257,19 @@ export default function MyAccount() {
                                                             <PastReservationCard
                                                                 hotelName={room.hotelName}
                                                                 description={room.description}
-                                                                price={reserv.price}
+                                                                price={room.price}
                                                                 image={room.image}
                                                                 checkIn={checkIn}
                                                                 checkOut={checkOut}
-                                                                firstName={user.firstName}
-                                                                lastName={user.lastName}
-                                                                email={user.email}
+                                                                firstName={reserv.firstName}
+                                                                lastName={reserv.lastName}
+                                                                email={reserv.userEmail}
                                                                 guest={reserv.numGuest}
                                                                 roomInfo={room.roomInfo}
                                                                 amenities={room.amenities}
                                                                 roomId={room.id}
                                                                 cardNumber={pay.number}
-                                                                points={user.points}
+                                                                points={reserv.pointsRedeemed}
                                                             />
                                                         </Grid>
                                                     )
