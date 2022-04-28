@@ -2,7 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import style from '../PaymentPage/Payment.module.css';
-import { MenuItem, Button, FormControl } from '@mui/material';
+import { MenuItem, Button, FormControl, StyledEngineProvider } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -13,17 +13,20 @@ import LoggedInNavBar from '../NavBar/LoggedInNavBar';
 import { backend_url } from "../../links";
 import Grid from '@mui/material/Grid';
 import { useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Typography } from '@mui/material';
+
 
 export default function Payment() {
     const email = localStorage.getItem('email');
-    const [user, setUser] = React.useState();
+    const [user, setUser] = React.useState([]);
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
     const roomObj = useLocation();
     const roomID = roomObj.state.id;
     const differenceInTime = roomObj.state.checkout.getTime() - roomObj.state.checkin.getTime();
     const days = differenceInTime / (1000 * 3600 * 24);
     const totalPrice = days * roomObj.state.price;
+    
 
     const navigate = useNavigate();
 
@@ -33,17 +36,29 @@ export default function Payment() {
 
     useEffect(() => {
         if (email !== '') {
-            setIsLoggedIn(true);
             fetch(backend_url + "/users/" + email, { method: 'GET' })
                 .then(response => response.json())
                 .then(data => {
                     setUser(data);
+                    setTimeout(() => {}, 0);
+                    
                 })
                 .catch(e => {
                     console.log('error' + e);
-                })
+                }) 
+            setIsLoggedIn(true);      
         }
     }, [])
+
+    useEffect(() => {
+        console.log(user); 
+        totalPoints = user.points;
+        if(payPoints > user.points){
+            payPoints = user.points
+        }
+        console.log(user.points);
+        console.log("user retrieved");
+    }, [user.points])
 
     const confirmReservation = async (e) => {
         e.preventDefault();
@@ -196,7 +211,7 @@ export default function Payment() {
                 <Grid item xs={12} />
                 <Grid item xs={12}><YourRoomReservation /></Grid>
                 <Grid item xs={12} align="center" ><HotelRoomDetails /></Grid>
-                {/* <Grid item><GreenPrompt style={{ "padding-top": "0px" }} /></Grid> */}
+                <Grid item><GreenPrompt totalPrice={totalPrice} totalPoints={totalPoints} payPoints={payPoints} style={{ "padding-top": "0px" }} /></Grid>
                 <Box component="form" onSubmit={confirmReservation}>
                     <FormControl component="fieldset" variant="standard">
                         <Grid item><UserInfo user={user} /></Grid>
@@ -364,13 +379,25 @@ const MonthAndYear = ({ className }) => {
     )
 }
 
-const GreenPrompt = () => {
 
+const GreenPrompt = (props) => {
+    console.log(props);
+    var totalPoints = 0;
+    var payPoints = totalPrice;
+    var usepoints = false;
+    
     return (
         <div className={style.greenPrompt}>
-            <p>Wait! By signing up for a LikeHome account, you could earn 600 points for this reservation to redeem and save on future trips! Learn more here.</p>
+            <Typography variant="h2" sx={{
+                fontWeight: 600,
+                fontSize: '15px',
+                color: '#FFFFFF'
+            }}>
+                With this reservation, you earn {props.totalPrice} points to redeem and save on future trips. You currently have: {props.totalPoints} points. Would you like to redeem them to save ${props.payPoints} on this reservation?
+            </Typography>
         </div>
     )
+    
 }
 
 const HotelRoomDetails = () => {
