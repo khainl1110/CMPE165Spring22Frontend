@@ -164,7 +164,6 @@ export default function HotelPage(props) {
           return;
         }
         
-        setHotels(originalHotels);
 
         if (newValue[0]<=newValue[1]) {
           setValue1([newValue[0], newValue[1]]);
@@ -175,7 +174,7 @@ export default function HotelPage(props) {
         console.log(value1[1]);
 
         let selectedHotels = [];
-        hotels.map((room, event) => {
+        allHotels.map((room, event) => {
             if (room.price > value1[0] && room.price < value1[1]) {
                 selectedHotels.push(room);
             }
