@@ -8,6 +8,7 @@ import { CssBaseline } from '@mui/material';
 import Box from '@mui/material/Box';
 import { Paper } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Slider from '@mui/material/Slider';
 import NavBar from '../../Components/NavBar/NavBar.jsx';
 import LoggedInNavBar from '../../Components/NavBar/LoggedInNavBar.jsx';
 import SearchBar from '../../Components/LandingPageSearchBar/SearchBar.jsx';
@@ -32,6 +33,10 @@ const styles = {
         minHeight: '110vh',
     },
 };
+
+function valuetext(value) {
+    return `${value}°C`;
+}
 
 export default function HotelPage(props) {
 
@@ -59,6 +64,10 @@ export default function HotelPage(props) {
     let [allHotels, setAllHotels] = useState([]);
     let [inSearchMode, setInSearchMode] = useState(false);
     let [propertyNames, setPropertyNames] = useState([]);
+
+    const [value1, setValue1] = React.useState([0, 1000]);
+    const minDistance = 10;
+
     let card = [];
 
     useEffect(() => {
@@ -149,6 +158,30 @@ export default function HotelPage(props) {
         })
         setPropertyNames(hotelNames);
     }, [allHotels])
+
+    const setPriceFilter = (event, newValue, activeThumb) => {
+        if (!Array.isArray(newValue)) {
+          return;
+        }
+        
+        setHotels(originalHotels);
+
+        if (newValue[0]<=newValue[1]) {
+          setValue1([newValue[0], newValue[1]]);
+        } else {
+          setValue1([newValue[1], newValue[0]]);
+        }
+        console.log(value1[0]);
+        console.log(value1[1]);
+
+        let selectedHotels = [];
+        hotels.map((room, event) => {
+            if (room.price > value1[0] && room.price < value1[1]) {
+                selectedHotels.push(room);
+            }
+        })
+        setHotels(selectedHotels);
+      };
 
     const onSearch = (location, dates, numGuests) => {
         setInSearchMode(true);
@@ -302,6 +335,34 @@ export default function HotelPage(props) {
                             />
                         </Box>
                     </Grid>
+
+                    <Grid item xs={0}>
+                        <Typography variant="h2" sx={{
+                            fontFamily: 'Baloo-Bhaina-2',
+                            fontWeight: 700,
+                            fontSize: '18px',
+                            color: '#424242',
+                            marginTop: '23%',
+                            marginLeft: '0%'
+                        }}>
+                            Price Range
+                        </Typography>
+                        <Box sx={{marginTop: '0%', width: 300}}>
+                            <Slider
+                            style={{ maxWidth: 500 }}
+                            getAriaLabel={() => 'Price Range'}
+                            value={value1}
+                            onChange={setPriceFilter}
+                            valueLabelDisplay="auto"
+                            getAriaValueText={valuetext}
+                            min={0}
+                            step={10}
+                            max={1000}
+                            disableSwap
+                            />
+                        </Box>
+                    </Grid>
+
                     <Grid item xs={0}>
                         <Box sx={{ marginTop: '45%', backgroundColor: "#F9FBF7" }}>
                             <Select
