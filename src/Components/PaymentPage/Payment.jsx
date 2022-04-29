@@ -46,11 +46,16 @@ export default function Payment() {
                 .then(response => response.json())
                 .then(data => {
                     setUser(data);
-                    if(totalPrice > user.points){
-                    payPoints = user.points
-                    console.log(payPoints);
-                    pointPrice = totalPrice-payPoints;
+                    if(totalPrice > data.points){
+                        payPoints = data.points;
+                        console.log(data.points);
+                        console.log(payPoints);
+                        pointPrice = totalPrice-data.points;
                     }
+                    setTimeout(() => {
+                    console.log("payPoints" + payPoints);
+                    console.log("pointPrice" + pointPrice);
+                    }, 1000);
                 })
                 .catch(e => {
                     console.log('error' + e);
@@ -58,19 +63,22 @@ export default function Payment() {
             setIsLoggedIn(true);      
         }
     }, [])
-
+        
     const priceChange = () => {
+        console.log("payPoints" + payPoints);
+        console.log("pointPrice" + pointPrice);
         if(usePoints){
             totalPrice = pointPrice;
-            console.log(totalPrice);
+            console.log("pointpay "+ totalPrice);
         }
         else{
             totalPrice = payPrice;
-            console.log(totalPrice);
+            console.log("pricepay "+ totalPrice);
         }
     }
 
     const confirmReservation = async (e) => {
+
         e.preventDefault();
         const data = new FormData(e.currentTarget);
 
@@ -133,13 +141,13 @@ export default function Payment() {
                 // If user is logged in, add points to their account.
                 // Each 2$ spent is 1 point earned. 
                 // 50 points = 5$ is redeemable.
-                if (isLoggedIn && user) {
+                if (isLoggedIn && user && usePoints) {
                     const updatedUserData = {
                         firstName: user.firstName,
                         lastName: user.lastName,
                         email: user.email,
                         password: user.password,
-                        points: user.points + ((totalPrice/2)&&(!usePoints*totalPrice/2)) - (payPoints&&(usePoints*payPoints)),
+                        points: user.points - payPoints,
                         paymentId: user.paymentId,
                     }
                 
@@ -151,7 +159,28 @@ export default function Payment() {
                             'Content-Type': 'application/json'
                         }
                     }).then(
-                        console.log('Updated user points:' + user.points + ' --> ' + ((totalPrice/2)&&(!usePoints*totalPrice/2)) - (payPoints&&(usePoints*payPoints)))
+                        console.log('Updated user points:' + user.points + ' --> ' + user.points - payPoints)
+                    )
+                }
+                else if (isLoggedIn && user && !usePoints) {
+                    const updatedUserData = {
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        email: user.email,
+                        password: user.password,
+                        points: user.points + totalPrice/2,
+                        paymentId: user.paymentId,
+                    }
+                
+
+                    fetch(backend_url + "/users", {
+                        method: 'PUT',
+                        body: JSON.stringify(updatedUserData),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }).then(
+                        console.log('Updated user points:' + user.points + ' --> ' + user.points + totalPrice/2)
                     )
                 }      
 
