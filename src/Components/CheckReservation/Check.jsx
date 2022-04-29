@@ -110,6 +110,7 @@ export default function Check() {
                                         sx={{ marginRight: "30px", width: "30%" }}
                                     />
                                     <Button
+                                        onClick={handleClick}
                                         type="submit"
                                         variant="contained"
                                         sx={{ backgroundColor: '#9BB40D', width: "30%", height: "38px" }}
