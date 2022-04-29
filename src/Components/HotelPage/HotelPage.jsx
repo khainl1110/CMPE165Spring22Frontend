@@ -188,6 +188,8 @@ export default function HotelPage(props) {
         setNumGuests(numGuests);
         console.log("Set Dates in onSearch" + dates);
 
+        setValue1([0,1000]);
+
         if (location && dates && numGuests) {
             if (numGuests >= 3) {
                 numGuests = 4;
