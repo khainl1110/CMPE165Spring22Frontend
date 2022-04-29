@@ -268,7 +268,7 @@ export default function HotelPage(props) {
         }
     }
 
-    const filterByProperty = (selectedOption) => {
+    /*const filterByProperty = (selectedOption) => {
         if (selectedOption !== null) {
             let selectedHotels = [];
             hotels.map((room, event) => {
@@ -282,7 +282,7 @@ export default function HotelPage(props) {
         } else if (selectedOption === null && !inSearchMode) {
             setHotels(allHotels);
         }
-    }
+    }*/
 
     useEffect(() => {
         let hotelNames = [];
@@ -304,7 +304,20 @@ export default function HotelPage(props) {
             </Grid>
         );
     }
-
+/*FilterByProperty*/
+/*<Grid item xs={0}>
+    <Box sx={{ marginTop: '41%', backgroundColor: "#F9FBF7" }}>
+        <Autocomplete
+            size="small"
+            disablePortal
+            id="combo-box-demo"
+            options={propertyNames}
+            sx={{ minWidth: 200 }}
+            onChange={(_event, selectedOption) => filterByProperty(selectedOption)}
+            renderInput={(params) => <TextField {...params} label="Filter By Property" />}
+        />
+    </Box>
+</Grid>*/
     return (
         <ThemeProvider theme={theme}>
             <Paper style={styles.paperContainer} sx={{ boxShadow: 0 }}>
@@ -321,19 +334,7 @@ export default function HotelPage(props) {
                             <SearchBar onSearch={onSearch} location={locat} dates={dates} numGuests={numGuests} isLandingPage={false} />
                         </Box>
                     </Grid>
-                    <Grid item xs={0}>
-                        <Box sx={{ marginTop: '41%', backgroundColor: "#F9FBF7" }}>
-                            <Autocomplete
-                                size="small"
-                                disablePortal
-                                id="combo-box-demo"
-                                options={propertyNames}
-                                sx={{ minWidth: 200 }}
-                                onChange={(_event, selectedOption) => filterByProperty(selectedOption)}
-                                renderInput={(params) => <TextField {...params} label="Filter By Property" />}
-                            />
-                        </Box>
-                    </Grid>
+                    
 
                     <Grid item xs={0}>
                         <Typography variant="h2" sx={{
@@ -348,6 +349,7 @@ export default function HotelPage(props) {
                         </Typography>
                         <Box sx={{marginTop: '0%', width: 300}}>
                             <Slider
+                            sx={{color: '#9BB40D'}}
                             style={{ maxWidth: 500 }}
                             getAriaLabel={() => 'Price Range'}
                             value={value1}
@@ -355,7 +357,7 @@ export default function HotelPage(props) {
                             valueLabelDisplay="auto"
                             getAriaValueText={valuetext}
                             min={0}
-                            step={10}
+                            step={50}
                             max={1000}
                             disableSwap
                             />
