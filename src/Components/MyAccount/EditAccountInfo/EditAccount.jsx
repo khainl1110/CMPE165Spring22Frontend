@@ -22,7 +22,6 @@ import {
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import bannerImage from "../../../assets/accountPage/banner.jpg";
 import { useLocation } from "react-router-dom";
-import fi from 'date-fns/esm/locale/fi/index.js';
 
 export default function EditAccount(props) {
 
