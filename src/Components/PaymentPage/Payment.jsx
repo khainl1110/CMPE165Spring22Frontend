@@ -82,8 +82,8 @@ export default function Payment() {
             .then(response => response.json())
             .then((res) => {
                 const reservationData = {
-                    // firstName: data.get('firstName'),
-                    // lastName: data.get('lastName'),
+                    firstName: data.get('firstName'),
+                    lastName: data.get('lastName'),
                     // phone: data.get('phone'),
                     userEmail: data.get('email'),
                     roomId: roomID,

@@ -78,7 +78,7 @@ export default function CancelPage(props) {
     const diff = differenceInCalendarDays(new Date(checkIn), new Date(today));
     const priceDays = differenceInCalendarDays(new Date(checkOut), new Date(checkIn));
 
-    var price = location.state.price * priceDays;
+    var price = location.state.price;
     var cancelPrice = priceDays * 20;
 
     var points = price / 2;
