@@ -19,7 +19,7 @@ import {
 import userEvent from "@testing-library/user-event";
 
 export default function ReservationCard(props) {
-    const { hotelName, description, price, checkIn, checkOut, image, firstName, lastName, email, guest, roomInfo, amenities, roomId, cardNumber, paymentId, reservId, points } = props;
+    const { hotelName, description, price, checkIn, checkOut, image, firstName, lastName, email, guest, roomInfo, amenities, roomId, cardNumber, paymentId, reservId, points, oneDayPrice, userInfo } = props;
 
     //instant info payment detail
     //const zipCode = "00000";
@@ -35,12 +35,12 @@ export default function ReservationCard(props) {
     const navigate = useNavigate();
     const editClick = () => {
         navigate('/editReservation', {
-            state: {roomId, checkIn, checkOut, firstName, lastName, price, paymentId, guest, reservId, points,}
+            state: {roomId, checkIn, checkOut, firstName, lastName, price: oneDayPrice, paymentId, guest, reservId, points, user: userInfo}
         });
     };
     const cancelClick = () => {
         navigate('/cancel', {
-            state: { hotelName, image, description, amenities, roomInfo, numGuest: guest, checkIn, checkOut, id: reservId, price }
+            state: { hotelName, image, description, amenities, roomInfo, numGuest: guest, checkIn, checkOut, id: reservId, price}
         });
     }
 

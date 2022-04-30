@@ -98,7 +98,6 @@ export default function MyAccount() {
 
             <Grid container direction="column" justify="center" alignItems="center" spacing={0}>
                 <List sx={{
-                    marginTop: "5%",
                     width: "80%",
                 }}>
                     <ListItem>
@@ -197,7 +196,7 @@ export default function MyAccount() {
 
                     <ListItem>
                         <Typography sx={{
-                            marginTop: "8%",
+                            marginTop: "5%",
                             fontFamily: 'Baloo-Bhaina-2',
                             fontSize: 22,
                             fontWeight: 600,

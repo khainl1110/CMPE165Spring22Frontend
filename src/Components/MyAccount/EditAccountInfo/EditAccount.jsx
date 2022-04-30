@@ -22,6 +22,7 @@ import {
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import bannerImage from "../../../assets/accountPage/banner.jpg";
 import { useLocation } from "react-router-dom";
+import fi from 'date-fns/esm/locale/fi/index.js';
 
 export default function EditAccount(props) {
 
@@ -32,8 +33,8 @@ export default function EditAccount(props) {
 
     const firstName = state.firstName;
     const lastName = state.lastName;
-    const password = state.password;
     const email = state.email;
+    const currentPassword = state.password;
     const points = state.points;
     const paymentId = state.paymentId;
     
@@ -67,32 +68,46 @@ export default function EditAccount(props) {
         e.preventDefault();
 
         const data = new FormData(e.currentTarget);
-        const editData = {
-            firstName: data.get('firstName'),
-            lastName: data.get('lastName'),
-            email: data.get('email'),
-            password: data.get('newPassword'),
-            confirmPassword: data.get('confirmPassword'),
-            points: points,
-            paymentId: paymentId
-        };
+        const newPassword = data.get('newPassword');
+        const confirmedPassword = data.get('confirmPassword');
 
-        console.log(editData);
-
-        const {password, confirmPassword} = editData;
-
-        if (password !== confirmPassword) {
+        if (newPassword !== confirmedPassword) {
             setShowError(true);
             setPasswordError('Please make sure your passwords match up.');
-          }
-          else {
-            setPasswordError('');
         }
-        
-        if(password === confirmPassword) {
-            onPutHandler(editData);
+        else {
+            setShowError('');
+        } 
+
+        if(newPassword === confirmedPassword) {
+            if(newPassword === ''){
+                const editData = {
+                    firstName: data.get('firstName'),
+                    lastName: data.get('lastName'),
+                    email: email,
+                    password: currentPassword,
+                    points: points,
+                    paymentId: paymentId
+                };
+                setShowError(false);
+                onPutHandler(editData);
+            }
+            else {
+                const editData = {
+                    firstName: data.get('firstName'),
+                    lastName: data.get('lastName'),
+                    email: email,
+                    password: newPassword,
+                    points: points,
+                    paymentId: paymentId
+                };
+                setShowError(false);
+                onPutHandler(editData);
+            }
         }
-        
+        else {
+            setShowError(true);
+        }
     }
 
     const cancelClick = () => {
@@ -139,10 +154,9 @@ export default function EditAccount(props) {
 
             <Grid container direction="column" justify="center" alignItems="center" spacing={0}>
                 <List sx={{
-                    marginTop: "5%",
                     width: "80%",
                 }}>
-                    <Box sx={{marginTop: "5%"}}>
+                    <Box sx={{marginTop: "2%"}}>
                         <Typography sx={{
                             fontSize: 25,
                             fontWeight: 600,
@@ -154,12 +168,12 @@ export default function EditAccount(props) {
                             fontSize: 22,
                             fontWeight: 600,
                             fontFamily: 'Baloo-Bhaina-2',
-                            marginTop: "4%",
+                            marginTop: "2%",
                             marginLeft: "2%"
                         }}>
                             Your Info
                         </Typography>
-                        <Box component="form" onSubmit={handleSubmit} sx={{marginLeft: "2%", marginTop: "5%"}}>
+                        <Box component="form" onSubmit={handleSubmit} sx={{marginLeft: "2%", marginTop: "2%"}}>
                             <FormControl component="fieldset" variant="standard">
                                 <Grid container spacing={2}>
                                 <Grid item xs={6}>
@@ -185,32 +199,8 @@ export default function EditAccount(props) {
                                     defaultValue={lastName}
                                     />
                                 </Grid>
-                                <Grid item xs={12} sx={{marginTop: "2%"}}>
+                                <Grid item xs={12} sx={{marginTop: "6%"}}>
                                     <TextField
-                                    required
-                                    autoFocus
-                                    fullWidth
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    label="Email"
-                                    defaultValue={email}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sx={{marginTop: "7%"}}>
-                                    <TextField
-                                    required
-                                    fullWidth
-                                    type="password"
-                                    id="currPassword"
-                                    name="currPassword"
-                                    label="Current Password"
-                                    defaultValue={password}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sx={{marginTop: "2%"}}>
-                                    <TextField
-                                    required
                                     fullWidth
                                     type="password"
                                     id="newPassword"
@@ -220,7 +210,6 @@ export default function EditAccount(props) {
                                 </Grid>
                                 <Grid item xs={12} sx={{marginTop: "2%"}}>
                                     <TextField
-                                    required
                                     fullWidth
                                     type="password"
                                     id="confirmPassword"

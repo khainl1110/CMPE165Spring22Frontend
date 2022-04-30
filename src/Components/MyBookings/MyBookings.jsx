@@ -195,7 +195,7 @@ export default function MyBookings() {
                                                             <ReservationCard
                                                                 hotelName={room.hotelName}
                                                                 description={room.description}
-                                                                price={room.price}
+                                                                price={reserv.price}
                                                                 image={room.image}
                                                                 checkIn={checkIn}
                                                                 checkOut={checkOut}
@@ -210,6 +210,8 @@ export default function MyBookings() {
                                                                 paymentId={pay.id}
                                                                 reservId={reserv.id}
                                                                 points={reserv.pointsRedeemed}
+                                                                oneDayPrice={room.price}
+                                                                userInfo={user}
                                                             />
                                                         </Grid>
                                                     )
@@ -257,7 +259,7 @@ export default function MyBookings() {
                                                             <PastReservationCard
                                                                 hotelName={room.hotelName}
                                                                 description={room.description}
-                                                                price={room.price}
+                                                                price={reserv.price}
                                                                 image={room.image}
                                                                 checkIn={checkIn}
                                                                 checkOut={checkOut}

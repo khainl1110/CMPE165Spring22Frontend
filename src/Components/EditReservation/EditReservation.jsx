@@ -70,9 +70,10 @@ export default function EditReservation(props) {
     const differenceInTime = Date.parse(dates[1]) - Date.parse(dates[0]);
     const days = differenceInTime / (1000 * 3600 * 24);
     const totalPrice = days * state.price;
-    const currentPoints = state.points - (Date.parse(state.checkOut) - Date.parse(state.checkIn))/(1000*3600*24)*state.price/2;
+    const currentPoints = state.user.points - (Date.parse(state.checkOut) - Date.parse(state.checkIn))/(1000*3600*24)*state.price/2;
     const changedPoints = currentPoints + totalPrice/2;
     const roomID = state.roomId;
+    console.log("current: "  + currentPoints + "    changed: " + changedPoints );
 
     useEffect(() => {
         
@@ -99,16 +100,16 @@ export default function EditReservation(props) {
             check_in: dates[0],
             check_out: dates[1],
             numGuest: state.guest,
-            paymentId: state.paymentId
+            paymentId: state.paymentId,
         }
 
         nextClick(reservationData);
     }
 
     const nextClick = async (data) => {
-        const { id, firstName, lastName, userEmail, roomId, price, check_in, check_out, numGuest, paymentId} = data;
+        const { id, firstName, lastName, userEmail, roomId, price, check_in, check_out, numGuest, paymentId } = data;
         const putData = {id, firstName, lastName, userEmail, roomId, price, check_in, check_out, numGuest, paymentId};
-        
+    
         console.log(putData);
 
         fetch(backend_url + "/reservation/" + state.reservId, {
@@ -119,8 +120,28 @@ export default function EditReservation(props) {
             }
         }).then(
             alert("Successfully booked!"),
-            window.location.replace("/myBookings")
+            
         )
+        
+        const userPointData = {
+            firstName: state.user.firstName,
+            lastName: state.user.lastName,
+            email: state.user.email,
+            password: state.user.password,
+            points: changedPoints,
+            paymentId: state.user.paymentId,
+        }
+
+        console.log(userPointData);
+
+        fetch(backend_url + "/users", {
+            method: 'PUT',
+            body: JSON.stringify(userPointData),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        window.location.replace("/myBookings")
     };
 
     const backClick = () => {
@@ -321,9 +342,9 @@ export default function EditReservation(props) {
                             <List sx={{
                                 width: '100%',
                             }}>
-                                <Box component="form" onSubmit={handleSubmit} sx={{marginLeft: "2%", marginTop: "5%"}}>
+                                <Box component="form" onSubmit={handleSubmit} sx={{marginLeft: "2%"}}>
                                 <FormControl component="fieldset" variant="standard">
-                                <Box sx={{marginTop: "5%"}}>
+                                <Box sx={{marginTop: "3%"}}>
                                     <Typography sx={{fontSize: 22,
                                         fontWeight: 600,
                                         fontFamily: 'Baloo-Bhaina-2',}}>
@@ -341,6 +362,7 @@ export default function EditReservation(props) {
                                                 sx={{
                                                     width: "90%"
                                                 }}
+                                                size="small"
                                                 />
                                         </ListItemText>
                                         <ListItemText>
@@ -354,13 +376,14 @@ export default function EditReservation(props) {
                                             sx={{
                                                 width: "90%"
                                             }}
+                                            size="small"
                                             />
                                         </ListItemText>
                                         
                                     </ListItem>
                                 </Box>
 
-                                <Box sx={{marginTop: "5%"}}>
+                                <Box sx={{marginTop: "3%"}}>
                                     <Typography sx={{fontSize: 22,
                                         fontWeight: 600,
                                         fontFamily: 'Baloo-Bhaina-2',}}>
@@ -378,8 +401,8 @@ export default function EditReservation(props) {
                                             }}
                                             renderInput={(startProps, endProps) => (
                                                 <React.Fragment>
-                                                    <TextField required autoFocus sx={{ }} value={dates[0]} {...startProps} />
-                                                    <TextField required autoFocus sx={{ marginLeft: "10%" }} value={dates[1]} {...endProps} />
+                                                    <TextField required autoFocus sx={{ }} value={dates[0]} {...startProps} size="small" />
+                                                    <TextField required autoFocus sx={{ marginLeft: "10%" }} value={dates[1]} {...endProps} size="small" />
                                                 </React.Fragment>
                                             )}
                                             />
@@ -387,14 +410,14 @@ export default function EditReservation(props) {
                                         
                                         
                                     </ListItem>
-                                    <ListItem sx={{display:'flex', justifyContent:'flex-right', marginTop: "5%", marginLeft: "3%"}}>
-                                        <Typography sx={{fontFamily: 'Baloo-Bhaina-2', width: "90%", fontSize: 18, fontWeight: 500}}>
+                                    <ListItem sx={{display:'flex', justifyContent:'flex-right', marginTop: "3%", marginLeft: "3%"}}>
+                                        <Typography sx={{fontFamily: 'Baloo-Bhaina-2', width: "98%", fontSize: 18, fontWeight: 500}}>
                                         Modifications to reservations that change the check-in or check-out date are dependent on your hotel’s availability for your chosen room type. We cannot guarantee that your room will be available for your new dates. Your reservation will not change if your new dates are unavailable.
                                         </Typography>
                                     </ListItem>
                                 </Box>
                                 
-                                <Box  textAlign='center' sx={{marginTop: "5%"}}>
+                                <Box  textAlign='center' sx={{marginTop: "2%"}}>
                                     <ListItemText>
                                         <Button type="submit" variant="contained" sx={{
                                             color: "white", 
