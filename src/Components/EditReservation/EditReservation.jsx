@@ -28,7 +28,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 export default function EditReservation(props) {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
- 
+
     const theme = createTheme();
 
     const styles = {
@@ -65,26 +65,26 @@ export default function EditReservation(props) {
     const [state, setState] = useState(location.state);
 
     const [dates, setDates] = useState([state.checkIn, state.checkOut]);
-    const check_in = state.checkIn.substring(0,10);
-    const check_out = state.checkOut.substring(0,10);
+    const check_in = state.checkIn.substring(0, 10);
+    const check_out = state.checkOut.substring(0, 10);
     const differenceInTime = Date.parse(dates[1]) - Date.parse(dates[0]);
     const days = differenceInTime / (1000 * 3600 * 24);
     const totalPrice = days * state.price;
-    const currentPoints = state.user.points - (Date.parse(state.checkOut) - Date.parse(state.checkIn))/(1000*3600*24)*state.price/2;
-    const changedPoints = currentPoints + totalPrice/2;
+    const currentPoints = state.user.points - (Date.parse(state.checkOut) - Date.parse(state.checkIn)) / (1000 * 3600 * 24) * state.price / 2;
+    const changedPoints = currentPoints + totalPrice / 2;
     const roomID = state.roomId;
-    console.log("current: "  + currentPoints + "    changed: " + changedPoints );
+    console.log("current: " + currentPoints + "    changed: " + changedPoints);
 
     useEffect(() => {
-        
+
         fetch(backend_url + "/room/" + roomID, { method: 'GET' })
-        .then(response => response.json())
-        .then(data => {
-            setRoom(data);
-        })
-        .catch(e => {
-            console.log('error' + e);
-        })
+            .then(response => response.json())
+            .then(data => {
+                setRoom(data);
+            })
+            .catch(e => {
+                console.log('error' + e);
+            })
     }, [])
 
     const handleSubmit = (e) => {
@@ -108,8 +108,8 @@ export default function EditReservation(props) {
 
     const nextClick = async (data) => {
         const { id, firstName, lastName, userEmail, roomId, price, check_in, check_out, numGuest, paymentId } = data;
-        const putData = {id, firstName, lastName, userEmail, roomId, price, check_in, check_out, numGuest, paymentId};
-    
+        const putData = { id, firstName, lastName, userEmail, roomId, price, check_in, check_out, numGuest, paymentId };
+
         console.log(putData);
 
         fetch(backend_url + "/reservation/" + state.reservId, {
@@ -120,9 +120,9 @@ export default function EditReservation(props) {
             }
         }).then(
             alert("Successfully booked!"),
-            
+
         )
-        
+
         const userPointData = {
             firstName: state.user.firstName,
             lastName: state.user.lastName,
@@ -148,303 +148,318 @@ export default function EditReservation(props) {
         window.location.replace("/myBookings");
     };
 
-    
+
 
     return (
         <ThemeProvider theme={theme}>
             <Paper style={styles.paperContainer}>
                 <CssBaseline />
                 {isLoggedIn &&
-                <Container component="main" justify="flex-start">
-                    <LoggedInNavBar />
-                    <Grid container direction="row" justify="flex-start" alignItems="center" width="100%">
-                        <ListItemButton onClick={backClick} sx={{
-                            marginTop: '8%',
-                            maxWidth: '40%'
-                        }}>
-                            <ListItemIcon>
-                                <ArrowBackIcon />
-                            </ListItemIcon>
-                            <ListItemText>
-                                <Typography sx={{fontFamily: 'Baloo-Bhaina-2', fontWeight: 700, fontSize: 20}}>
-                                    Back to My Bookings
-                                </Typography>
-                            </ListItemText>
-                        </ListItemButton>
-
-                        <List sx={{
-                            width: '100%',
-                            minWidth: '600px',
-                            marginTop: '1%',
-                            marginBottom: "10%",
-                            alignItems: 'center',
-                            justifyContent: "center",
-                        }}>
-                            <Box sx={{backgroundColor: "#eeeeee"}}>
-                                <ListItem>
-                                    <Typography sx={{
-                                    fontSize: 26,
-                                    fontWeight: 600,
-                                    fontFamily: 'Baloo-Bhaina-2'
-                                    }}> 
-                                        Modify Your Reservation: 
+                    <Container component="main" justify="flex-start">
+                        <LoggedInNavBar />
+                        <Grid container direction="row" justify="flex-start" alignItems="center" width="100%">
+                            <ListItemButton onClick={backClick} sx={{
+                                marginTop: '6%',
+                                maxWidth: '40%'
+                            }}>
+                                <ListItemIcon>
+                                    <ArrowBackIcon />
+                                </ListItemIcon>
+                                <ListItemText>
+                                    <Typography sx={{ fontFamily: 'Baloo-Bhaina-2', fontWeight: 700, fontSize: 20 }}>
+                                        Back to My Bookings
                                     </Typography>
-                                    <Typography sx={{
-                                    fontSize: 26,
-                                    fontWeight: 600,
-                                    marginLeft: "1%",
-                                    color: "#a7bd2a",
-                                    textDecoration: 'underline',
-                                    fontFamily: 'Baloo-Bhaina-2'
-                                    }}> 
-                                    {room.hotelName}
-                                    </Typography>
-                                </ListItem>
-                            
-                           
-                            <List>
-                                <ListItem>
-                                    <Paper style={styles.imageContainer} sx={{ backgroundImage: `url(${room.image})`, }} />
-                                    <ListItemText>
-                                        <Typography sx={{
-                                            marginLeft: "3%",
-                                            fontFamily: 'Baloo-Bhaina-2',
-                                            fontSize: 22,
-                                            fontWeight: 600
-                                        }}>
-                                            {room.roomInfo}
-                                        </Typography>
-                                        <Typography sx={{
-                                            marginLeft: "3%",
-                                            fontFamily: 'Baloo-Bhaina-2',
-                                            fontSize: 18,
-                                            fontWeight: 400
-                                        }}>
-                                            {room.amenities}
-                                        </Typography>
-                                        <Typography sx={{
-                                            marginLeft: "3%",
-                                            fontFamily: 'Baloo-Bhaina-2',
-                                            fontSize: 18,
-                                            fontWeight: 400
-                                        }}>
-                                            {room.description}
-                                        </Typography>
-                                        
-                                        <Box sx={{width: "75%", marginLeft: "10%"}}>
-                                        <ListItem>
-                                            <ListItemText>
-                                                <ListItem>
-                                                    <Typography sx={{
-                                                        fontFamily: 'Baloo-Bhaina-2',
-                                                        fontSize: 16,
-                                                        fontWeight: 600
-                                                        }}>
-                                                        Check in
-                                                    </Typography>
-                                                </ListItem>
-                                                <ListItem>
-                                                    <Typography sx={{
-                                                        fontFamily: 'Baloo-Bhaina-2',
-                                                        fontSize: 16,
-                                                        fontWeight: 300
-                                                        }}>
-                                                    {check_in}
-                                                    </Typography>
-                                                </ListItem>
-                                            </ListItemText>
-                                            <ListItemText>
-                                            <ListItem>
-                                                    <Typography sx={{
-                                                        fontFamily: 'Baloo-Bhaina-2',
-                                                        fontSize: 16,
-                                                        fontWeight: 600
-                                                        }}>
-                                                        Check out
-                                                    </Typography>
-                                                </ListItem>
-                                                <ListItem>
-                                                    <Typography sx={{
-                                                        fontFamily: 'Baloo-Bhaina-2',
-                                                        fontSize: 16,
-                                                        fontWeight: 300
-                                                        }}>
-                                                    {check_out}
-                                                    </Typography>
-                                                </ListItem>
-                                            </ListItemText>
-                                            <ListItemText>
-                                            <ListItem>
-                                                    <Typography sx={{
-                                                        fontFamily: 'Baloo-Bhaina-2',
-                                                        fontSize: 40,
-                                                        fontWeight: 300
-                                                        }}>
-                                                        |
-                                                    </Typography>
-                                                </ListItem>
-                                            </ListItemText>  
-                                            <ListItemText>
-                                            <ListItem>
-                                                    <Typography sx={{
-                                                        fontFamily: 'Baloo-Bhaina-2',
-                                                        fontSize: 16,
-                                                        fontWeight: 600
-                                                        }}>
-                                                        Guest
-                                                    </Typography>
-                                                </ListItem>
-                                                <ListItem>
-                                                    <Typography sx={{
-                                                        fontFamily: 'Baloo-Bhaina-2',
-                                                        fontSize: 16,
-                                                        fontWeight: 300
-                                                        }}>
-                                                    {state.guest}
-                                                    </Typography>
-                                                </ListItem>
-                                                
-                                            </ListItemText>  
-                                        </ListItem>
-                                        </Box>
-                                            
-                                    </ListItemText>
-                                    
-                                    <ListItemText>
-                                        <Typography sx={{
-                                            marginLeft: "10%",
-                                            fontSize: 40,
-                                            fontWeight: 700,
-                                            color: "red",
-                                            fontFamily: 'Baloo-Bhaina-2',
-                                            marginTop: "-35%"
-                                        }}>
-                                            ${totalPrice}
-                                        </Typography>
-                                        
-                                        <Typography sx={{
-                                            
-                                            fontWeight: 700,
-                                            fontSize: 18,
-                                            color: "red",
-                                            fontFamily: 'Baloo-Bhaina-2'
-                                        }}>
-                                            for {days} nights 
-                                        </Typography>
-                                    </ListItemText>
-                                    
-                                </ListItem>
-                                
-                                
-                            </List>
-                            </Box>
+                                </ListItemText>
+                            </ListItemButton>
 
                             <List sx={{
                                 width: '100%',
+                                minWidth: '600px',
+                                marginTop: '0%',
+                                marginBottom: "0%",
+                                alignItems: 'center',
+                                justifyContent: "center",
                             }}>
-                                <Box component="form" onSubmit={handleSubmit} sx={{marginLeft: "2%"}}>
-                                <FormControl component="fieldset" variant="standard">
-                                <Box sx={{marginTop: "3%"}}>
-                                    <Typography sx={{fontSize: 22,
-                                        fontWeight: 600,
-                                        fontFamily: 'Baloo-Bhaina-2',}}>
-                                        Your Info
-                                    </Typography>
+                                <Box sx={{ backgroundColor: "#FCFCFC" }}>
                                     <ListItem>
-                                        <ListItemText>
-                                            <TextField
-                                                required
-                                                autoFocus
-                                                id="firstName"
-                                                name="firstName"
-                                                label="First Name" 
-                                                defaultValue={state.firstName}
-                                                sx={{
-                                                    width: "90%"
-                                                }}
-                                                size="small"
-                                                />
-                                        </ListItemText>
-                                        <ListItemText>
-                                            <TextField
-                                            required
-                                            autoFocus
-                                            id="lastName"
-                                            name="lastName"
-                                            label="Last Name" 
-                                            defaultValue={state.lastName}
-                                            sx={{
-                                                width: "90%"
-                                            }}
-                                            size="small"
-                                            />
-                                        </ListItemText>
-                                        
-                                    </ListItem>
-                                </Box>
-
-                                <Box sx={{marginTop: "3%"}}>
-                                    <Typography sx={{fontSize: 22,
-                                        fontWeight: 600,
-                                        fontFamily: 'Baloo-Bhaina-2',}}>
-                                        Booking Details
-                                    </Typography>
-                                    <ListItem>
-                                    
-                                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                            <DateRangePicker
-                                            startText="Check-in"
-                                            endText="Check-out"
-                                            value={dates}
-                                            onChange={(newValue) => {
-                                                setDates(newValue);
-                                            }}
-                                            renderInput={(startProps, endProps) => (
-                                                <React.Fragment>
-                                                    <TextField required autoFocus sx={{ }} value={dates[0]} {...startProps} size="small" />
-                                                    <TextField required autoFocus sx={{ marginLeft: "10%" }} value={dates[1]} {...endProps} size="small" />
-                                                </React.Fragment>
-                                            )}
-                                            />
-                                        </LocalizationProvider>
-                                        
-                                        
-                                    </ListItem>
-                                    <ListItem sx={{display:'flex', justifyContent:'flex-right', marginTop: "3%", marginLeft: "3%"}}>
-                                        <Typography sx={{fontFamily: 'Baloo-Bhaina-2', width: "98%", fontSize: 18, fontWeight: 500}}>
-                                        Modifications to reservations that change the check-in or check-out date are dependent on your hotel’s availability for your chosen room type. We cannot guarantee that your room will be available for your new dates. Your reservation will not change if your new dates are unavailable.
+                                        <Typography sx={{
+                                            fontSize: 22,
+                                            fontWeight: 600,
+                                            fontFamily: 'Baloo-Bhaina-2'
+                                        }}>
+                                            Modify Your Reservation:
+                                        </Typography>
+                                        <Typography sx={{
+                                            fontSize: 22,
+                                            fontWeight: 600,
+                                            marginLeft: "1%",
+                                            color: "#a7bd2a",
+                                            textDecoration: 'underline',
+                                            fontFamily: 'Baloo-Bhaina-2'
+                                        }}>
+                                            {room.hotelName}
                                         </Typography>
                                     </ListItem>
+
+
+                                    <List>
+                                        <ListItem>
+                                            <Paper style={styles.imageContainer} sx={{ backgroundImage: `url(${room.image})`, }} />
+                                            <ListItemText>
+                                                <Typography sx={{
+                                                    marginLeft: "3%",
+                                                    fontFamily: 'Baloo-Bhaina-2',
+                                                    fontSize: 20,
+                                                    fontWeight: 600
+                                                }}>
+                                                    {room.roomInfo}
+                                                </Typography>
+                                                <Typography sx={{
+                                                    marginLeft: "3%",
+                                                    fontFamily: 'Baloo-Bhaina-2',
+                                                    fontSize: 18,
+                                                    fontWeight: 400
+                                                }}>
+                                                    {room.amenities}
+                                                </Typography>
+                                                <Typography sx={{
+                                                    marginLeft: "3%",
+                                                    fontFamily: 'Baloo-Bhaina-2',
+                                                    fontSize: 18,
+                                                    fontWeight: 400
+                                                }}>
+                                                    {room.location}
+                                                </Typography>
+                                                <Typography sx={{
+                                                    marginLeft: "3%",
+                                                    fontFamily: 'Baloo-Bhaina-2',
+                                                    fontSize: 18,
+                                                    fontWeight: 400
+                                                }}>
+                                                    {room.description}
+                                                </Typography>
+
+                                                <Box sx={{ width: "75%", marginLeft: "10%" }}>
+                                                    <ListItem>
+                                                        <ListItemText>
+                                                            <ListItem>
+                                                                <Typography sx={{
+                                                                    fontFamily: 'Baloo-Bhaina-2',
+                                                                    fontSize: 16,
+                                                                    fontWeight: 600
+                                                                }}>
+                                                                    Check in
+                                                                </Typography>
+                                                            </ListItem>
+                                                            <ListItem>
+                                                                <Typography sx={{
+                                                                    fontFamily: 'Baloo-Bhaina-2',
+                                                                    fontSize: 16,
+                                                                    fontWeight: 300
+                                                                }}>
+                                                                    {check_in}
+                                                                </Typography>
+                                                            </ListItem>
+                                                        </ListItemText>
+                                                        <ListItemText>
+                                                            <ListItem>
+                                                                <Typography sx={{
+                                                                    fontFamily: 'Baloo-Bhaina-2',
+                                                                    fontSize: 16,
+                                                                    fontWeight: 600
+                                                                }}>
+                                                                    Check out
+                                                                </Typography>
+                                                            </ListItem>
+                                                            <ListItem>
+                                                                <Typography sx={{
+                                                                    fontFamily: 'Baloo-Bhaina-2',
+                                                                    fontSize: 16,
+                                                                    fontWeight: 300
+                                                                }}>
+                                                                    {check_out}
+                                                                </Typography>
+                                                            </ListItem>
+                                                        </ListItemText>
+                                                        <ListItemText>
+                                                            <ListItem>
+                                                                <Typography sx={{
+                                                                    fontFamily: 'Baloo-Bhaina-2',
+                                                                    fontSize: 40,
+                                                                    fontWeight: 300
+                                                                }}>
+                                                                    |
+                                                                </Typography>
+                                                            </ListItem>
+                                                        </ListItemText>
+                                                        <ListItemText>
+                                                            <ListItem>
+                                                                <Typography sx={{
+                                                                    fontFamily: 'Baloo-Bhaina-2',
+                                                                    fontSize: 16,
+                                                                    fontWeight: 600
+                                                                }}>
+                                                                    Guest
+                                                                </Typography>
+                                                            </ListItem>
+                                                            <ListItem>
+                                                                <Typography sx={{
+                                                                    fontFamily: 'Baloo-Bhaina-2',
+                                                                    fontSize: 16,
+                                                                    fontWeight: 300
+                                                                }}>
+                                                                    {state.guest}
+                                                                </Typography>
+                                                            </ListItem>
+
+                                                        </ListItemText>
+                                                    </ListItem>
+                                                </Box>
+
+                                            </ListItemText>
+
+                                            <ListItemText>
+                                                <Typography sx={{
+                                                    marginLeft: "10%",
+                                                    fontSize: 40,
+                                                    fontWeight: 700,
+                                                    color: "#475718",
+                                                    fontFamily: 'Baloo-Bhaina-2',
+                                                    marginTop: "-35%"
+                                                }}>
+                                                    ${totalPrice}
+                                                </Typography>
+
+                                                <Typography sx={{
+
+                                                    fontWeight: 700,
+                                                    fontSize: 18,
+                                                    color: "#475718",
+                                                    fontFamily: 'Baloo-Bhaina-2'
+                                                }}>
+                                                    for {days} nights
+                                                </Typography>
+                                            </ListItemText>
+
+                                        </ListItem>
+
+
+                                    </List>
                                 </Box>
-                                
-                                <Box  textAlign='center' sx={{marginTop: "2%"}}>
-                                    <ListItemText>
-                                        <Button type="submit" variant="contained" sx={{
-                                            color: "white", 
-                                            backgroundColor: "#9BB40D", 
-                                            
-                                            '&:hover': {
-                                                backgroundColor: '#9BB40D',
-                                                borderColor: '#0062cc',
-                                                boxShadow: 'none',
-                                              },
-                                            '&:focus': {
-                                            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
-                                            }
-                                            }}>Confirm Reservation</Button>
-                                    </ListItemText>
-                                </Box>
-                                </FormControl>
-                                </Box>
-                                
+
+                                <List sx={{
+                                    width: '100%',
+                                }}>
+                                    <Box component="form" onSubmit={handleSubmit} sx={{ marginLeft: "2%" }}>
+                                        <FormControl component="fieldset" variant="standard">
+                                            <Box sx={{ marginTop: "2%" }}>
+                                                <Typography sx={{
+                                                    fontSize: 22,
+                                                    fontWeight: 600,
+                                                    fontFamily: 'Baloo-Bhaina-2',
+                                                }}>
+                                                    Your Info
+                                                </Typography>
+                                                <ListItem>
+                                                    <ListItemText>
+                                                        <TextField
+                                                            required
+                                                            autoFocus
+                                                            id="firstName"
+                                                            name="firstName"
+                                                            label="First Name"
+                                                            defaultValue={state.firstName}
+                                                            sx={{
+                                                                width: "90%"
+                                                            }}
+                                                            size="small"
+                                                        />
+                                                    </ListItemText>
+                                                    <ListItemText>
+                                                        <TextField
+                                                            required
+                                                            autoFocus
+                                                            id="lastName"
+                                                            name="lastName"
+                                                            label="Last Name"
+                                                            defaultValue={state.lastName}
+                                                            sx={{
+                                                                width: "90%"
+                                                            }}
+                                                            size="small"
+                                                        />
+                                                    </ListItemText>
+
+                                                </ListItem>
+                                            </Box>
+
+                                            <Box sx={{ marginTop: "2%", marginBottom: "1%" }}>
+                                                <Typography sx={{
+                                                    fontSize: 22,
+                                                    fontWeight: 600,
+                                                    fontFamily: 'Baloo-Bhaina-2',
+                                                }}>
+                                                    Booking Details
+                                                </Typography>
+                                                <ListItem>
+
+                                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                                        <DateRangePicker
+                                                            startText="Check-in"
+                                                            endText="Check-out"
+                                                            value={dates}
+                                                            sx={{
+                                                                width: "90%"
+                                                            }}
+                                                            onChange={(newValue) => {
+                                                                setDates(newValue);
+                                                            }}
+                                                            renderInput={(startProps, endProps) => (
+                                                                <React.Fragment>
+                                                                    <TextField required autoFocus sx={{}} value={dates[0]} {...startProps} size="small" />
+                                                                    <TextField required autoFocus sx={{ marginLeft: "10%" }} value={dates[1]} {...endProps} size="small" />
+                                                                </React.Fragment>
+                                                            )}
+                                                        />
+                                                    </LocalizationProvider>
+
+
+                                                </ListItem>
+                                                <ListItem sx={{ display: 'flex', justifyContent: 'flex-right', marginTop: "2%" }}>
+                                                    <Typography sx={{ fontFamily: 'Baloo-Bhaina-2', width: "100%", fontSize: 18, fontWeight: 500 }}>
+                                                        Modifications to reservations that change the check-in or check-out date are dependent on your hotel’s availability for your chosen room type. We cannot guarantee that your room will be available for your new dates. Your reservation will not change if your new dates are unavailable.
+                                                    </Typography>
+                                                </ListItem>
+                                            </Box>
+
+                                            <Box sx={{ marginTop: "2%" }}>
+                                                <ListItemText>
+                                                    <Button type="submit" variant="contained" sx={{
+                                                        color: "white",
+                                                        backgroundColor: "#9BB40D",
+
+                                                        '&:hover': {
+                                                            backgroundColor: '#9BB40D',
+                                                            borderColor: '#0062cc',
+                                                            boxShadow: 'none',
+                                                        },
+                                                        '&:focus': {
+                                                            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
+                                                        }
+                                                    }}>Confirm Reservation</Button>
+                                                </ListItemText>
+                                            </Box>
+                                        </FormControl>
+                                    </Box>
+
+                                </List>
+
+
+
                             </List>
-                            
 
-                            
-                        </List>
-
-                    </Grid>
-                </Container>
+                        </Grid>
+                    </Container>
                 }
             </Paper>
         </ThemeProvider>
