@@ -273,16 +273,16 @@ export default function Payment() {
                     </Grid>
                 </Grid>
                 {/* <Grid item><GreenPrompt style={{ "padding-top": "0px" }} /></Grid> */}
-                <Box component="form" onSubmit={confirmReservation}>
+                <Box component="form" onSubmit={confirmReservation} sx={{ marginLeft: '10%' }}>
                     <FormControl component="fieldset" variant="standard">
                         <Grid item><UserInfo user={user} /></Grid>
                         <Grid item><PaymentDetails /></Grid>
-                        <Grid item align="center"><CancelationPolicy /></Grid>
+                        <Grid item ><CancelationPolicy /></Grid>
                         <Grid item >
                             <Button
                                 type="submit"
                                 variant="contained"
-                                sx={{ mt: 2, mb: 0, backgroundColor: '#9BB40D', fontWeight: '500' }}
+                                sx={{ mt: 2, mb: 0, backgroundColor: '#9BB40D', fontWeight: '500', marginTop: '4%' }}
                             >
                                 Confirm Reservation
                             </Button>
@@ -296,7 +296,7 @@ export default function Payment() {
 
 const YourRoomReservation = () => (
     <>
-        <p style={{ fontWeight: 600 }}>Create Your Reservation: </p>
+        <p style={{ fontWeight: 600, marginLeft: '6%', marginBottom: '-17%' }}>Create Your Reservation: </p>
         {/* "font-family": 'Gill Sans' */}
     </>
 )
@@ -458,14 +458,14 @@ const HotelRoomDetails = () => {
 
     return (
         <div className={style.temp}>
-            <Grid container spacing={1}>
+            <Grid container spacing={2} sx={{ backgroundColor: '#fbf9f9', width: '80%' }}>
                 <Grid item xs={5}>
                     <Paper
                         className={style.img}
                         sx={{
                             backgroundImage: `url(${roomObj.state.img})`,
-                            height: '98%',
-                            width: '80%',
+                            height: '26vh',
+                            width: '23vw',
                             backgroundSize: 'cover',
                             backgroundRepeat: 'no-repeat',
                             backgroundPosition: 'center center',
@@ -473,20 +473,18 @@ const HotelRoomDetails = () => {
                     </Paper>
                 </Grid>
                 <Grid item xs={5} container direction="column" align="left">
-                    <Grid item xs style={{ "font-weight": "600", "font-size": "1.5em", "margin-bottom": "0%" }}>
+                    <Grid item xs style={{ "font-weight": "600", "font-size": "18px", "margin-bottom": "0%" }}>
                         {roomObj.state.name}
                     </Grid>
                     <Grid item xs style={{ "font-size": "1em" }}>
                         {roomObj.state.location}
                     </Grid>
-                    <br />
                     <Grid item xs>
                         {roomObj.state.desc}
                     </Grid>
                     <Grid item xs>
                         {roomObj.state.roomInfo}
                     </Grid>
-                    <br />
                     <Grid item container spacing={2}>
                         <Grid item xs={4}>
                             Checkin
@@ -545,7 +543,7 @@ const RequestForRoom = () => (
 const CancelationPolicy = () => {
     return (
         <div className={style.policy}>
-            <h1 align="center">Cancellation Policy</h1>
+            <h2>Cancellation Policy</h2>
             <p><strong>Please Note:</strong> Booking cancellations are free until 1 week before the check-in date of your reservation. Cancellations within 1-week of your check-in date will result in a cancellation fee of $20 per day charged to the card used to make this reservation. We are unable to refund any payment for no-shows or early checkout.</p>
             <br />
             <p>By booking with LikeHome.com, you agree to the terms and conditions of our cancellation policy.</p>

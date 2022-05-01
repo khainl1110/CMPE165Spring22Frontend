@@ -79,7 +79,6 @@ export default function MyAccount() {
                         <Typography sx={{
                             // marginTop: "100px",
                             marginLeft: "50px",
-                            fontFamily: 'Baloo-Bhaina-2',
                             fontSize: 26,
                             fontWeight: 700
                         }}>
@@ -101,13 +100,12 @@ export default function MyAccount() {
                     <List sx={{
                         width: "55%",
                     }}>
-                        <ListItem sx={{ marginTop: "2%" }}>
+                        <ListItem sx={{ marginTop: "3%" }}>
                             <AccountCircleIcon sx={{ fontSize: 35 }} />
                             <Typography sx={{
                                 marginLeft: "2%",
-                                fontSize: 24,
+                                fontSize: 20,
                                 fontWeight: 600,
-                                fontFamily: 'Baloo-Bhaina-2',
                             }}>
                                 Hi, {firstName}. Welcome Back!
                             </Typography>
@@ -115,8 +113,7 @@ export default function MyAccount() {
 
                         <ListItem>
                             <Typography sx={{
-                                fontFamily: 'Baloo-Bhaina-2',
-                                fontSize: 22,
+                                fontSize: 18,
                                 fontWeight: 600
                             }}>
                                 Contact Info
@@ -130,8 +127,7 @@ export default function MyAccount() {
                                     <EditIcon />
                                 </ListItemIcon>
                                 <ListItemText primary={<Typography sx={{
-                                    fontFamily: 'Baloo-Bhaina-2',
-                                    fontSize: 20,
+                                    fontSize: 16,
                                     fontWeight: 600
                                 }}>Edit</Typography>} sx={{ textDecoration: 'underline' }} />
                             </ListItemButton>
@@ -139,8 +135,7 @@ export default function MyAccount() {
 
                         <ListItem>
                             <Typography sx={{
-                                fontFamily: 'Baloo-Bhaina-2',
-                                fontSize: 18,
+                                fontSize: 15,
                                 fontWeight: 600,
                                 marginTop: "1%"
                             }}>
@@ -149,8 +144,7 @@ export default function MyAccount() {
 
                             <Typography sx={{
                                 marginLeft: "1%",
-                                fontFamily: 'Baloo-Bhaina-2',
-                                fontSize: 18,
+                                fontSize: 15,
                                 marginTop: "1%"
                             }}>
                                 {firstName}
@@ -158,8 +152,7 @@ export default function MyAccount() {
 
                             <Typography sx={{
                                 marginLeft: "10%",
-                                fontFamily: 'Baloo-Bhaina-2',
-                                fontSize: 18,
+                                fontSize: 15,
                                 fontWeight: 600,
                                 marginTop: "1%"
                             }}>
@@ -168,8 +161,7 @@ export default function MyAccount() {
 
                             <Typography sx={{
                                 marginLeft: "1%",
-                                fontFamily: 'Baloo-Bhaina-2',
-                                fontSize: 18,
+                                fontSize: 15,
                                 marginTop: "1%"
                             }}>
                                 {lastName}
@@ -178,8 +170,7 @@ export default function MyAccount() {
 
                         <ListItem>
                             <Typography sx={{
-                                fontFamily: 'Baloo-Bhaina-2',
-                                fontSize: 18,
+                                fontSize: 15,
                                 fontWeight: 600,
                                 marginTop: "1%"
                             }}>
@@ -188,8 +179,7 @@ export default function MyAccount() {
 
                             <Typography sx={{
                                 marginLeft: "1%",
-                                fontFamily: 'Baloo-Bhaina-2',
-                                fontSize: 18,
+                                fontSize: 15,
                                 marginTop: "1%"
                             }}>
                                 {email}
@@ -199,8 +189,7 @@ export default function MyAccount() {
                         <ListItem>
                             <Typography sx={{
                                 marginTop: "3%",
-                                fontFamily: 'Baloo-Bhaina-2',
-                                fontSize: 22,
+                                fontSize: 18,
                                 fontWeight: 600,
                             }}>
                                 Rewards Points
@@ -208,12 +197,11 @@ export default function MyAccount() {
                         </ListItem>
 
                         <ListItem>
-                            <Box width="100% " bgcolor="#9BB40D" padding="8px" borderRadius="10px" sx={{ marginTop: "1%" }}>
+                            <Box width="95% " bgcolor="#9BB40D" padding="8px" borderRadius="10px" sx={{ marginTop: "1%" }}>
                                 <ListItem>
                                     <Typography sx={{
                                         color: "white",
-                                        fontFamily: 'Baloo-Bhaina-2',
-                                        fontSize: 18,
+                                        fontSize: 15,
                                     }}>
                                         For every $2 spent on a booking, you will earn 1 point towards any booking of your choice.
                                     </Typography>
@@ -222,8 +210,7 @@ export default function MyAccount() {
                                 <ListItem>
                                     <Typography sx={{
                                         color: "white",
-                                        fontFamily: 'Baloo-Bhaina-2',
-                                        fontSize: 18,
+                                        fontSize: 15,
                                     }}>
                                         10 points = $1 off your booking.
                                     </Typography>
@@ -233,18 +220,16 @@ export default function MyAccount() {
 
                         <ListItem>
                             <Typography sx={{
-                                fontFamily: 'Baloo-Bhaina-2',
-                                fontSize: 18,
+                                fontSize: 15,
                                 fontWeight: 600,
                                 marginTop: "1%"
                             }}>
-                                Points Earned:
+                                Current Reward Points:
                             </Typography>
 
                             <Typography sx={{
                                 marginLeft: "1%",
-                                fontFamily: 'Baloo-Bhaina-2',
-                                fontSize: 18,
+                                fontSize: 15,
                                 marginTop: "1%"
                             }}>
                                 {point}
@@ -253,8 +238,7 @@ export default function MyAccount() {
 
                         <ListItem>
                             <Typography sx={{
-                                fontFamily: 'Baloo-Bhaina-2',
-                                fontSize: 18,
+                                fontSize: 15,
                                 fontWeight: 600,
                                 marginTop: "1%"
                             }}>
@@ -263,8 +247,7 @@ export default function MyAccount() {
 
                             <Typography sx={{
                                 marginLeft: "1%",
-                                fontFamily: 'Baloo-Bhaina-2',
-                                fontSize: 18,
+                                fontSize: 15,
                                 marginTop: "1%"
                             }}>
                                 $ {discount}

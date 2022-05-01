@@ -77,25 +77,23 @@ export default function App() {
             <Grid item xs={0}>
               <Box sx={{
                 position: "relative",
-                marginTop: '52.5%',
+                marginTop: '60.5%',
                 alignItems: 'center',
               }}
               >
                 <Typography variant="h2" sx={{
-                  fontFamily: 'Baloo-Bhaina-2',
-                  fontWeight: 600,
-                  fontSize: '75px',
+                  fontWeight: 500,
+                  fontSize: '60px',
                   color: '#FFFFFF'
                 }}>
-                  Welcome home
+                  Welcome Home
                 </Typography>
 
                 <Typography variant="h5" align="center" sx={{
-                  fontFamily: 'Baloo-Bhaina-2',
-                  fontWeight: 500,
+                  fontWeight: 400,
                   fontSize: '25px',
                   color: '#FFFFFF',
-                  marginTop: '5%',
+                  marginTop: '10%',
                   mb: "20%",
                 }}>
                   Start Searching
