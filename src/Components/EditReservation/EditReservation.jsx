@@ -159,14 +159,14 @@ export default function EditReservation(props) {
                         <LoggedInNavBar />
                         <Grid container direction="row" justify="flex-start" alignItems="center" width="100%">
                             <ListItemButton onClick={backClick} sx={{
-                                marginTop: '6%',
-                                maxWidth: '40%'
+                                maxWidth: '40%',
+                                marginTop: '8%'
                             }}>
                                 <ListItemIcon>
                                     <ArrowBackIcon />
                                 </ListItemIcon>
                                 <ListItemText>
-                                    <Typography sx={{ fontFamily: 'Baloo-Bhaina-2', fontWeight: 700, fontSize: 20 }}>
+                                    <Typography sx={{ fontWeight: 700, fontSize: 14 }}>
                                         Back to My Bookings
                                     </Typography>
                                 </ListItemText>
@@ -183,26 +183,206 @@ export default function EditReservation(props) {
                                 <Box sx={{ backgroundColor: "#FCFCFC" }}>
                                     <ListItem>
                                         <Typography sx={{
-                                            fontSize: 22,
+                                            fontSize: 19,
                                             fontWeight: 600,
-                                            fontFamily: 'Baloo-Bhaina-2'
+                                            // fontFamily: 'Baloo-Bhaina-2'
                                         }}>
                                             Modify Your Reservation:
                                         </Typography>
                                         <Typography sx={{
-                                            fontSize: 22,
-                                            fontWeight: 600,
+                                            fontSize: 19,
+                                            fontWeight: 400,
                                             marginLeft: "1%",
                                             color: "#a7bd2a",
                                             textDecoration: 'underline',
-                                            fontFamily: 'Baloo-Bhaina-2'
+                                            // fontFamily: 'Baloo-Bhaina-2'
                                         }}>
                                             {room.hotelName}
                                         </Typography>
                                     </ListItem>
 
 
-                                    <List>
+                                    <ListItem>
+                                        <Grid item xs={0}>
+                                            <Grid container direction="row" justifyContent="left" alignItems="center" spacing={0} sx={{ position: "static", marginTop: '0%', backgroundColor: '#e6edea', borderRadius: 2, }}>
+                                                <Grid item xs={0}>
+                                                    <Paper style={styles.imageContainer} sx={{ backgroundImage: `url(${room.image})`, }}>
+                                                    </Paper>
+                                                </Grid>
+
+                                                <Grid item xs={5}>
+                                                    <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} sx={{
+                                                        position: "static", marginLeft: '10%', width: '100%'
+                                                    }}>
+                                                        <Grid item xs={0}>
+                                                            <Typography variant="h3" sx={{
+                                                                // fontFamily: 'Baloo-Bhaina-2',
+                                                                fontWeight: 600,
+                                                                fontSize: '16px',
+                                                                color: '#424242',
+                                                                paddingTop: '10px',
+                                                            }}>
+                                                                {room.roomInfo}
+                                                            </Typography>
+                                                        </Grid>
+                                                        <Grid item xs={0}>
+                                                            <Typography variant="h2" sx={{
+                                                                // fontFamily: 'Baloo-Bhaina-2',
+                                                                fontWeight: 400,
+                                                                fontSize: '14px',
+                                                                color: '#606060',
+                                                                marginTop: '4%'
+                                                            }}>
+                                                                {room.location}
+                                                            </Typography>
+                                                        </Grid>
+                                                        <Grid item xs={0}>
+                                                            <Typography variant="h2" sx={{
+                                                                // fontFamily: 'Baloo-Bhaina-2',
+                                                                fontWeight: 400,
+                                                                fontSize: '14px',
+                                                                color: '#606060',
+                                                                marginTop: '4%'
+                                                            }}>
+                                                                {room.amenities}
+                                                            </Typography>
+                                                        </Grid>
+                                                        <Grid item xs={0}>
+                                                            <Typography variant="h2" sx={{
+                                                                // fontFamily: 'Baloo-Bhaina-2',
+                                                                fontWeight: 400,
+                                                                fontSize: '14px',
+                                                                color: '#606060',
+                                                                marginTop: '2%'
+                                                            }}>
+                                                                Description: {room.description}
+                                                            </Typography>
+                                                        </Grid>
+                                                        <Grid item xs={0}>
+                                                            <Grid container direction="row" justifyContent="left" alignItems="center" spacing={1.5} sx={{ position: "static", marginTop: '6%', }}>
+                                                                <Grid item xs={0}>
+                                                                    <Grid container direction="column" justifyContent="flex-start" alignItems="center" spacing={0} sx={{ marginLeft: '0%', position: "static" }}>
+                                                                        <Grid item xs={0}>
+                                                                            <Typography sx={{
+                                                                                // fontFamily: 'Baloo-Bhaina-2',
+                                                                                fontWeight: 200,
+                                                                                fontSize: '14px',
+                                                                                color: '#646464',
+                                                                            }}>
+                                                                                Check In
+                                                                            </Typography>
+                                                                        </Grid>
+                                                                        <Grid item xs={0}>
+                                                                            <Typography sx={{
+                                                                                // fontFamily: 'Baloo-Bhaina-2',
+                                                                                fontWeight: 300,
+                                                                                fontSize: '16px',
+                                                                                color: '#646464',
+                                                                            }}>
+                                                                                {check_in}
+                                                                            </Typography>
+                                                                        </Grid>
+                                                                    </Grid>
+                                                                </Grid>
+                                                                <Grid item xs={0}>
+                                                                    <Grid container direction="column" justifyContent="flex-start" alignItems="center" spacing={0} sx={{ marginLeft: '0%', position: "static" }}>
+                                                                        <Grid item xs={0}>
+                                                                            <Typography sx={{
+                                                                                // fontFamily: 'Baloo-Bhaina-2',
+                                                                                fontWeight: 200,
+                                                                                fontSize: '14px',
+                                                                                color: '#646464',
+                                                                            }}>
+                                                                                Check Out
+                                                                            </Typography>
+                                                                        </Grid>
+                                                                        <Grid item xs={0}>
+                                                                            <Typography sx={{
+                                                                                // fontFamily: 'Baloo-Bhaina-2',
+                                                                                fontWeight: 300,
+                                                                                fontSize: '16px',
+                                                                                color: '#646464',
+                                                                            }}>
+                                                                                {check_out}
+                                                                            </Typography>
+                                                                        </Grid>
+                                                                    </Grid>
+                                                                </Grid>
+                                                                <Grid item xs={0}>
+                                                                    <Typography sx={{
+                                                                        // fontFamily: 'Baloo-Bhaina-2',
+                                                                        fontWeight: 100,
+                                                                        fontSize: '40px',
+                                                                        color: '#646464',
+                                                                    }}>
+                                                                        |
+                                                                    </Typography>
+                                                                </Grid>
+                                                                <Grid item xs={0}>
+                                                                    <Grid container direction="column" justifyContent="flex-start" alignItems="center" spacing={0} sx={{ marginLeft: '0%', position: "static" }}>
+                                                                        <Grid item xs={0}>
+                                                                            <Typography sx={{
+                                                                                // fontFamily: 'Baloo-Bhaina-2',
+                                                                                fontWeight: 200,
+                                                                                fontSize: '14px',
+                                                                                color: '#646464',
+                                                                            }}>
+                                                                                Guests
+                                                                            </Typography>
+                                                                        </Grid>
+                                                                        <Grid item xs={0}>
+                                                                            <Typography sx={{
+                                                                                // fontFamily: 'Baloo-Bhaina-2',
+                                                                                fontWeight: 300,
+                                                                                fontSize: '16px',
+                                                                                color: '#646464',
+                                                                            }}>
+                                                                                {state.guest}
+                                                                            </Typography>
+                                                                        </Grid>
+                                                                    </Grid>
+                                                                </Grid>
+                                                            </Grid>
+                                                        </Grid>
+
+                                                    </Grid>
+                                                </Grid>
+
+                                                <Grid item xs={0}>
+                                                    <Grid container direction="column" justifyContent="right" alignItems="flex-end" spacing={0} sx={{ marginLeft: '100%', marginBottom: "170%", position: "static" }}>
+                                                        <Grid item xs={0}>
+                                                            <Grid container direction="row" justifyContent="left" alignItems="center" spacing={0} sx={{ position: "static", marginTop: "0%", }}>
+                                                                <Grid item xs={0}>
+                                                                    <Typography variant="h2" sx={{
+                                                                        // fontFamily: 'Baloo-Bhaina-2',
+                                                                        fontWeight: 700,
+                                                                        fontSize: '24px',
+                                                                        color: '#606060',
+                                                                    }}>
+                                                                        $ {totalPrice}
+                                                                    </Typography>
+                                                                </Grid>
+                                                            </Grid>
+                                                            <Typography variant="h2" sx={{
+                                                                // fontFamily: 'Baloo-Bhaina-2',
+                                                                fontWeight: 400,
+                                                                fontSize: '14px',
+                                                                color: '#606060',
+                                                            }}>
+                                                                for {days} nights
+                                                            </Typography>
+                                                        </Grid>
+
+                                                    </Grid>
+
+                                                </Grid>
+                                            </Grid>
+
+
+                                        </Grid>
+                                    </ListItem>
+
+                                    {/* <List>
                                         <ListItem>
                                             <Paper style={styles.imageContainer} sx={{ backgroundImage: `url(${room.image})`, }} />
                                             <ListItemText>
@@ -344,23 +524,23 @@ export default function EditReservation(props) {
                                         </ListItem>
 
 
-                                    </List>
+                                    </List> */}
                                 </Box>
 
                                 <List sx={{
-                                    width: '100%',
+                                    width: '70%',
                                 }}>
                                     <Box component="form" onSubmit={handleSubmit} sx={{ marginLeft: "2%" }}>
                                         <FormControl component="fieldset" variant="standard">
                                             <Box sx={{ marginTop: "2%" }}>
                                                 <Typography sx={{
-                                                    fontSize: 22,
+                                                    fontSize: 17,
                                                     fontWeight: 600,
-                                                    fontFamily: 'Baloo-Bhaina-2',
+                                                    // fontFamily: 'Baloo-Bhaina-2',
                                                 }}>
                                                     Your Info
                                                 </Typography>
-                                                <ListItem>
+                                                <ListItem sx={{ marginTop: '1%' }}>
                                                     <ListItemText>
                                                         <TextField
                                                             required
@@ -393,23 +573,24 @@ export default function EditReservation(props) {
                                                 </ListItem>
                                             </Box>
 
-                                            <Box sx={{ marginTop: "2%", marginBottom: "1%" }}>
+                                            <Box sx={{ marginTop: "2%", marginBottom: "2%" }}>
                                                 <Typography sx={{
-                                                    fontSize: 22,
+                                                    fontSize: 17,
                                                     fontWeight: 600,
-                                                    fontFamily: 'Baloo-Bhaina-2',
+                                                    // fontFamily: 'Baloo-Bhaina-2',
                                                 }}>
                                                     Booking Details
                                                 </Typography>
-                                                <ListItem>
-
+                                                <ListItem sx={{
+                                                    marginTop: '1%'
+                                                }}>
                                                     <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                                        <DateRangePicker
+                                                        < DateRangePicker
                                                             startText="Check-in"
                                                             endText="Check-out"
                                                             value={dates}
                                                             sx={{
-                                                                width: "90%"
+                                                                width: "90%",
                                                             }}
                                                             onChange={(newValue) => {
                                                                 setDates(newValue);
@@ -426,7 +607,7 @@ export default function EditReservation(props) {
 
                                                 </ListItem>
                                                 <ListItem sx={{ display: 'flex', justifyContent: 'flex-right', marginTop: "2%" }}>
-                                                    <Typography sx={{ fontFamily: 'Baloo-Bhaina-2', width: "100%", fontSize: 18, fontWeight: 500 }}>
+                                                    <Typography sx={{ width: "100%", fontSize: 14, fontWeight: 500 }}>
                                                         Modifications to reservations that change the check-in or check-out date are dependent on your hotel’s availability for your chosen room type. We cannot guarantee that your room will be available for your new dates. Your reservation will not change if your new dates are unavailable.
                                                     </Typography>
                                                 </ListItem>
@@ -461,7 +642,7 @@ export default function EditReservation(props) {
                         </Grid>
                     </Container>
                 }
-            </Paper>
-        </ThemeProvider>
+            </Paper >
+        </ThemeProvider >
     )
 }
