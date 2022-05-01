@@ -2,7 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import style from '../PaymentPage/Payment.module.css';
-import { MenuItem, Button, FormControl } from '@mui/material';
+import { MenuItem, Button, FormControl, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -24,6 +24,8 @@ export default function Payment() {
     const differenceInTime = roomObj.state.checkout.getTime() - roomObj.state.checkin.getTime();
     const days = differenceInTime / (1000 * 3600 * 24);
     const totalPrice = days * roomObj.state.price;
+    const [point, setPoint] = React.useState();
+    const [usePoints, setUsePoints] = React.useState(0);
 
     const navigate = useNavigate();
 
@@ -38,12 +40,24 @@ export default function Payment() {
                 .then(response => response.json())
                 .then(data => {
                     setUser(data);
+                    setPoint(data.points);
                 })
                 .catch(e => {
                     console.log('error' + e);
                 })
         }
     }, [])
+
+    const changePoints = (event) => {
+        if(event.target.value <= point){
+        setUsePoints(event.target.value);
+        }
+        else{
+            setUsePoints(point);
+            event.target.value = point;
+        }
+        console.log(usePoints);
+    }
 
     const confirmReservation = async (e) => {
         e.preventDefault();
@@ -184,7 +198,7 @@ export default function Payment() {
 
     return (
         <div className={style.main}>
-            <Grid container direction="column" justifyContent="space-evenly" spacing={5} >
+            <Grid container direction="column" justifyContent="space-evenly" spacing={5} marginTop="0%">
                 <Grid item xs={12}>
                     {isLoggedIn &&
                         <LoggedInNavBar />
@@ -196,6 +210,43 @@ export default function Payment() {
                 <Grid item xs={12} />
                 <Grid item xs={12}><YourRoomReservation /></Grid>
                 <Grid item xs={12} align="center" ><HotelRoomDetails /></Grid>
+                <Grid item xs={0}>
+                    <Typography sx={{
+                        fontWeight: 500,
+                        fontSize: '25px',
+                        color: '#000000',
+                        marginTop: '0%',
+                        mb: "30%",}}>
+                        Redeem Points
+                    </Typography>
+                </Grid>
+                <Grid item xs={0}>
+                <Grid container direction="row" justifyContent="flex-start" spacing={5} marginTop="0%">
+                <Grid item xs={0}>
+                        <Typography sx={{
+                            fontWeight: 500,
+                            fontSize: '25px',
+                            color: '#000000',
+                            marginTop: '0%',
+                            mb: "30%",}}>
+                            Points Available: {point}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={0}>
+                        <Typography sx={{
+                            fontWeight: 500,
+                            fontSize: '25px',
+                            color: '#000000',
+                            marginTop: '0%',
+                            mb: "30%",}}>
+                            Points to Redeem: 
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={0}>
+                        <TextFieldComp className={style.tf} id="outlined-disabled" label="points" name="points" onChange={changePoints} value={usePoints} />
+                    </Grid>
+                    </Grid>
+                </Grid>
                 {/* <Grid item><GreenPrompt style={{ "padding-top": "0px" }} /></Grid> */}
                 <Box component="form" onSubmit={confirmReservation}>
                     <FormControl component="fieldset" variant="standard">
