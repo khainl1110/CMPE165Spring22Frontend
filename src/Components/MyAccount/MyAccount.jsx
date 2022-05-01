@@ -47,7 +47,7 @@ export default function MyAccount() {
                     console.log('error' + e);
                 })
         }
-    })
+    }, [])
 
     const navigate = useNavigate();
     const editClick = () => {
