@@ -60,6 +60,8 @@ export default function Payment() {
     }
 
     const confirmReservation = async (e) => {
+        const priceReduc = usePoints/10;
+
         e.preventDefault();
         const data = new FormData(e.currentTarget);
 
@@ -114,14 +116,14 @@ export default function Payment() {
                         'Content-Type': 'application/json'
                     }
                 }).then(
-                    alert("Successfully booked!")
+                    alert("Successfully booked! You have used " + usePoints + " points to save $" + priceReduc)
                 )
                 console.log(reservationData);
 
                 // If user is logged in, add points to their account.
                 // Each 2$ spent is 1 point earned. 
                 // 50 points = 5$ is redeemable.
-                if (isLoggedIn && user) {
+                if (isLoggedIn && user && priceReduc == 0) {
                     const updatedUserData = {
                         firstName: user.firstName,
                         lastName: user.lastName,
@@ -139,6 +141,26 @@ export default function Payment() {
                         }
                     }).then(
                         console.log('Updated user points:' + user.points + ' --> ' + (totalPrice / 2.0))
+                    )
+                }
+                if (isLoggedIn && user && priceReduc != 0) {
+                    const updatedUserData = {
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        email: user.email,
+                        password: user.password,
+                        points: user.points - usePoints,
+                        paymentId: user.paymentId,
+                    }
+
+                    fetch(backend_url + "/users", {
+                        method: 'PUT',
+                        body: JSON.stringify(updatedUserData),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }).then(
+                        console.log('Updated user points:' + user.points - ' --> ' + usePoints)
                     )
                 }
 
