@@ -106,6 +106,10 @@ export default function CancelPage(props) {
 
 
     const onClickHandle = (event) => {
+        //console.log("Before delete " + user.points + " and " + points)
+
+        // prevent negative points in case user.points is less than points
+        let newPoints = points > user.points ? 0 : user.points - points
         if (!freeCancel) {
             var confText = "Successfully canceled! Your card on file has been charged $" + cancelPrice;
         }
@@ -125,7 +129,7 @@ export default function CancelPage(props) {
                 lastName: user.lastName,
                 email: user.email,
                 password: user.password,
-                points: user.points - points,
+                points: newPoints,
                 paymentId: user.paymentId,
             }
 
