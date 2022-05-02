@@ -70,10 +70,11 @@ export default function EditReservation(props) {
     const differenceInTime = Date.parse(dates[1]) - Date.parse(dates[0]);
     const days = differenceInTime / (1000 * 3600 * 24);
     const totalPrice = days * state.price;
-    const currentPoints = state.user.points ? (state.user.points - (Date.parse(state.checkOut) - Date.parse(state.checkIn)) / (1000 * 3600 * 24) * state.price / 2) : 0;
-    const changedPoints = currentPoints + totalPrice / 2;
+    const currentPoints = state.user.points ? (state.user.points - ((totalPrice - (state.points * 10)) / 2.0)) : 0;
+    const changedPoints = currentPoints + ((totalPrice - (state.points * 10)) / 2.0);
+
     const roomID = state.roomId;
-    console.log("current: " + currentPoints + "    changed: " + changedPoints);
+    // console.log("current: " + currentPoints + "    changed: " + changedPoints);
 
     useEffect(() => {
 
@@ -90,10 +91,29 @@ export default function EditReservation(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
+
+        const diffInTime = Date.parse(check_out) - Date.parse(check_in);
+        const numDays = diffInTime / (1000 * 3600 * 24);
+        const oldPrice = numDays * state.price;
+        console.log('POINTS REDEEMED: ' + state.points);
+        console.log('PREVIOUS PRICE: ' + oldPrice);
+        console.log('Current Price: ' + totalPrice);
+        console.log('Current price - discount: ' + (totalPrice - (state.points / 10)));
+        console.log('Points that were earned in the past reservation: ' + ((oldPrice - (state.points / 10)) / 2));
+        console.log('Points that should be earned for the updated reservation: ' + ((totalPrice - (state.points / 10)) / 2))
+        const currPoints = state.user.points ? state.user.points : 0;
+        const currPointsMinusPastReservationEarnedPoints = currPoints - (oldPrice / 2.0);
+        console.log('curr points - old reservation: ' + currPointsMinusPastReservationEarnedPoints);
+        // const currPoints = state.user.points ? (state.user.points - ((finalPrice - (state.points * 10)) / 2.0)) : 0;
+        console.log('curr points in user`s account: ' + currPoints);
+        const newTotalPoints = currPointsMinusPastReservationEarnedPoints + ((totalPrice - (state.points / 10.0)) / 2.0);
+        console.log("NEW TOTAL POINTS: " + newTotalPoints);
+
         const reservationData = {
             id: state.reservId,
             firstName: data.get('firstName'),
             lastName: data.get('lastName'),
+            pointsRedeemed: state.points,
             userEmail: email,
             roomId: roomID,
             price: totalPrice,
@@ -101,16 +121,29 @@ export default function EditReservation(props) {
             check_out: dates[1],
             numGuest: state.guest,
             paymentId: state.paymentId,
+            newTotalPoints
         }
 
         nextClick(reservationData);
     }
 
     const nextClick = async (data) => {
-        const { id, firstName, lastName, userEmail, roomId, price, check_in, check_out, numGuest, paymentId } = data;
-        const putData = { id, firstName, lastName, userEmail, roomId, price, check_in, check_out, numGuest, paymentId };
+        const { id, firstName, lastName, userEmail, roomId, price, check_in, check_out, numGuest, paymentId, pointsRedeemed, newTotalPoints } = data;
+        const putData = {
+            id,
+            firstName,
+            lastName,
+            userEmail,
+            roomId,
+            price,
+            check_in,
+            check_out,
+            numGuest,
+            paymentId,
+            pointsRedeemed
+        };
 
-        console.log(putData);
+        // console.log(putData);
 
         fetch(backend_url + "/reservation/" + state.reservId, {
             method: 'PUT',
@@ -129,7 +162,7 @@ export default function EditReservation(props) {
                 lastName: state.user.lastName,
                 email: state.user.email,
                 password: state.user.password,
-                points: changedPoints,
+                points: newTotalPoints,
                 paymentId: state.user.paymentId,
             }
 
@@ -142,7 +175,7 @@ export default function EditReservation(props) {
                     'Content-Type': 'application/json'
                 }
             })
-            window.location.replace("/myBookings")
+            // window.location.replace("/myBookings")
         }
 
     };

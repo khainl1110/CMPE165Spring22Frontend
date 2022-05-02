@@ -79,6 +79,8 @@ export default function CancelPage(props) {
     const priceDays = differenceInCalendarDays(new Date(checkOut), new Date(checkIn));
 
     var price = location.state.price;
+    console.log(price);
+    var fullPrice = priceDays * location.state.price;
     var cancelPrice = priceDays * 20;
 
     var points = price / 2;
@@ -109,9 +111,9 @@ export default function CancelPage(props) {
         //console.log("Before delete " + user.points + " and " + points)
 
         let newPoints = 0
-        if ( isLoggedIn)
-        // only calculate points when user is logged in
-        // prevent negative points in case user.points is less than points
+        if (isLoggedIn)
+            // only calculate points when user is logged in
+            // prevent negative points in case user.points is less than points
             newPoints = points > user.points ? 0 : user.points - points
 
         if (!freeCancel) {
@@ -200,7 +202,8 @@ export default function CancelPage(props) {
                                         <Typography sx={{
                                             fontWeight: 700,
                                             fontSize: '14px',
-                                            color: '#424242'
+                                            color: '#424242',
+                                            marginTop: '6%'
                                         }}>
                                             Back to My Bookings
                                         </Typography>
@@ -398,7 +401,7 @@ export default function CancelPage(props) {
                                                         fontSize: '24px',
                                                         color: '#606060',
                                                     }}>
-                                                        $ {price}
+                                                        $ {fullPrice}
                                                     </Typography>
                                                 </Grid>
                                             </Grid>

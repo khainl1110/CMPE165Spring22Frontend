@@ -27,6 +27,9 @@ export default function ReservationDetail(props) {
 
     const [open, setOpen] = useState(false);
 
+    const cardNumLength = cardNumber.length;
+    const cardNumDisplay = "**** **** **** " + cardNumber.substring(cardNumLength - 4, cardNumLength);
+
     const handleClick = () => {
         // setOpen(!open);
     };
@@ -228,7 +231,7 @@ export default function ReservationDetail(props) {
                         </Typography>
 
                         <Typography marginLeft={1} sx={{ fontSize: 14, }}>
-                            $ {totalPrice}
+                            $ {totalPrice.toFixed(2)}
                         </Typography>
 
                     </ListItem>
@@ -238,7 +241,7 @@ export default function ReservationDetail(props) {
                             fontWeight: 600,
                             fontSize: 14,
                         }}>Card Number: </Typography>
-                        <Typography marginLeft={1} sx={{ fontSize: 14, }}>{cardNumber}</Typography>
+                        <Typography marginLeft={1} sx={{ fontSize: 14, }}>{cardNumDisplay}</Typography>
                         {/* <Typography sx={{
                                 fontWeight: 600,
                                 marginLeft: "3%",

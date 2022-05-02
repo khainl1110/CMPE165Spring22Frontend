@@ -30,6 +30,9 @@ export default function ReservationCard(props) {
         setOpen(!open);
     };
 
+    const cardNumLength = cardNumber.length;
+    const cardNumDisplay = "**** **** **** " + cardNumber.substring(cardNumLength - 4, cardNumLength);
+
 
     // pass the roomId to editReservation page
     const navigate = useNavigate();
@@ -40,7 +43,7 @@ export default function ReservationCard(props) {
     };
     const cancelClick = () => {
         navigate('/cancel', {
-            state: { hotelName, image, description, amenities, roomInfo, numGuest: guest, checkIn, checkOut, id: reservId, price }
+            state: { hotelName, image, description, amenities, roomInfo, numGuest: guest, checkIn, checkOut, id: reservId, price: oneDayPrice }
         });
     }
 
@@ -55,9 +58,9 @@ export default function ReservationCard(props) {
 
     const differenceInTime = Date.parse(checkOut) - Date.parse(checkIn);
     const days = differenceInTime / (1000 * 3600 * 24);
-    const earningPoint = price / 2.0;
     const discount = points / 10.0;
     const finalPrice = price - discount;
+    const earningPoint = finalPrice / 2.0;
 
     return (
         <List sx={{
@@ -183,7 +186,7 @@ export default function ReservationCard(props) {
                             <Box width="70% " bgcolor="#9BB40D" padding="5px" borderRadius="10px">
                                 <Typography marginLeft="2%" color="white" sx={{ fontSize: 14, }}>
                                     You redeemed {points} points and earned {earningPoint} points from this stay.
-                                    ${price} a night for {days} nights - ${discount} = ${finalPrice}, including taxes.
+                                    ${price.toFixed(2)} for {days} nights - ${discount.toFixed(2)} = ${finalPrice.toFixed(2)}, including taxes.
                                 </Typography>
                             </Box>
                         </ListItem>
@@ -243,7 +246,7 @@ export default function ReservationCard(props) {
                             </Typography>
 
                             <Typography marginLeft={1} sx={{ fontSize: 14, }}>
-                                $ {finalPrice}
+                                $ {finalPrice.toFixed(2)}
                             </Typography>
 
                         </ListItem>
@@ -254,7 +257,7 @@ export default function ReservationCard(props) {
                                 fontSize: 14,
                                 // fontFamily: 'Baloo-Bhaina-2',
                             }}>Card Number: </Typography>
-                            <Typography marginLeft={1} sx={{ fontSize: 14, }}>{cardNumber}</Typography>
+                            <Typography marginLeft={1} sx={{ fontSize: 14, }}>{cardNumDisplay}</Typography>
                             {/* <Typography sx={{
                                 fontWeight: 600,
                                 marginLeft: "3%",

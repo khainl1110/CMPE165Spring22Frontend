@@ -16,7 +16,7 @@ import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 
 export default function Payment() {
-    const email = localStorage.getItem('email');
+    let email = localStorage.getItem('email');
     const [user, setUser] = React.useState();
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
     const roomObj = useLocation();
@@ -64,6 +64,7 @@ export default function Payment() {
 
         e.preventDefault();
         const data = new FormData(e.currentTarget);
+        email = data.get('email');
 
         let check = await checkOverlapReservation()
         //console.log("check " + check)
@@ -116,7 +117,7 @@ export default function Payment() {
                         'Content-Type': 'application/json'
                     }
                 }).then(response => response.json()).then((res) => {
-                    alert("Successfully booked! Your reservation id is: " + res.id + ". You have used " + usePoints + " points, which means you saved $" + priceReduc + ". The total price you paid for this reservation is $" + (totalPrice - priceReduc) + ".");
+                    alert("Successfully booked! Your reservation id is: " + res.id + ". You have used " + usePoints + " points, which means you saved $" + priceReduc.toFixed(2) + ". The total price you paid for this reservation is $" + (totalPrice - priceReduc).toFixed(2) + ".");
                 })
                 console.log(reservationData);
 
@@ -149,7 +150,7 @@ export default function Payment() {
                         lastName: user.lastName,
                         email: user.email,
                         password: user.password,
-                        points: user.points - usePoints + (totalPrice / 2.0),
+                        points: user.points - usePoints + ((totalPrice - priceReduc) / 2.0),
                         paymentId: user.paymentId,
                     }
 

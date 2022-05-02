@@ -39,6 +39,7 @@ export default function MyAccount() {
                 .then(data => {
                     setUser(data);
                     setPoint(data.points);
+                    console.log(data.points)
                     setFirstName(data.firstName);
                     setLastName(data.lastName);
                 })
@@ -64,7 +65,6 @@ export default function MyAccount() {
 
     // const countRedeemable = point / 50.0;
     const discount = (point / 10.0).toFixed(2);
-    // parseInt(countRedeemable * 5);
 
     if (email !== '') {
         return (
