@@ -21,6 +21,13 @@ export default function Check() {
     const [numGuest, setNumGuest] = React.useState(0);
     const [checkIn, setCheckIn] = React.useState('');
     const [checkOut, setCheckOut] = React.useState('');
+    const [firstName, setFirstName] = React.useState('');
+    const [lastName, setLastName] = React.useState('');
+    const [location, setLocation] = React.useState('');
+    const [roomID, setRoomID] = React.useState(0);
+    const [cardNumber, setCardNumber] = React.useState('');
+    const [paymentID, setPaymentID] = React.useState('');
+    const [reserveID, setReserveID] = React.useState('');
 
     const theme = createTheme({
 
@@ -46,12 +53,22 @@ export default function Check() {
                     throw new Error('Please double check that you entered correct information');
                 }
 
+                setFirstName(data.firstName);
+                setLastName(data.lastName);
                 setPrice(data.price);
                 setNumGuest(data.numGuest);
+                setPaymentID(data.paymentId);
+                setReserveID(data.id);
                 let checkInDateObj = new Date(data.check_in);
                 let checkOutDateObj = new Date(data.check_out);
                 let ci = checkInDateObj.getMonth() + 1 + "/" + checkInDateObj.getDate() + "/" + checkInDateObj.getFullYear();
                 let co = checkOutDateObj.getMonth() + 1 + "/" + checkOutDateObj.getDate() + "/" + checkOutDateObj.getFullYear();
+
+                fetch(backend_url + "/payment/" + data.paymentId, { method: 'GET' })
+                    .then(paymentData => paymentData.json())
+                    .then(paymentData => {
+                        setCardNumber(paymentData.number);
+                    })
 
                 setCheckIn(ci);
                 setCheckOut(co);
@@ -60,9 +77,12 @@ export default function Check() {
                     .then(roomData => roomData.json())
                     .then(roomData => {
                         setRoom(roomData);
+                        setLocation(roomData.location);
+                        setRoomID(roomData.id);
                         console.log(roomData);
                         setSuccess(true);
                     })
+
             })
             .then(data => (setDetail(data)))
             .then(console.log(detail))
@@ -81,9 +101,8 @@ export default function Check() {
                 <Typography sx={{ marginTop: '0%' }}>Do not delete</Typography>
 
                 <Typography sx={{
-                    fontFamily: 'Baloo-Bhaina-2',
                     fontWeight: 600,
-                    fontSize: '25px',
+                    fontSize: '22px',
                     color: '#424242',
                     marginTop: '5%',
                     marginLeft: '3%'
@@ -95,8 +114,6 @@ export default function Check() {
                         <Grid container direction="row" spacing={5} justifyContent="space-between" alignItems="center" >
                             <Grid item xs={6}>
                                 <div className={style.boxy}>
-                                    {/* <Box className={style.boxy} component="form" onClick={handleClick}>
-                                    <FormControl> */}
                                     <TextField value={email}
                                         onChange={(e) => (setEmail(e.target.value))}
                                         required={true}
@@ -117,8 +134,6 @@ export default function Check() {
                                     >
                                         Check Reservation
                                     </Button>
-                                    {/* </FormControl>
-                            </Box> */}
                                 </div>
                             </Grid>
                         </Grid>
@@ -132,13 +147,18 @@ export default function Check() {
                                         image={room.image}
                                         checkIn={checkIn}
                                         checkOut={checkOut}
-                                        firstName="FIRST NAME"
-                                        lastName="LAST NAME"
+                                        firstName={firstName}
+                                        lastName={lastName}
                                         email={email}
-                                        numGuest={numGuest}
+                                        guest={numGuest}
                                         roomInfo={room.roomInfo}
                                         amenities={room.amenities}
-                                        roomId={3}
+                                        roomId={roomID}
+                                        location={location}
+                                        cardNumber={cardNumber}
+                                        paymentId={paymentID}
+                                        reservId={reserveID}
+                                    // one
                                     />
                                 </Box>
                             </Grid>}

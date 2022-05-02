@@ -13,7 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
-
+import NavBar from "../../NavBar/NavBar.jsx";
 import LoggedInNavBar from '../../NavBar/LoggedInNavBar.jsx';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
@@ -124,25 +124,31 @@ export default function CancelPage(props) {
 
                 alert(confText)
             )
-            const updatedUserData = {
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email,
-                password: user.password,
-                points: newPoints,
-                paymentId: user.paymentId,
+
+            if (isLoggedIn) {
+                const updatedUserData = {
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    password: user.password,
+                    points: newPoints,
+                    paymentId: user.paymentId,
+                }
+
+                fetch(backend_url + "/users", {
+                    method: 'PUT',
+                    body: JSON.stringify(updatedUserData),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(
+                    console.log('Updated user points:' + user.points + ' --> ' + (points))
+                )
+                navigateToMyBookings();
+            } else {
+                navigateToCheckReservation();
             }
 
-            fetch(backend_url + "/users", {
-                method: 'PUT',
-                body: JSON.stringify(updatedUserData),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).then(
-                console.log('Updated user points:' + user.points + ' --> ' + (points))
-            )
-            navigateToMyBookings();
         }
         else {
             alert("Please accept agreements above")
@@ -167,28 +173,60 @@ export default function CancelPage(props) {
         navigate('/myBookings');
     }
 
+    const navigateToCheckReservation = (e) => {
+        navigate('/checkReservation');
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <Paper style={styles.paperContainer} sx={{ boxShadow: '0' }}>
                 <Container component="main" justifyContent="left" position="absolute">
                     <CssBaseline />
-                    <LoggedInNavBar />
-                    <Grid container direction="row" justifyContent="flex-start" alignItems="center" width="100%" sx={{ marginLeft: '-1%', marginTop: '8%', }}>
-                        <Grid item xs={0}>
-                            <IconButton onClick={navigateToMyBookings}>
-                                <ArrowBackIcon />
-                            </IconButton>
-                        </Grid>
-                        <Grid item xs={0}>
-                            <Typography sx={{
-                                fontWeight: 700,
-                                fontSize: '14px',
-                                color: '#424242'
-                            }}>
-                                Back to My Bookings
-                            </Typography>
-                        </Grid>
-                    </Grid>
+                    {isLoggedIn &&
+                        <div>
+                            <LoggedInNavBar />
+                            <Grid container direction="row" justifyContent="flex-start" alignItems="center" width="100%" sx={{ marginLeft: '-1%', marginTop: '8%', }}>
+                                <Grid container direction="row">
+                                    <Grid item xs={0}>
+                                        <IconButton onClick={navigateToMyBookings}>
+                                            <ArrowBackIcon />
+                                        </IconButton>
+                                    </Grid>
+                                    <Grid item xs={0}>
+                                        <Typography sx={{
+                                            fontWeight: 700,
+                                            fontSize: '14px',
+                                            color: '#424242'
+                                        }}>
+                                            Back to My Bookings
+                                        </Typography>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </div>
+                    }
+                    {!isLoggedIn &&
+                        <div>
+                            <NavBar />
+                            <Grid container direction="row" justifyContent="flex-start" alignItems="center" width="100%" sx={{ marginLeft: '-1%', marginTop: '8%', }}>
+                                <Grid item xs={0}>
+                                    <IconButton onClick={navigateToCheckReservation}>
+                                        <ArrowBackIcon />
+                                    </IconButton>
+                                </Grid>
+                                <Grid item xs={0}>
+                                    <Typography sx={{
+                                        fontWeight: 700,
+                                        fontSize: '14px',
+                                        color: '#424242'
+                                    }}>
+                                        Back to Check My Reservation
+                                    </Typography>
+                                </Grid>
+                            </Grid>
+                        </div>
+
+                    }
                     <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start" width="100%" >
                         <Grid item xs={0}>
                             <Grid container direction="row" justifyContent="flex-start" alignItems="center" width="100%" sx={{ marginTop: '2%', marginBottom: '4%', }}>
@@ -516,6 +554,6 @@ export default function CancelPage(props) {
                     </Grid>
                 </Container>
             </Paper>
-        </ThemeProvider>
+        </ThemeProvider >
     )
 }

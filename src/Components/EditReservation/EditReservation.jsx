@@ -54,9 +54,9 @@ export default function EditReservation(props) {
         if (email !== '') {
             setIsLoggedIn(true);
         }
-        else {
-            window.location.replace('/');
-        }
+        // else {
+        //     window.location.replace('/');
+        // }
     }, [])
 
     const location = useLocation();
@@ -70,7 +70,7 @@ export default function EditReservation(props) {
     const differenceInTime = Date.parse(dates[1]) - Date.parse(dates[0]);
     const days = differenceInTime / (1000 * 3600 * 24);
     const totalPrice = days * state.price;
-    const currentPoints = state.user.points - (Date.parse(state.checkOut) - Date.parse(state.checkIn)) / (1000 * 3600 * 24) * state.price / 2;
+    const currentPoints = state.user.points ? (state.user.points - (Date.parse(state.checkOut) - Date.parse(state.checkIn)) / (1000 * 3600 * 24) * state.price / 2) : 0;
     const changedPoints = currentPoints + totalPrice / 2;
     const roomID = state.roomId;
     console.log("current: " + currentPoints + "    changed: " + changedPoints);
@@ -123,25 +123,28 @@ export default function EditReservation(props) {
 
         )
 
-        const userPointData = {
-            firstName: state.user.firstName,
-            lastName: state.user.lastName,
-            email: state.user.email,
-            password: state.user.password,
-            points: changedPoints,
-            paymentId: state.user.paymentId,
+        if (isLoggedIn) {
+            const userPointData = {
+                firstName: state.user.firstName,
+                lastName: state.user.lastName,
+                email: state.user.email,
+                password: state.user.password,
+                points: changedPoints,
+                paymentId: state.user.paymentId,
+            }
+
+            console.log(userPointData);
+
+            fetch(backend_url + "/users", {
+                method: 'PUT',
+                body: JSON.stringify(userPointData),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            window.location.replace("/myBookings")
         }
 
-        console.log(userPointData);
-
-        fetch(backend_url + "/users", {
-            method: 'PUT',
-            body: JSON.stringify(userPointData),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        window.location.replace("/myBookings")
     };
 
     const backClick = () => {
@@ -381,150 +384,6 @@ export default function EditReservation(props) {
 
                                         </Grid>
                                     </ListItem>
-
-                                    {/* <List>
-                                        <ListItem>
-                                            <Paper style={styles.imageContainer} sx={{ backgroundImage: `url(${room.image})`, }} />
-                                            <ListItemText>
-                                                <Typography sx={{
-                                                    marginLeft: "3%",
-                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                    fontSize: 20,
-                                                    fontWeight: 600
-                                                }}>
-                                                    {room.roomInfo}
-                                                </Typography>
-                                                <Typography sx={{
-                                                    marginLeft: "3%",
-                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                    fontSize: 18,
-                                                    fontWeight: 400
-                                                }}>
-                                                    {room.amenities}
-                                                </Typography>
-                                                <Typography sx={{
-                                                    marginLeft: "3%",
-                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                    fontSize: 18,
-                                                    fontWeight: 400
-                                                }}>
-                                                    {room.location}
-                                                </Typography>
-                                                <Typography sx={{
-                                                    marginLeft: "3%",
-                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                    fontSize: 18,
-                                                    fontWeight: 400
-                                                }}>
-                                                    {room.description}
-                                                </Typography>
-
-                                                <Box sx={{ width: "75%", marginLeft: "10%" }}>
-                                                    <ListItem>
-                                                        <ListItemText>
-                                                            <ListItem>
-                                                                <Typography sx={{
-                                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                                    fontSize: 16,
-                                                                    fontWeight: 600
-                                                                }}>
-                                                                    Check in
-                                                                </Typography>
-                                                            </ListItem>
-                                                            <ListItem>
-                                                                <Typography sx={{
-                                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                                    fontSize: 16,
-                                                                    fontWeight: 300
-                                                                }}>
-                                                                    {check_in}
-                                                                </Typography>
-                                                            </ListItem>
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <ListItem>
-                                                                <Typography sx={{
-                                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                                    fontSize: 16,
-                                                                    fontWeight: 600
-                                                                }}>
-                                                                    Check out
-                                                                </Typography>
-                                                            </ListItem>
-                                                            <ListItem>
-                                                                <Typography sx={{
-                                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                                    fontSize: 16,
-                                                                    fontWeight: 300
-                                                                }}>
-                                                                    {check_out}
-                                                                </Typography>
-                                                            </ListItem>
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <ListItem>
-                                                                <Typography sx={{
-                                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                                    fontSize: 40,
-                                                                    fontWeight: 300
-                                                                }}>
-                                                                    |
-                                                                </Typography>
-                                                            </ListItem>
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <ListItem>
-                                                                <Typography sx={{
-                                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                                    fontSize: 16,
-                                                                    fontWeight: 600
-                                                                }}>
-                                                                    Guest
-                                                                </Typography>
-                                                            </ListItem>
-                                                            <ListItem>
-                                                                <Typography sx={{
-                                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                                    fontSize: 16,
-                                                                    fontWeight: 300
-                                                                }}>
-                                                                    {state.guest}
-                                                                </Typography>
-                                                            </ListItem>
-
-                                                        </ListItemText>
-                                                    </ListItem>
-                                                </Box>
-
-                                            </ListItemText>
-
-                                            <ListItemText>
-                                                <Typography sx={{
-                                                    marginLeft: "10%",
-                                                    fontSize: 40,
-                                                    fontWeight: 700,
-                                                    color: "#475718",
-                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                    marginTop: "-35%"
-                                                }}>
-                                                    ${totalPrice}
-                                                </Typography>
-
-                                                <Typography sx={{
-
-                                                    fontWeight: 700,
-                                                    fontSize: 18,
-                                                    color: "#475718",
-                                                    fontFamily: 'Baloo-Bhaina-2'
-                                                }}>
-                                                    for {days} nights
-                                                </Typography>
-                                            </ListItemText>
-
-                                        </ListItem>
-
-
-                                    </List> */}
                                 </Box>
 
                                 <List sx={{

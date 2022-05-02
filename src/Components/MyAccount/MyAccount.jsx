@@ -33,7 +33,6 @@ export default function MyAccount() {
     const [lastName, setLastName] = useState();
 
     useEffect(() => {
-
         if (email !== '') {
             fetch(backend_url + "/users/" + email, { method: 'GET' })
                 .then(response => response.json())
