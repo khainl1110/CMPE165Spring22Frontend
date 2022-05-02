@@ -49,10 +49,10 @@ export default function Payment() {
     }, [])
 
     const changePoints = (event) => {
-        if(event.target.value <= point){
-        setUsePoints(event.target.value);
+        if (event.target.value <= point) {
+            setUsePoints(event.target.value);
         }
-        else{
+        else {
             setUsePoints(point);
             event.target.value = point;
         }
@@ -60,7 +60,7 @@ export default function Payment() {
     }
 
     const confirmReservation = async (e) => {
-        const priceReduc = usePoints/10;
+        const priceReduc = usePoints / 10;
 
         e.preventDefault();
         const data = new FormData(e.currentTarget);
@@ -100,7 +100,7 @@ export default function Payment() {
                 const reservationData = {
                     firstName: data.get('firstName'),
                     lastName: data.get('lastName'),
-                    // phone: data.get('phone'),
+                    pointsRedeemed: usePoints,
                     userEmail: data.get('email'),
                     roomId: roomID,
                     price: totalPrice,
@@ -115,9 +115,9 @@ export default function Payment() {
                     headers: {
                         'Content-Type': 'application/json'
                     }
-                }).then(
-                    alert("Successfully booked! You have used " + usePoints + " points to save $" + priceReduc)
-                )
+                }).then(response => response.json()).then((res) => {
+                    alert("Successfully booked! Your reservation id is: " + res.id + ". You have used " + usePoints + " points, which means you saved $" + priceReduc + ". The total price you paid for this reservation is $" + (totalPrice - priceReduc) + ".");
+                })
                 console.log(reservationData);
 
                 // If user is logged in, add points to their account.
@@ -149,7 +149,7 @@ export default function Payment() {
                         lastName: user.lastName,
                         email: user.email,
                         password: user.password,
-                        points: user.points - usePoints,
+                        points: user.points - usePoints + (totalPrice / 2.0),
                         paymentId: user.paymentId,
                     }
 
@@ -238,35 +238,38 @@ export default function Payment() {
                         fontSize: '25px',
                         color: '#000000',
                         marginTop: '0%',
-                        mb: "30%",}}>
+                        mb: "30%",
+                    }}>
                         Redeem Points
                     </Typography>
                 </Grid>
                 <Grid item xs={0}>
-                <Grid container direction="row" justifyContent="flex-start" spacing={5} marginTop="0%">
-                <Grid item xs={0}>
-                        <Typography sx={{
-                            fontWeight: 500,
-                            fontSize: '25px',
-                            color: '#000000',
-                            marginTop: '0%',
-                            mb: "30%",}}>
-                            Points Available: {point}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={0}>
-                        <Typography sx={{
-                            fontWeight: 500,
-                            fontSize: '25px',
-                            color: '#000000',
-                            marginTop: '0%',
-                            mb: "30%",}}>
-                            Points to Redeem: 
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={0}>
-                        <TextFieldComp className={style.tf} id="outlined-disabled" label="points" name="points" onChange={changePoints} value={usePoints} />
-                    </Grid>
+                    <Grid container direction="row" justifyContent="flex-start" spacing={5} marginTop="0%">
+                        <Grid item xs={0}>
+                            <Typography sx={{
+                                fontWeight: 500,
+                                fontSize: '25px',
+                                color: '#000000',
+                                marginTop: '0%',
+                                mb: "30%",
+                            }}>
+                                Points Available: {point}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={0}>
+                            <Typography sx={{
+                                fontWeight: 500,
+                                fontSize: '25px',
+                                color: '#000000',
+                                marginTop: '0%',
+                                mb: "30%",
+                            }}>
+                                Points to Redeem:
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={0}>
+                            <TextFieldComp className={style.tf} id="outlined-disabled" label="points" name="points" onChange={changePoints} value={usePoints} />
+                        </Grid>
                     </Grid>
                 </Grid>
                 {/* <Grid item><GreenPrompt style={{ "padding-top": "0px" }} /></Grid> */}
