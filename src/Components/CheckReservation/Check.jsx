@@ -55,10 +55,10 @@ export default function Check() {
 
                 setFirstName(data.firstName);
                 setLastName(data.lastName);
-                setPrice(data.price);
                 setNumGuest(data.numGuest);
                 setPaymentID(data.paymentId);
                 setReserveID(data.id);
+                setPrice(data.price);
                 let checkInDateObj = new Date(data.check_in);
                 let checkOutDateObj = new Date(data.check_out);
                 let ci = checkInDateObj.getMonth() + 1 + "/" + checkInDateObj.getDate() + "/" + checkInDateObj.getFullYear();
@@ -143,7 +143,7 @@ export default function Check() {
                                     <ReservationDetail
                                         hotelName={room.hotelName}
                                         description={room.description}
-                                        price={price}
+                                        price={room.price}
                                         image={room.image}
                                         checkIn={checkIn}
                                         checkOut={checkOut}
@@ -158,6 +158,7 @@ export default function Check() {
                                         cardNumber={cardNumber}
                                         paymentId={paymentID}
                                         reservId={reserveID}
+                                        totalPrice={price}
                                     // one
                                     />
                                 </Box>

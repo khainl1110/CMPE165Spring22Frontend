@@ -19,7 +19,7 @@ import {
 
 export default function ReservationDetail(props) {
     // const { hotelName, description, price, checkIn, checkOut, image, firstName, lastName, email, numGuest, roomInfo, amenities, roomId, id } = props;
-    const { location, hotelName, description, price, checkIn, checkOut, image, firstName, lastName, email, guest, roomInfo, amenities, roomId, cardNumber, paymentId, reservId, points, oneDayPrice, userInfo } = props;
+    const { location, hotelName, description, price, checkIn, checkOut, image, firstName, lastName, email, guest, roomInfo, amenities, roomId, cardNumber, paymentId, reservId, points, oneDayPrice, userInfo, totalPrice } = props;
 
     //instant info payment detail
     // const cardNumber = "12323123213";
@@ -228,7 +228,7 @@ export default function ReservationDetail(props) {
                         </Typography>
 
                         <Typography marginLeft={1} sx={{ fontSize: 14, }}>
-                            $ {price}
+                            $ {totalPrice}
                         </Typography>
 
                     </ListItem>

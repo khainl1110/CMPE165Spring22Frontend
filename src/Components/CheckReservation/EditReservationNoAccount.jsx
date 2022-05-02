@@ -63,6 +63,8 @@ export default function EditReservation(props) {
     const roomID = state.roomId;
     // console.log("current: " + currentPoints + "    changed: " + changedPoints);
 
+    console.log(totalPrice);
+
     useEffect(() => {
 
         fetch(backend_url + "/room/" + roomID, { method: 'GET' })
