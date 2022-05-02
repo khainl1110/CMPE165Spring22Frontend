@@ -129,7 +129,7 @@ export default function Payment() {
                         lastName: user.lastName,
                         email: user.email,
                         password: user.password,
-                        points: user.points + totalPrice / 2.0,
+                        points: user.points + (totalPrice / 2.0),
                         paymentId: user.paymentId,
                     }
 
@@ -229,50 +229,29 @@ export default function Payment() {
                         <NavBar />
                     }
                 </Grid>
-                <Grid item xs={12} />
                 <Grid item xs={12}><YourRoomReservation /></Grid>
                 <Grid item xs={12} align="center" ><HotelRoomDetails /></Grid>
-                <Grid item xs={0}>
-                    <Typography sx={{
-                        fontWeight: 500,
-                        fontSize: '25px',
-                        color: '#000000',
-                        marginTop: '0%',
-                        mb: "30%",
-                    }}>
-                        Redeem Points
-                    </Typography>
-                </Grid>
-                <Grid item xs={0}>
-                    <Grid container direction="row" justifyContent="flex-start" spacing={5} marginTop="0%">
-                        <Grid item xs={0}>
-                            <Typography sx={{
-                                fontWeight: 500,
-                                fontSize: '25px',
-                                color: '#000000',
-                                marginTop: '0%',
-                                mb: "30%",
-                            }}>
-                                Points Available: {point}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={0}>
-                            <Typography sx={{
-                                fontWeight: 500,
-                                fontSize: '25px',
-                                color: '#000000',
-                                marginTop: '0%',
-                                mb: "30%",
-                            }}>
-                                Points to Redeem:
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={0}>
-                            <TextFieldComp className={style.tf} id="outlined-disabled" label="points" name="points" onChange={changePoints} value={usePoints} />
-                        </Grid>
+                {isLoggedIn &&
+                    <Grid item sx={12}>
+                        <div className={style.RedeemPoints}>
+                            <p className={style.p}>Redeem Points</p>
+                            <Grid container spacing={0}>
+                                <Grid item xs={0}>
+                                    <TextFieldComp className={style.tf} id="outlined-disabled" label="Points to Redeem" name="points" onChange={changePoints} value={usePoints} />
+                                </Grid>
+                                <Typography sx={{
+                                    fontWeight: 500,
+                                    fontSize: '16px',
+                                    color: '#000000',
+                                    marginTop: '2.5%',
+                                    marginLeft: '5%'
+                                }}>
+                                    <b>Points Available: </b> {point}
+                                </Typography>
+                            </Grid>
+                        </div>
                     </Grid>
-                </Grid>
-                {/* <Grid item><GreenPrompt style={{ "padding-top": "0px" }} /></Grid> */}
+                }
                 <Box component="form" onSubmit={confirmReservation} sx={{ marginLeft: '10%' }}>
                     <FormControl component="fieldset" variant="standard">
                         <Grid item><UserInfo user={user} /></Grid>

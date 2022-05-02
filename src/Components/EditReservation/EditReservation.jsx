@@ -119,7 +119,7 @@ export default function EditReservation(props) {
                 'Content-Type': 'application/json'
             }
         }).then(
-            alert("Successfully booked!"),
+            alert("Successfully modified!"),
 
         )
 
@@ -180,7 +180,7 @@ export default function EditReservation(props) {
                                 alignItems: 'center',
                                 justifyContent: "center",
                             }}>
-                                <Box sx={{ backgroundColor: "#FCFCFC" }}>
+                                <Box>
                                     <ListItem>
                                         <Typography sx={{
                                             fontSize: 19,
