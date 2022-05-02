@@ -75,7 +75,7 @@ export default function LogInPage() {
                 sx={{
                   position: "absolute",
                   marginTop: '40vh',
-                  marginLeft: '3%',
+                  marginLeft: '0%',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
@@ -84,9 +84,8 @@ export default function LogInPage() {
               >
                 <Typography
                   sx={{
-                    fontFamily: 'Baloo Bhaina 2',
                     fontStyle: 'normal',
-                    fontSize: '60px',
+                    fontSize: '50px',
                     letterSpacing: '0.005em',
                     color: '#FFFFFF',
                     width: '100%',

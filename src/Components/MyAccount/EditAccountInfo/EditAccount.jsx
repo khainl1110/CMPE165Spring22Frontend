@@ -155,19 +155,17 @@ export default function EditAccount(props) {
                     <List sx={{
                         width: "50%",
                     }}>
-                        <Box sx={{ marginTop: "3%" }}>
+                        <Box sx={{ marginTop: "5%" }}>
                             <Typography sx={{
-                                fontSize: 25,
+                                fontSize: 22,
                                 fontWeight: 600,
-                                fontFamily: 'Baloo-Bhaina-2',
                                 marginLeft: '0%'
                             }}>
                                 Edit Your Account
                             </Typography>
                             <Typography sx={{
-                                fontSize: 22,
+                                fontSize: 18,
                                 fontWeight: 600,
-                                fontFamily: 'Baloo-Bhaina-2',
                                 marginTop: "3%",
                                 marginLeft: "2%"
                             }}>
@@ -236,35 +234,11 @@ export default function EditAccount(props) {
                                         <ListItemText>
 
                                             <Button
-                                                type="submit"
-                                                variant="contained"
-                                                sx={{
-                                                    fontWeight: 600,
-                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                    minWidth: "200px",
-                                                    color: "white",
-                                                    backgroundColor: "#9BB40D",
-
-                                                    '&:hover': {
-                                                        backgroundColor: '#9BB40D',
-                                                        borderColor: '#0062cc',
-                                                        boxShadow: 'none',
-                                                    },
-                                                    '&:focus': {
-                                                        boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
-                                                    }
-                                                }}
-                                            >
-                                                Update Information
-                                            </Button>
-
-                                            <Button
                                                 onClick={cancelClick}
+
                                                 sx={{
-                                                    fontWeight: 600,
-                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                    marginLeft: "52%",
-                                                    minWidth: "150px",
+                                                    fontWeight: 500,
+                                                    minWidth: "200px",
                                                     color: "black",
                                                     backgroundColor: "#f0f1ed",
 
@@ -279,6 +253,29 @@ export default function EditAccount(props) {
                                                 }}
                                             >
                                                 Cancel
+                                            </Button>
+
+                                            <Button
+                                                type="submit"
+                                                variant="contained"
+                                                sx={{
+                                                    fontWeight: 500,
+                                                    marginLeft: "46%",
+                                                    minWidth: "150px",
+                                                    color: "white",
+                                                    backgroundColor: "#9BB40D",
+
+                                                    '&:hover': {
+                                                        backgroundColor: '#9BB40D',
+                                                        borderColor: '#0062cc',
+                                                        boxShadow: 'none',
+                                                    },
+                                                    '&:focus': {
+                                                        boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
+                                                    }
+                                                }}
+                                            >
+                                                Update Information
                                             </Button>
 
                                         </ListItemText>

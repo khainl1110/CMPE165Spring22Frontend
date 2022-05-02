@@ -32,7 +32,7 @@ const styles = {
     imageContainer: {
         backgroundSize: 'cover',
         position: 'relative',
-        height: '26vh',
+        height: '23vh',
         width: '19vw',
     }
 };
@@ -181,9 +181,8 @@ export default function CancelPage(props) {
                         </Grid>
                         <Grid item xs={0}>
                             <Typography sx={{
-                                fontFamily: 'Baloo-Bhaina-2',
                                 fontWeight: 700,
-                                fontSize: '20px',
+                                fontSize: '14px',
                                 color: '#424242'
                             }}>
                                 Back to My Bookings
@@ -192,19 +191,17 @@ export default function CancelPage(props) {
                     </Grid>
                     <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start" width="100%" >
                         <Grid item xs={0}>
-                            <Grid container direction="row" justifyContent="flex-start" alignItems="center" width="100%" sx={{ marginTop: '2%', marginBottom: '2%', }}>
+                            <Grid container direction="row" justifyContent="flex-start" alignItems="center" width="100%" sx={{ marginTop: '2%', marginBottom: '4%', }}>
                                 <Typography sx={{
-                                    fontFamily: 'Baloo-Bhaina-2',
                                     fontWeight: 600,
-                                    fontSize: '26px',
+                                    fontSize: '19px',
                                     color: '#424242'
                                 }}>
                                     Cancel Your Reservation:
                                 </Typography>
                                 <Typography sx={{
-                                    fontFamily: 'Baloo-Bhaina-2',
-                                    fontWeight: 600,
-                                    fontSize: '26px',
+                                    fontWeight: 400,
+                                    fontSize: '19px',
                                     color: '#9BB40D',
                                     marginLeft: '10px',
                                     textDecorationLine: 'underline',
@@ -215,7 +212,7 @@ export default function CancelPage(props) {
                         </Grid>
 
                         <Grid item xs={0}>
-                            <Grid container direction="row" justifyContent="left" alignItems="center" spacing={0} sx={{ position: "static", marginTop: '0%' }}>
+                            <Grid container direction="row" justifyContent="left" alignItems="center" spacing={0} sx={{ position: "static", marginTop: '0%', backgroundColor: '#e6edea', borderRadius: 2, }}>
                                 <Grid item xs={0}>
                                     <Paper style={styles.imageContainer} sx={{ backgroundImage: `url(${img})`, }}>
                                     </Paper>
@@ -227,19 +224,29 @@ export default function CancelPage(props) {
                                     }}>
                                         <Grid item xs={0}>
                                             <Typography variant="h3" sx={{
-                                                fontFamily: 'Baloo-Bhaina-2',
                                                 fontWeight: 600,
-                                                fontSize: '22px',
-                                                color: '#424242'
+                                                fontSize: '16px',
+                                                color: '#424242',
+                                                paddingTop: '10px',
                                             }}>
                                                 {roomInfo}
                                             </Typography>
                                         </Grid>
+                                        {/* <Grid item xs={0}>
+                                            <Typography variant="h2" sx={{
+                                                // fontFamily: 'Baloo-Bhaina-2',
+                                                fontWeight: 400,
+                                                fontSize: '14px',
+                                                color: '#606060',
+                                                marginTop: '2%'
+                                            }}>
+                                                {location}
+                                            </Typography>
+                                        </Grid> */}
                                         <Grid item xs={0}>
                                             <Typography variant="h2" sx={{
-                                                fontFamily: 'Baloo-Bhaina-2',
                                                 fontWeight: 400,
-                                                fontSize: '18px',
+                                                fontSize: '14px',
                                                 color: '#606060',
                                                 marginTop: '2%'
                                             }}>
@@ -248,9 +255,8 @@ export default function CancelPage(props) {
                                         </Grid>
                                         <Grid item xs={0}>
                                             <Typography variant="h2" sx={{
-                                                fontFamily: 'Baloo-Bhaina-2',
                                                 fontWeight: 400,
-                                                fontSize: '18px',
+                                                fontSize: '14px',
                                                 color: '#606060',
                                                 marginTop: '2%'
                                             }}>
@@ -258,14 +264,13 @@ export default function CancelPage(props) {
                                             </Typography>
                                         </Grid>
                                         <Grid item xs={0}>
-                                            <Grid container direction="row" justifyContent="left" alignItems="center" spacing={1.5} sx={{ position: "static", marginTop: '20%', }}>
+                                            <Grid container direction="row" justifyContent="left" alignItems="center" spacing={1.5} sx={{ position: "static", marginTop: '8%', }}>
                                                 <Grid item xs={0}>
                                                     <Grid container direction="column" justifyContent="flex-start" alignItems="center" spacing={0} sx={{ marginLeft: '0%', position: "static" }}>
                                                         <Grid item xs={0}>
                                                             <Typography sx={{
-                                                                fontFamily: 'Baloo-Bhaina-2',
-                                                                fontWeight: 600,
-                                                                fontSize: '16px',
+                                                                fontWeight: 200,
+                                                                fontSize: '14px',
                                                                 color: '#646464',
                                                             }}>
                                                                 Check In
@@ -273,7 +278,6 @@ export default function CancelPage(props) {
                                                         </Grid>
                                                         <Grid item xs={0}>
                                                             <Typography sx={{
-                                                                fontFamily: 'Baloo-Bhaina-2',
                                                                 fontWeight: 300,
                                                                 fontSize: '16px',
                                                                 color: '#646464',
@@ -287,9 +291,8 @@ export default function CancelPage(props) {
                                                     <Grid container direction="column" justifyContent="flex-start" alignItems="center" spacing={0} sx={{ marginLeft: '0%', position: "static" }}>
                                                         <Grid item xs={0}>
                                                             <Typography sx={{
-                                                                fontFamily: 'Baloo-Bhaina-2',
-                                                                fontWeight: 600,
-                                                                fontSize: '16px',
+                                                                fontWeight: 200,
+                                                                fontSize: '14px',
                                                                 color: '#646464',
                                                             }}>
                                                                 Check Out
@@ -297,7 +300,6 @@ export default function CancelPage(props) {
                                                         </Grid>
                                                         <Grid item xs={0}>
                                                             <Typography sx={{
-                                                                fontFamily: 'Baloo-Bhaina-2',
                                                                 fontWeight: 300,
                                                                 fontSize: '16px',
                                                                 color: '#646464',
@@ -309,8 +311,7 @@ export default function CancelPage(props) {
                                                 </Grid>
                                                 <Grid item xs={0}>
                                                     <Typography sx={{
-                                                        fontFamily: 'Baloo-Bhaina-2',
-                                                        fontWeight: 300,
+                                                        fontWeight: 100,
                                                         fontSize: '40px',
                                                         color: '#646464',
                                                     }}>
@@ -321,9 +322,8 @@ export default function CancelPage(props) {
                                                     <Grid container direction="column" justifyContent="flex-start" alignItems="center" spacing={0} sx={{ marginLeft: '0%', position: "static" }}>
                                                         <Grid item xs={0}>
                                                             <Typography sx={{
-                                                                fontFamily: 'Baloo-Bhaina-2',
-                                                                fontWeight: 600,
-                                                                fontSize: '16px',
+                                                                fontWeight: 200,
+                                                                fontSize: '14px',
                                                                 color: '#646464',
                                                             }}>
                                                                 Guests
@@ -331,7 +331,6 @@ export default function CancelPage(props) {
                                                         </Grid>
                                                         <Grid item xs={0}>
                                                             <Typography sx={{
-                                                                fontFamily: 'Baloo-Bhaina-2',
                                                                 fontWeight: 300,
                                                                 fontSize: '16px',
                                                                 color: '#646464',
@@ -353,9 +352,8 @@ export default function CancelPage(props) {
                                             <Grid container direction="row" justifyContent="left" alignItems="center" spacing={0} sx={{ position: "static", marginTop: "0%", }}>
                                                 <Grid item xs={0}>
                                                     <Typography variant="h2" sx={{
-                                                        fontFamily: 'Baloo-Bhaina-2',
                                                         fontWeight: 700,
-                                                        fontSize: '40px',
+                                                        fontSize: '24px',
                                                         color: '#606060',
                                                     }}>
                                                         $ {price}
@@ -363,9 +361,8 @@ export default function CancelPage(props) {
                                                 </Grid>
                                             </Grid>
                                             <Typography variant="h2" sx={{
-                                                fontFamily: 'Baloo-Bhaina-2',
-                                                fontWeight: 700,
-                                                fontSize: '18px',
+                                                fontWeight: 400,
+                                                fontSize: '14px',
                                                 color: '#606060',
                                             }}>
                                                 for {priceDays} nights
@@ -381,20 +378,18 @@ export default function CancelPage(props) {
                         </Grid>
                         <Grid item xs={0}>
                             <Typography sx={{
-                                fontFamily: 'Baloo-Bhaina-2',
-                                fontWeight: 500,
-                                fontSize: '18px',
+                                fontWeight: 600,
+                                fontSize: '14px',
                                 color: '#373737',
                                 marginLeft: '2%',
-                                marginTop: '2%',
-                                width: '80%'
+                                marginTop: '4%',
+                                width: '65%'
                             }}>
                                 Booking cancellations are free until 1 week before the check-in date of your reservation. Cancellations within 1-week of your check-in date will result in a cancellation fee of $20 per day charged to the card used to make this reservation. We are unable to refund any payment for no-shows or early checkout.
                             </Typography>
                             <Typography sx={{
-                                fontFamily: 'Baloo-Bhaina-2',
-                                fontWeight: 500,
-                                fontSize: '18px',
+                                fontWeight: 600,
+                                fontSize: '14px',
                                 color: '#373737',
                                 marginTop: '1%',
                                 marginLeft: '2%',
@@ -405,12 +400,11 @@ export default function CancelPage(props) {
                         </Grid>
 
                         <Grid item xs={0}>
-                            <Grid container direction="row" justifyContent="left" alignItems="center" spacing={2} sx={{ position: "static", marginTop: "0%", }}>
+                            <Grid container direction="row" justifyContent="left" alignItems="center" spacing={2} sx={{ position: "static", marginTop: "1%", }}>
                                 <Grid item xs={0}>
                                     <Typography sx={{
-                                        fontFamily: 'Baloo-Bhaina-2',
                                         fontWeight: 600,
-                                        fontSize: '18px',
+                                        fontSize: '15px',
                                         color: '#424242',
                                     }}>
                                         Today's Date:
@@ -418,8 +412,7 @@ export default function CancelPage(props) {
                                 </Grid>
                                 <Grid item xs={0}>
                                     <Typography sx={{
-                                        fontFamily: 'Baloo-Bhaina-2',
-                                        fontSize: '18px',
+                                        fontSize: '15px',
                                         color: '#424242',
                                     }}>
                                         {today}
@@ -427,9 +420,8 @@ export default function CancelPage(props) {
                                 </Grid>
                                 <Grid item xs={0}>
                                     <Typography sx={{
-                                        fontFamily: 'Baloo-Bhaina-2',
                                         fontWeight: 600,
-                                        fontSize: '18px',
+                                        fontSize: '15px',
                                         color: '#424242',
                                     }}>
                                         Your Check-In Date:
@@ -437,8 +429,7 @@ export default function CancelPage(props) {
                                 </Grid>
                                 <Grid item xs={0}>
                                     <Typography sx={{
-                                        fontFamily: 'Baloo-Bhaina-2',
-                                        fontSize: '18px',
+                                        fontSize: '15px',
                                         color: '#424242',
                                     }}>
                                         {checkIn}
@@ -448,11 +439,10 @@ export default function CancelPage(props) {
                         </Grid>
                         <Grid item xs={0}>
                             <Typography sx={{
-                                fontFamily: 'Baloo-Bhaina-2',
                                 fontWeight: 600,
-                                fontSize: '18px',
+                                fontSize: '15px',
                                 color: '#424242',
-                                marginTop: '2%',
+                                marginTop: '4%',
                             }}>
                                 {freeCancel &&
                                     freeText
@@ -464,14 +454,13 @@ export default function CancelPage(props) {
                         </Grid>
 
                         <Grid item xs={0}>
-                            <Grid container direction="row" justifyContent="left" alignItems="center" spacing={1} sx={{ position: "static", marginTop: "0%", }}>
+                            <Grid container direction="row" justifyContent="left" alignItems="center" spacing={1} sx={{ position: "static", marginTop: "2%", }}>
                                 <Grid item xs={0}>
                                     <Checkbox onChange={onCheck1} size="small" />
                                 </Grid>
 
                                 <Grid item xs={0}>
                                     <Typography sx={{
-                                        fontFamily: 'Baloo-Bhaina-2',
                                         fontWeight: 400,
                                         fontSize: '13px',
                                         color: '#424242',
@@ -489,7 +478,6 @@ export default function CancelPage(props) {
 
                                 <Grid item xs={0}>
                                     <Typography sx={{
-                                        fontFamily: 'Baloo-Bhaina-2',
                                         fontWeight: 400,
                                         fontSize: '13px',
                                         color: '#424242',
@@ -507,7 +495,6 @@ export default function CancelPage(props) {
 
                                 <Grid item xs={0}>
                                     <Typography sx={{
-                                        fontFamily: 'Baloo-Bhaina-2',
                                         fontWeight: 400,
                                         fontSize: '13px',
                                         color: '#424242',
@@ -520,7 +507,7 @@ export default function CancelPage(props) {
                         </Grid>
 
                         <Grid item xs={0}>
-                            <Button variant="contained" onClick={onClickHandle} sx={{ marginTop: '10%', marginBottom: '10%', backgroundColor: '#9BB40D' }}>
+                            <Button variant="contained" onClick={onClickHandle} sx={{ marginTop: '20%', marginBottom: '10%', backgroundColor: '#9BB40D' }}>
                                 Cancel Reservation
                             </Button>
                         </Grid>

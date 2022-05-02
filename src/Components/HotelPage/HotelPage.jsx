@@ -161,14 +161,14 @@ export default function HotelPage(props) {
 
     const setPriceFilter = (event, newValue, activeThumb) => {
         if (!Array.isArray(newValue)) {
-          return;
+            return;
         }
-        
 
-        if (newValue[0]<=newValue[1]) {
-          setValue1([newValue[0], newValue[1]]);
+
+        if (newValue[0] <= newValue[1]) {
+            setValue1([newValue[0], newValue[1]]);
         } else {
-          setValue1([newValue[1], newValue[0]]);
+            setValue1([newValue[1], newValue[0]]);
         }
         console.log(value1[0]);
         console.log(value1[1]);
@@ -180,7 +180,7 @@ export default function HotelPage(props) {
             }
         })
         setHotels(selectedHotels);
-      };
+    };
 
     const onSearch = (location, dates, numGuests) => {
         setInSearchMode(true);
@@ -188,7 +188,7 @@ export default function HotelPage(props) {
         setNumGuests(numGuests);
         console.log("Set Dates in onSearch" + dates);
 
-        setValue1([0,1000]);
+        setValue1([0, 1000]);
 
         if (location && dates && numGuests) {
             if (numGuests >= 3) {
@@ -306,20 +306,20 @@ export default function HotelPage(props) {
             </Grid>
         );
     }
-/*FilterByProperty*/
-/*<Grid item xs={0}>
-    <Box sx={{ marginTop: '41%', backgroundColor: "#F9FBF7" }}>
-        <Autocomplete
-            size="small"
-            disablePortal
-            id="combo-box-demo"
-            options={propertyNames}
-            sx={{ minWidth: 200 }}
-            onChange={(_event, selectedOption) => filterByProperty(selectedOption)}
-            renderInput={(params) => <TextField {...params} label="Filter By Property" />}
-        />
-    </Box>
-</Grid>*/
+    /*FilterByProperty*/
+    /*<Grid item xs={0}>
+        <Box sx={{ marginTop: '41%', backgroundColor: "#F9FBF7" }}>
+            <Autocomplete
+                size="small"
+                disablePortal
+                id="combo-box-demo"
+                options={propertyNames}
+                sx={{ minWidth: 200 }}
+                onChange={(_event, selectedOption) => filterByProperty(selectedOption)}
+                renderInput={(params) => <TextField {...params} label="Filter By Property" />}
+            />
+        </Box>
+    </Grid>*/
     return (
         <ThemeProvider theme={theme}>
             <Paper style={styles.paperContainer} sx={{ boxShadow: 0 }}>
@@ -336,32 +336,31 @@ export default function HotelPage(props) {
                             <SearchBar onSearch={onSearch} location={locat} dates={dates} numGuests={numGuests} isLandingPage={false} />
                         </Box>
                     </Grid>
-                    
+
 
                     <Grid item xs={0}>
                         <Typography variant="h2" sx={{
-                            fontFamily: 'Baloo-Bhaina-2',
-                            fontWeight: 700,
-                            fontSize: '18px',
+                            fontWeight: 600,
+                            fontSize: '15px',
                             color: '#424242',
                             marginTop: '23%',
                             marginLeft: '0%'
                         }}>
-                            Price Range
+                            Filter By Price
                         </Typography>
-                        <Box sx={{marginTop: '0%', width: 300}}>
+                        <Box sx={{ marginTop: '0%', width: 300, marginLeft: 2, marginRight: 2 }}>
                             <Slider
-                            sx={{color: '#9BB40D'}}
-                            style={{ maxWidth: 500 }}
-                            getAriaLabel={() => 'Price Range'}
-                            value={value1}
-                            onChange={setPriceFilter}
-                            valueLabelDisplay="auto"
-                            getAriaValueText={valuetext}
-                            min={0}
-                            step={50}
-                            max={1000}
-                            disableSwap
+                                sx={{ color: '#9BB40D' }}
+                                style={{ maxWidth: 500 }}
+                                getAriaLabel={() => 'Price Range'}
+                                value={value1}
+                                onChange={setPriceFilter}
+                                valueLabelDisplay="auto"
+                                getAriaValueText={valuetext}
+                                min={0}
+                                step={50}
+                                max={1000}
+                                disableSwap
                             />
                         </Box>
                     </Grid>
@@ -388,9 +387,8 @@ export default function HotelPage(props) {
                         <Grid item xs={0}>
                             <Box sx={{ marginTop: '0%' }}>
                                 <Typography variant="h2" sx={{
-                                    fontFamily: 'Baloo-Bhaina-2',
                                     fontWeight: 700,
-                                    fontSize: '26px',
+                                    fontSize: '20px',
                                     color: '#424242'
                                 }}>
                                     {hotels.length} Rooms Found

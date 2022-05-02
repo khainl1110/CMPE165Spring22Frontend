@@ -93,9 +93,8 @@ export default function HotelCard(props) {
             }}>
               <Grid item xs={0}>
                 <Typography variant="h3" sx={{
-                  fontFamily: 'Baloo-Bhaina-2',
                   fontWeight: 600,
-                  fontSize: '22px',
+                  fontSize: '20px',
                   color: '#424242'
                 }}>
                   {name}
@@ -103,9 +102,8 @@ export default function HotelCard(props) {
               </Grid>
               <Grid item xs={0}>
                 <Typography variant="h2" sx={{
-                  fontFamily: 'Baloo-Bhaina-2',
                   fontWeight: 400,
-                  fontSize: '18px',
+                  fontSize: '16px',
                   color: '#606060',
                   marginTop: '2%'
                 }}>
@@ -114,9 +112,8 @@ export default function HotelCard(props) {
               </Grid>
               <Grid item xs={0}>
                 <Typography variant="h2" sx={{
-                  fontFamily: 'Baloo-Bhaina-2',
                   fontWeight: 400,
-                  fontSize: '18px',
+                  fontSize: '16px',
                   color: '#606060',
                   marginTop: '5%'
                 }}>
@@ -125,9 +122,8 @@ export default function HotelCard(props) {
               </Grid>
               <Grid item xs={0}>
                 <Typography variant="h2" sx={{
-                  fontFamily: 'Baloo-Bhaina-2',
                   fontWeight: 400,
-                  fontSize: '18px',
+                  fontSize: '16px',
                   color: '#606060',
                   marginTop: '2%'
                 }}>
@@ -138,9 +134,8 @@ export default function HotelCard(props) {
                 <Grid container direction="row" justifyContent="left" alignItems="center" spacing={0} sx={{ position: "static", marginTop: '20%', }}>
                   <Grid item xs={0}>
                     <Typography variant="h2" sx={{
-                      fontFamily: 'Baloo-Bhaina-2',
                       fontWeight: 400,
-                      fontSize: '21px',
+                      fontSize: '18px',
                       color: '#606060',
                     }}>
                       ★
@@ -148,9 +143,8 @@ export default function HotelCard(props) {
                   </Grid>
                   <Grid item xs={0}>
                     <Typography variant="h2" sx={{
-                      fontFamily: 'Baloo-Bhaina-2',
                       fontWeight: 400,
-                      fontSize: '21px',
+                      fontSize: '18px',
                       color: '#606060',
                     }}>
                       {rate}
@@ -158,9 +152,8 @@ export default function HotelCard(props) {
                   </Grid>
                   <Grid item xs={0}>
                     <Typography variant="h2" sx={{
-                      fontFamily: 'Baloo-Bhaina-2',
                       fontWeight: 400,
-                      fontSize: '21px',
+                      fontSize: '18px',
                       color: '#606060',
                     }}>
                       /10 stars
@@ -178,9 +171,8 @@ export default function HotelCard(props) {
                 <Grid container direction="row" justifyContent="left" alignItems="center" spacing={0} sx={{ position: "static", marginTop: "0%", }}>
                   <Grid item xs={0}>
                     <Typography variant="h2" sx={{
-                      fontFamily: 'Baloo-Bhaina-2',
-                      fontWeight: 700,
-                      fontSize: '40px',
+                      fontWeight: 600,
+                      fontSize: '30px',
                       color: '#606060',
                     }}>
                       $
@@ -188,9 +180,8 @@ export default function HotelCard(props) {
                   </Grid>
                   <Grid item xs={0}>
                     <Typography variant="h2" sx={{
-                      fontFamily: 'Baloo-Bhaina-2',
-                      fontWeight: 700,
-                      fontSize: '40px',
+                      fontWeight: 600,
+                      fontSize: '30px',
                       color: '#606060',
                     }}>
                       {price}
@@ -198,9 +189,8 @@ export default function HotelCard(props) {
                   </Grid>
                 </Grid>
                 <Typography variant="h2" sx={{
-                  fontFamily: 'Baloo-Bhaina-2',
-                  fontWeight: 700,
-                  fontSize: '18px',
+                  fontWeight: 600,
+                  fontSize: '16px',
                   color: '#606060',
                 }}>
                   per night
