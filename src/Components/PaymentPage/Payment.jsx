@@ -280,7 +280,7 @@ const YourRoomReservation = () => (
         {/* "font-family": 'Gill Sans' */}
     </>
 )
-const TextFieldComp = ({ name, type, className, id, label, defaultValue = "", onChange, value }) => {
+const TextFieldComp = ({ name, type, className, id, label, inputProps, defaultValue = "", onChange, value }) => {
     return (
 
         <>
@@ -294,6 +294,7 @@ const TextFieldComp = ({ name, type, className, id, label, defaultValue = "", on
                 id={id}
                 name={name}
                 label={label}
+                inputProps={inputProps}
                 defaultValue={defaultValue}
                 size="small"
                 margin="dense"
@@ -339,7 +340,7 @@ const UserInfo = ({ className, user }) => {
                 <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Last Name" name="lastName" onChange={handlelName} value={lName} /></Grid>
                 <Grid item xs={4}></Grid>
                 <Grid item xs={4}><TextFieldComp className={style.tf} id="email" name="email" label="Email" type="email" onChange={handleEmail} value={email} /></Grid>
-                <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Phone" name="phone" onChange={handlePhone} /></Grid>
+                <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Phone" name="phone" type="phone" inputProps={{ maxLength: 10, minLength: 10 }} onChange={handlePhone} /></Grid>
             </Grid>
         </div>
     )
@@ -385,8 +386,8 @@ const PaymentDetails = () => {
             <Grid container spacing={1} >
                 <Grid item xs={6}><ModeOfPayment /></Grid>
                 <Grid item xs={6} />
-                <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Card Number" name="cardNumber" /></Grid>
-                <Grid item xs={3}><TextFieldComp password className={style.tf} id="outlined-disabled" label="CVC" type="password" name="cvcCode" /></Grid>
+                <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Card Number" name="cardNumber" inputProps={{ maxLength: 16, minLength: 16 }} /></Grid>
+                <Grid item xs={3}><TextFieldComp password className={style.tf} id="outlined-disabled" label="CVC" type="password" name="cvcCode" inputProps={{ maxLength: 3, minLength: 3 }} /></Grid>
                 <Grid item xs={3}><MonthAndYear /></Grid>
 
                 <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Billing Address" name="billingAddress" /> </Grid>
@@ -394,7 +395,7 @@ const PaymentDetails = () => {
 
                 <Grid item xs={2}><StateSelect /></Grid>
                 <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Country" name="country" /></Grid>
-                <Grid item xs={3}><TextFieldComp className={style.tf} id="outlined-disabled" label="Zip Code" name="zipCode" /></Grid>
+                <Grid item xs={3}><TextFieldComp className={style.tf} id="outlined-disabled" label="Zip Code" name="zipCode" inputProps={{ maxLength: 5, minLength: 5 }} /></Grid>
             </Grid>
         </div>
     )

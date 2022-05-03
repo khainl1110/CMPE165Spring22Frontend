@@ -46,7 +46,7 @@ export default function ReservationDetail(props) {
     const cancelClick = () => {
         navigate('/cancel', {
             // state: { hotelName, image, description, amenities, roomInfo, numGuest: guest, checkIn, checkOut, id: reservId, price }
-            state: { hotelName, image, description, amenities, roomInfo, numGuest: guest, checkIn, checkOut, id: reservId, price }
+            state: { hotelName, image, description, amenities, roomInfo, numGuest: guest, checkIn, checkOut, id: reservId, price, location }
         });
     }
 

@@ -83,18 +83,19 @@ export default function CancelPage(props) {
     var fullPrice = priceDays * location.state.price;
     var cancelPrice = priceDays * 20;
 
-    var points = price / 2;
+    var points = fullPrice / 2.0;
+    console.log("TOTAL POINTS FROM RESERVATION: " + points);
+    console.log("FULL PRICE: " + fullPrice);
+    console.log("location price: " + price);
 
     const freeText = "You qualify for free cancellation!";
-    const paidText = "Sorry, you don’t qualify for a free cancellation! You’ll be charged a cancellation fee of $" + cancelPrice + " to the card used in making this reservation.";
+    const paidText = "Sorry, you don’t qualify for a free cancellation! You’ll be charged $" + cancelPrice + " to the card used in making this reservation.";
 
     useEffect(() => {
         console.log(location.state);
         console.log(location.state.checkOut);
         console.log(today);
-
         console.log(diff);
-
         console.log(id);
     }, [])
 
@@ -108,8 +109,6 @@ export default function CancelPage(props) {
 
 
     const onClickHandle = (event) => {
-        //console.log("Before delete " + user.points + " and " + points)
-
         let newPoints = 0
         if (isLoggedIn)
             // only calculate points when user is logged in
@@ -117,7 +116,7 @@ export default function CancelPage(props) {
             newPoints = points > user.points ? 0 : user.points - points
 
         if (!freeCancel) {
-            var confText = "Successfully canceled! Your card on file has been charged $" + cancelPrice;
+            var confText = "Successfully canceled! Your card on file has been charged with the cancellation fee of $" + cancelPrice + ".";
         }
         else {
             var confText = "Successfully canceled!";
@@ -127,17 +126,34 @@ export default function CancelPage(props) {
             fetch(backend_url + "/reservation/" + id, {
                 method: 'DELETE',
             }).then(
-
                 alert(confText)
             )
 
             if (isLoggedIn) {
+
+                let finalPointCount = newPoints;
+
+                fetch(backend_url + "/reservation/find?userEmail=" + user.email, {
+                    method: 'GET',
+                }).then(response => response.json())
+                    .then(response => {
+                        // If user's reservations = 0 reservations, their total points must equal 0.
+                        if (response.length === 0) {
+                            finalPointCount = 0;
+                            console.log('NO MORE RESERVATIONS');
+                        }
+                        console.log('length: ' + response.length);
+                    })
+                    .catch(e => {
+                        console.log('error' + e);
+                    })
+
                 const updatedUserData = {
                     firstName: user.firstName,
                     lastName: user.lastName,
                     email: user.email,
                     password: user.password,
-                    points: newPoints,
+                    points: finalPointCount,
                     paymentId: user.paymentId,
                 }
 
@@ -157,7 +173,7 @@ export default function CancelPage(props) {
 
         }
         else {
-            alert("Please accept agreements above")
+            alert("Please accept all the agreements before proceeding.")
         }
     }
 
@@ -277,17 +293,16 @@ export default function CancelPage(props) {
                                                 {roomInfo}
                                             </Typography>
                                         </Grid>
-                                        {/* <Grid item xs={0}>
+                                        <Grid item xs={0}>
                                             <Typography variant="h2" sx={{
-                                                // fontFamily: 'Baloo-Bhaina-2',
                                                 fontWeight: 400,
                                                 fontSize: '14px',
                                                 color: '#606060',
                                                 marginTop: '2%'
                                             }}>
-                                                {location}
+                                                {location.state.location}
                                             </Typography>
-                                        </Grid> */}
+                                        </Grid>
                                         <Grid item xs={0}>
                                             <Typography variant="h2" sx={{
                                                 fontWeight: 400,

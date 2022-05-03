@@ -45,12 +45,12 @@ export default function Check() {
                 if (response.ok) {
                     return response.json();
                 }
-                throw new Error('Please double check that you entered correct information');
+                throw new Error('Please double check that you entered correct information.');
             })
             .then(data => {
 
                 if (email !== data.userEmail) {
-                    throw new Error('Please double check that you entered correct information');
+                    throw new Error('Please double check that you entered correct information.');
                 }
 
                 setFirstName(data.firstName);

@@ -74,7 +74,6 @@ export default function EditReservation(props) {
     const changedPoints = currentPoints + ((totalPrice - (state.points * 10)) / 2.0);
 
     const roomID = state.roomId;
-    // console.log("current: " + currentPoints + "    changed: " + changedPoints);
 
     useEffect(() => {
 
@@ -152,7 +151,7 @@ export default function EditReservation(props) {
                 'Content-Type': 'application/json'
             }
         }).then(
-            alert("Successfully modified!"),
+            alert("Successfully modified! The updated price of your reservation is: $" + price + "."),
 
         )
 
@@ -377,7 +376,6 @@ export default function EditReservation(props) {
                                                             <Grid container direction="row" justifyContent="left" alignItems="center" spacing={0} sx={{ position: "static", marginTop: "0%", }}>
                                                                 <Grid item xs={0}>
                                                                     <Typography variant="h2" sx={{
-                                                                        // fontFamily: 'Baloo-Bhaina-2',
                                                                         fontWeight: 700,
                                                                         fontSize: '24px',
                                                                         color: '#606060',
@@ -387,7 +385,6 @@ export default function EditReservation(props) {
                                                                 </Grid>
                                                             </Grid>
                                                             <Typography variant="h2" sx={{
-                                                                // fontFamily: 'Baloo-Bhaina-2',
                                                                 fontWeight: 400,
                                                                 fontSize: '14px',
                                                                 color: '#606060',
