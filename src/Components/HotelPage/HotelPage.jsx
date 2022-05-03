@@ -87,6 +87,7 @@ export default function HotelPage(props) {
                 .then(response => {
                     setTimeout(() => {
                         setHotels(response);
+                        setOriginalHotels(response);
                         setAllHotels(response);
                     }, 1000);
                 })
@@ -103,6 +104,7 @@ export default function HotelPage(props) {
                 .then(response => {
                     setTimeout(() => {
                         setHotels(response);
+                        setOriginalHotels(response);
                         setAllHotels(response);
                     }, 1000);
                 })
@@ -119,6 +121,7 @@ export default function HotelPage(props) {
                 .then(response => {
                     setTimeout(() => {
                         setHotels(response);
+                        setOriginalHotels(response);
                         setAllHotels(response);
                     }, 1000);
                 })
@@ -140,6 +143,7 @@ export default function HotelPage(props) {
                 .then(response => {
                     setTimeout(() => {
                         setHotels(response);
+                        setOriginalHotels(response);
                         setAllHotels(response);
                         console.log("I SET MY HOTELS");
                         console.log(response);
