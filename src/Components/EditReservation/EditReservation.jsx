@@ -175,7 +175,7 @@ export default function EditReservation(props) {
                     'Content-Type': 'application/json'
                 }
             })
-            // window.location.replace("/myBookings")
+            window.location.replace("/myBookings")
         }
 
     };
@@ -221,7 +221,6 @@ export default function EditReservation(props) {
                                         <Typography sx={{
                                             fontSize: 19,
                                             fontWeight: 600,
-                                            // fontFamily: 'Baloo-Bhaina-2'
                                         }}>
                                             Modify Your Reservation:
                                         </Typography>
@@ -231,7 +230,6 @@ export default function EditReservation(props) {
                                             marginLeft: "1%",
                                             color: "#a7bd2a",
                                             textDecoration: 'underline',
-                                            // fontFamily: 'Baloo-Bhaina-2'
                                         }}>
                                             {room.hotelName}
                                         </Typography>
@@ -252,7 +250,6 @@ export default function EditReservation(props) {
                                                     }}>
                                                         <Grid item xs={0}>
                                                             <Typography variant="h3" sx={{
-                                                                // fontFamily: 'Baloo-Bhaina-2',
                                                                 fontWeight: 600,
                                                                 fontSize: '16px',
                                                                 color: '#424242',
@@ -263,7 +260,6 @@ export default function EditReservation(props) {
                                                         </Grid>
                                                         <Grid item xs={0}>
                                                             <Typography variant="h2" sx={{
-                                                                // fontFamily: 'Baloo-Bhaina-2',
                                                                 fontWeight: 400,
                                                                 fontSize: '14px',
                                                                 color: '#606060',
@@ -274,7 +270,6 @@ export default function EditReservation(props) {
                                                         </Grid>
                                                         <Grid item xs={0}>
                                                             <Typography variant="h2" sx={{
-                                                                // fontFamily: 'Baloo-Bhaina-2',
                                                                 fontWeight: 400,
                                                                 fontSize: '14px',
                                                                 color: '#606060',
@@ -285,7 +280,6 @@ export default function EditReservation(props) {
                                                         </Grid>
                                                         <Grid item xs={0}>
                                                             <Typography variant="h2" sx={{
-                                                                // fontFamily: 'Baloo-Bhaina-2',
                                                                 fontWeight: 400,
                                                                 fontSize: '14px',
                                                                 color: '#606060',
@@ -300,7 +294,6 @@ export default function EditReservation(props) {
                                                                     <Grid container direction="column" justifyContent="flex-start" alignItems="center" spacing={0} sx={{ marginLeft: '0%', position: "static" }}>
                                                                         <Grid item xs={0}>
                                                                             <Typography sx={{
-                                                                                // fontFamily: 'Baloo-Bhaina-2',
                                                                                 fontWeight: 200,
                                                                                 fontSize: '14px',
                                                                                 color: '#646464',
@@ -310,7 +303,6 @@ export default function EditReservation(props) {
                                                                         </Grid>
                                                                         <Grid item xs={0}>
                                                                             <Typography sx={{
-                                                                                // fontFamily: 'Baloo-Bhaina-2',
                                                                                 fontWeight: 300,
                                                                                 fontSize: '16px',
                                                                                 color: '#646464',
@@ -324,7 +316,6 @@ export default function EditReservation(props) {
                                                                     <Grid container direction="column" justifyContent="flex-start" alignItems="center" spacing={0} sx={{ marginLeft: '0%', position: "static" }}>
                                                                         <Grid item xs={0}>
                                                                             <Typography sx={{
-                                                                                // fontFamily: 'Baloo-Bhaina-2',
                                                                                 fontWeight: 200,
                                                                                 fontSize: '14px',
                                                                                 color: '#646464',
@@ -334,7 +325,6 @@ export default function EditReservation(props) {
                                                                         </Grid>
                                                                         <Grid item xs={0}>
                                                                             <Typography sx={{
-                                                                                // fontFamily: 'Baloo-Bhaina-2',
                                                                                 fontWeight: 300,
                                                                                 fontSize: '16px',
                                                                                 color: '#646464',
@@ -346,7 +336,6 @@ export default function EditReservation(props) {
                                                                 </Grid>
                                                                 <Grid item xs={0}>
                                                                     <Typography sx={{
-                                                                        // fontFamily: 'Baloo-Bhaina-2',
                                                                         fontWeight: 100,
                                                                         fontSize: '40px',
                                                                         color: '#646464',
@@ -358,7 +347,6 @@ export default function EditReservation(props) {
                                                                     <Grid container direction="column" justifyContent="flex-start" alignItems="center" spacing={0} sx={{ marginLeft: '0%', position: "static" }}>
                                                                         <Grid item xs={0}>
                                                                             <Typography sx={{
-                                                                                // fontFamily: 'Baloo-Bhaina-2',
                                                                                 fontWeight: 200,
                                                                                 fontSize: '14px',
                                                                                 color: '#646464',
@@ -368,7 +356,6 @@ export default function EditReservation(props) {
                                                                         </Grid>
                                                                         <Grid item xs={0}>
                                                                             <Typography sx={{
-                                                                                // fontFamily: 'Baloo-Bhaina-2',
                                                                                 fontWeight: 300,
                                                                                 fontSize: '16px',
                                                                                 color: '#646464',
