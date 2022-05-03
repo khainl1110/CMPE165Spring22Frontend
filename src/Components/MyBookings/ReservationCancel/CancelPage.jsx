@@ -511,7 +511,7 @@ export default function CancelPage(props) {
                                         color: '#424242',
                                         marginTop: '0%',
                                     }}>
-                                        I have read and agree to the terms and conditions of LikeHome.com.
+                                        I have read and agreed to the terms and conditions of LikeHome.com.
                                     </Typography>
                                 </Grid>
                             </Grid>
@@ -528,7 +528,7 @@ export default function CancelPage(props) {
                                         color: '#424242',
                                         marginTop: '0%',
                                     }}>
-                                        I have read and agree to LikeHome.com’s reservation cancellation policy.
+                                        I have read and agreed to LikeHome.com’s reservation cancellation policy.
                                     </Typography>
                                 </Grid>
                             </Grid>
