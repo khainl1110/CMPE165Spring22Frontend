@@ -33,13 +33,13 @@ export default function MyAccount() {
     const [lastName, setLastName] = useState();
 
     useEffect(() => {
-
         if (email !== '') {
             fetch(backend_url + "/users/" + email, { method: 'GET' })
                 .then(response => response.json())
                 .then(data => {
                     setUser(data);
                     setPoint(data.points);
+                    console.log(data.points)
                     setFirstName(data.firstName);
                     setLastName(data.lastName);
                 })
@@ -65,7 +65,6 @@ export default function MyAccount() {
 
     // const countRedeemable = point / 50.0;
     const discount = (point / 10.0).toFixed(2);
-    // parseInt(countRedeemable * 5);
 
     if (email !== '') {
         return (

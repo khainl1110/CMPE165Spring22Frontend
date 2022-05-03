@@ -16,7 +16,7 @@ import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 
 export default function Payment() {
-    const email = localStorage.getItem('email');
+    let email = localStorage.getItem('email');
     const [user, setUser] = React.useState();
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
     const roomObj = useLocation();
@@ -64,6 +64,7 @@ export default function Payment() {
 
         e.preventDefault();
         const data = new FormData(e.currentTarget);
+        email = data.get('email');
 
         let check = await checkOverlapReservation()
         //console.log("check " + check)
@@ -116,7 +117,7 @@ export default function Payment() {
                         'Content-Type': 'application/json'
                     }
                 }).then(response => response.json()).then((res) => {
-                    alert("Successfully booked! Your reservation id is: " + res.id + ". You have used " + usePoints + " points, which means you saved $" + priceReduc + ". The total price you paid for this reservation is $" + (totalPrice - priceReduc) + ".");
+                    alert("Successfully booked! Your reservation id is: " + res.id + ". You have used " + usePoints + " points, which means you saved $" + priceReduc.toFixed(2) + ". The total price you paid for this reservation is $" + (totalPrice - priceReduc).toFixed(2) + ".");
                 })
                 console.log(reservationData);
 
@@ -149,7 +150,7 @@ export default function Payment() {
                         lastName: user.lastName,
                         email: user.email,
                         password: user.password,
-                        points: user.points - usePoints + (totalPrice / 2.0),
+                        points: user.points - usePoints + ((totalPrice - priceReduc) / 2.0),
                         paymentId: user.paymentId,
                     }
 
@@ -279,7 +280,7 @@ const YourRoomReservation = () => (
         {/* "font-family": 'Gill Sans' */}
     </>
 )
-const TextFieldComp = ({ name, type, className, id, label, defaultValue = "", onChange, value }) => {
+const TextFieldComp = ({ name, type, className, id, label, inputProps, defaultValue = "", onChange, value }) => {
     return (
 
         <>
@@ -293,6 +294,7 @@ const TextFieldComp = ({ name, type, className, id, label, defaultValue = "", on
                 id={id}
                 name={name}
                 label={label}
+                inputProps={inputProps}
                 defaultValue={defaultValue}
                 size="small"
                 margin="dense"
@@ -338,7 +340,7 @@ const UserInfo = ({ className, user }) => {
                 <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Last Name" name="lastName" onChange={handlelName} value={lName} /></Grid>
                 <Grid item xs={4}></Grid>
                 <Grid item xs={4}><TextFieldComp className={style.tf} id="email" name="email" label="Email" type="email" onChange={handleEmail} value={email} /></Grid>
-                <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Phone" name="phone" onChange={handlePhone} /></Grid>
+                <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Phone" name="phone" type="phone" inputProps={{ maxLength: 10, minLength: 10 }} onChange={handlePhone} /></Grid>
             </Grid>
         </div>
     )
@@ -384,8 +386,8 @@ const PaymentDetails = () => {
             <Grid container spacing={1} >
                 <Grid item xs={6}><ModeOfPayment /></Grid>
                 <Grid item xs={6} />
-                <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Card Number" name="cardNumber" /></Grid>
-                <Grid item xs={3}><TextFieldComp password className={style.tf} id="outlined-disabled" label="CVC" type="password" name="cvcCode" /></Grid>
+                <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Card Number" name="cardNumber" inputProps={{ maxLength: 16, minLength: 16 }} /></Grid>
+                <Grid item xs={3}><TextFieldComp password className={style.tf} id="outlined-disabled" label="CVC" type="password" name="cvcCode" inputProps={{ maxLength: 3, minLength: 3 }} /></Grid>
                 <Grid item xs={3}><MonthAndYear /></Grid>
 
                 <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Billing Address" name="billingAddress" /> </Grid>
@@ -393,7 +395,7 @@ const PaymentDetails = () => {
 
                 <Grid item xs={2}><StateSelect /></Grid>
                 <Grid item xs={4}><TextFieldComp className={style.tf} id="outlined-disabled" label="Country" name="country" /></Grid>
-                <Grid item xs={3}><TextFieldComp className={style.tf} id="outlined-disabled" label="Zip Code" name="zipCode" /></Grid>
+                <Grid item xs={3}><TextFieldComp className={style.tf} id="outlined-disabled" label="Zip Code" name="zipCode" inputProps={{ maxLength: 5, minLength: 5 }} /></Grid>
             </Grid>
         </div>
     )

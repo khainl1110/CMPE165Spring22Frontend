@@ -19,7 +19,7 @@ import {
 import userEvent from "@testing-library/user-event";
 
 export default function ReservationCard(props) {
-    const { hotelName, description, price, checkIn, checkOut, image, firstName, lastName, email, guest, roomInfo, amenities, roomId, cardNumber, paymentId, reservId, points, oneDayPrice, userInfo } = props;
+    const { hotelName, description, price, checkIn, checkOut, image, firstName, lastName, email, guest, roomInfo, amenities, roomId, cardNumber, paymentId, reservId, points, oneDayPrice, userInfo, location } = props;
 
     //instant info payment detail
     //const zipCode = "00000";
@@ -30,17 +30,20 @@ export default function ReservationCard(props) {
         setOpen(!open);
     };
 
+    const cardNumLength = cardNumber.length;
+    const cardNumDisplay = "**** **** **** " + cardNumber.substring(cardNumLength - 4, cardNumLength);
+
 
     // pass the roomId to editReservation page
     const navigate = useNavigate();
     const editClick = () => {
         navigate('/editReservation', {
-            state: { roomId, checkIn, checkOut, firstName, lastName, price: oneDayPrice, paymentId, guest, reservId, points, user: userInfo }
+            state: { roomId, checkIn, checkOut, firstName, lastName, price: oneDayPrice, paymentId, guest, reservId, points, user: userInfo, location }
         });
     };
     const cancelClick = () => {
         navigate('/cancel', {
-            state: { hotelName, image, description, amenities, roomInfo, numGuest: guest, checkIn, checkOut, id: reservId, price }
+            state: { hotelName, image, description, amenities, roomInfo, numGuest: guest, checkIn, checkOut, id: reservId, price: oneDayPrice, location }
         });
     }
 
@@ -55,9 +58,10 @@ export default function ReservationCard(props) {
 
     const differenceInTime = Date.parse(checkOut) - Date.parse(checkIn);
     const days = differenceInTime / (1000 * 3600 * 24);
-    const earningPoint = price / 2.0;
     const discount = points / 10.0;
     const finalPrice = price - discount;
+    const earningPoint = finalPrice / 2;
+    const roundedEarnedPoints = parseInt(earningPoint);
 
     return (
         <List sx={{
@@ -139,7 +143,13 @@ export default function ReservationCard(props) {
                                 </Typography>
                                 <Typography sx={{
                                     marginLeft: "3%",
-                                    // fontFamily: 'Baloo-Bhaina-2',
+                                    marginBottom: "1%",
+                                    fontSize: 14,
+                                }}>
+                                    {location}
+                                </Typography>
+                                <Typography sx={{
+                                    marginLeft: "3%",
                                     marginBottom: "1%",
                                     fontSize: 14,
                                 }}>
@@ -147,7 +157,6 @@ export default function ReservationCard(props) {
                                 </Typography>
                                 <Typography sx={{
                                     marginLeft: "3%",
-                                    // fontFamily: 'Baloo-Bhaina-2',
                                     marginBottom: "1%",
                                     fontSize: 14,
                                 }}>
@@ -171,7 +180,6 @@ export default function ReservationCard(props) {
                                     <Typography sx={{
                                         fontWeight: 600,
                                         fontSize: 14,
-                                        // fontFamily: 'Baloo-Bhaina-2',
                                     }}>
                                         Guest: </Typography>
                                     <Typography marginLeft={1} sx={{ fontSize: 14, }}>{guest}</Typography>
@@ -182,8 +190,8 @@ export default function ReservationCard(props) {
                         <ListItem>
                             <Box width="70% " bgcolor="#9BB40D" padding="5px" borderRadius="10px">
                                 <Typography marginLeft="2%" color="white" sx={{ fontSize: 14, }}>
-                                    You redeemed {points} points and earned {earningPoint} points from this stay.
-                                    ${price} a night for {days} nights - ${discount} = ${finalPrice}, including taxes.
+                                    You redeemed {points} points and earned {roundedEarnedPoints} points from this stay.
+                                    ${price.toFixed(2)} for {days} nights - ${discount.toFixed(2)} = ${finalPrice.toFixed(2)}, including taxes.
                                 </Typography>
                             </Box>
                         </ListItem>
@@ -193,7 +201,6 @@ export default function ReservationCard(props) {
                                 fontSize: 18,
                                 fontWeight: 600,
                                 marginTop: '2%'
-                                // fontFamily: 'Baloo-Bhaina-2',
                             }}>
                                 Your Info
                             </Typography>
@@ -203,14 +210,12 @@ export default function ReservationCard(props) {
                             <Typography sx={{
                                 fontWeight: 600,
                                 fontSize: 14,
-                                // fontFamily: 'Baloo-Bhaina-2',
                             }}>First Name: </Typography>
                             <Typography marginLeft={1} sx={{ fontSize: 14, }}> {firstName}</Typography>
                             <Typography sx={{
                                 fontWeight: 600,
                                 marginLeft: "6%",
                                 fontSize: 14,
-                                // fontFamily: 'Baloo-Bhaina-2',
                             }}>Last Name: </Typography>
                             <Typography marginLeft={1} sx={{ fontSize: 14, }}>{lastName}</Typography>
                         </ListItem>
@@ -219,7 +224,6 @@ export default function ReservationCard(props) {
                             <Typography sx={{
                                 fontWeight: 600,
                                 fontSize: 14,
-                                // fontFamily: 'Baloo-Bhaina-2',
                             }}>Email: </Typography>
                             <Typography marginLeft={1} sx={{ fontSize: 14, }}>{email}</Typography>
                         </ListItem>
@@ -229,7 +233,6 @@ export default function ReservationCard(props) {
                                 fontSize: 18,
                                 fontWeight: 600,
                                 marginTop: '2%'
-                                // fontFamily: 'Baloo-Bhaina-2',
                             }}>
                                 Payment Details</Typography>
                         </ListItem>
@@ -238,12 +241,11 @@ export default function ReservationCard(props) {
                             <Typography sx={{
                                 fontWeight: 600,
                                 fontSize: 14,
-                                // fontFamily: 'Baloo-Bhaina-2',
                             }}>Total Price:
                             </Typography>
 
                             <Typography marginLeft={1} sx={{ fontSize: 14, }}>
-                                $ {finalPrice}
+                                $ {finalPrice.toFixed(2)}
                             </Typography>
 
                         </ListItem>
@@ -252,9 +254,8 @@ export default function ReservationCard(props) {
                             <Typography sx={{
                                 fontWeight: 600,
                                 fontSize: 14,
-                                // fontFamily: 'Baloo-Bhaina-2',
                             }}>Card Number: </Typography>
-                            <Typography marginLeft={1} sx={{ fontSize: 14, }}>{cardNumber}</Typography>
+                            <Typography marginLeft={1} sx={{ fontSize: 14, }}>{cardNumDisplay}</Typography>
                             {/* <Typography sx={{
                                 fontWeight: 600,
                                 marginLeft: "3%",

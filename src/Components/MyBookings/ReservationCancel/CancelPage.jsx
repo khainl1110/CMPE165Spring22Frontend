@@ -13,7 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
-
+import NavBar from "../../NavBar/NavBar.jsx";
 import LoggedInNavBar from '../../NavBar/LoggedInNavBar.jsx';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
@@ -79,20 +79,23 @@ export default function CancelPage(props) {
     const priceDays = differenceInCalendarDays(new Date(checkOut), new Date(checkIn));
 
     var price = location.state.price;
+    console.log(price);
+    var fullPrice = priceDays * location.state.price;
     var cancelPrice = priceDays * 20;
 
-    var points = price / 2;
+    var points = fullPrice / 2.0;
+    console.log("TOTAL POINTS FROM RESERVATION: " + points);
+    console.log("FULL PRICE: " + fullPrice);
+    console.log("location price: " + price);
 
     const freeText = "You qualify for free cancellation!";
-    const paidText = "Sorry, you don’t qualify for a free cancellation! You’ll be charged a cancellation fee of $" + cancelPrice + " to the card used in making this reservation.";
+    const paidText = "Sorry, you don’t qualify for a free cancellation! You’ll be charged $" + cancelPrice + " to the card used in making this reservation.";
 
     useEffect(() => {
         console.log(location.state);
         console.log(location.state.checkOut);
         console.log(today);
-
         console.log(diff);
-
         console.log(id);
     }, [])
 
@@ -106,12 +109,14 @@ export default function CancelPage(props) {
 
 
     const onClickHandle = (event) => {
-        //console.log("Before delete " + user.points + " and " + points)
+        let newPoints = 0
+        if (isLoggedIn)
+            // only calculate points when user is logged in
+            // prevent negative points in case user.points is less than points
+            newPoints = points > user.points ? 0 : user.points - points
 
-        // prevent negative points in case user.points is less than points
-        let newPoints = points > user.points ? 0 : user.points - points
         if (!freeCancel) {
-            var confText = "Successfully canceled! Your card on file has been charged $" + cancelPrice;
+            var confText = "Successfully canceled! Your card on file has been charged with the cancellation fee of $" + cancelPrice + ".";
         }
         else {
             var confText = "Successfully canceled!";
@@ -121,31 +126,54 @@ export default function CancelPage(props) {
             fetch(backend_url + "/reservation/" + id, {
                 method: 'DELETE',
             }).then(
-
                 alert(confText)
             )
-            const updatedUserData = {
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email,
-                password: user.password,
-                points: newPoints,
-                paymentId: user.paymentId,
+
+            if (isLoggedIn) {
+
+                let finalPointCount = newPoints;
+
+                fetch(backend_url + "/reservation/find?userEmail=" + user.email, {
+                    method: 'GET',
+                }).then(response => response.json())
+                    .then(response => {
+                        // If user's reservations = 0 reservations, their total points must equal 0.
+                        if (response.length === 0) {
+                            finalPointCount = 0;
+                            console.log('NO MORE RESERVATIONS');
+                        }
+                        console.log('length: ' + response.length);
+                    })
+                    .catch(e => {
+                        console.log('error' + e);
+                    })
+
+                const updatedUserData = {
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    password: user.password,
+                    points: finalPointCount,
+                    paymentId: user.paymentId,
+                }
+
+                fetch(backend_url + "/users", {
+                    method: 'PUT',
+                    body: JSON.stringify(updatedUserData),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(
+                    console.log('Updated user points:' + user.points + ' --> ' + (points))
+                )
+                navigateToMyBookings();
+            } else {
+                navigateToCheckReservation();
             }
 
-            fetch(backend_url + "/users", {
-                method: 'PUT',
-                body: JSON.stringify(updatedUserData),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).then(
-                console.log('Updated user points:' + user.points + ' --> ' + (points))
-            )
-            navigateToMyBookings();
         }
         else {
-            alert("Please accept agreements above")
+            alert("Please accept all the agreements before proceeding.")
         }
     }
 
@@ -167,28 +195,61 @@ export default function CancelPage(props) {
         navigate('/myBookings');
     }
 
+    const navigateToCheckReservation = (e) => {
+        navigate('/checkReservation');
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <Paper style={styles.paperContainer} sx={{ boxShadow: '0' }}>
                 <Container component="main" justifyContent="left" position="absolute">
                     <CssBaseline />
-                    <LoggedInNavBar />
-                    <Grid container direction="row" justifyContent="flex-start" alignItems="center" width="100%" sx={{ marginLeft: '-1%', marginTop: '8%', }}>
-                        <Grid item xs={0}>
-                            <IconButton onClick={navigateToMyBookings}>
-                                <ArrowBackIcon />
-                            </IconButton>
-                        </Grid>
-                        <Grid item xs={0}>
-                            <Typography sx={{
-                                fontWeight: 700,
-                                fontSize: '14px',
-                                color: '#424242'
-                            }}>
-                                Back to My Bookings
-                            </Typography>
-                        </Grid>
-                    </Grid>
+                    {isLoggedIn &&
+                        <div>
+                            <LoggedInNavBar />
+                            <Grid container direction="row" justifyContent="flex-start" alignItems="center" width="100%" sx={{ marginLeft: '-1%', marginTop: '8%', }}>
+                                <Grid container direction="row">
+                                    <Grid item xs={0}>
+                                        <IconButton onClick={navigateToMyBookings}>
+                                            <ArrowBackIcon />
+                                        </IconButton>
+                                    </Grid>
+                                    <Grid item xs={0}>
+                                        <Typography sx={{
+                                            fontWeight: 700,
+                                            fontSize: '14px',
+                                            color: '#424242',
+                                            marginTop: '6%'
+                                        }}>
+                                            Back to My Bookings
+                                        </Typography>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </div>
+                    }
+                    {!isLoggedIn &&
+                        <div>
+                            <NavBar />
+                            <Grid container direction="row" justifyContent="flex-start" alignItems="center" width="100%" sx={{ marginLeft: '-1%', marginTop: '8%', }}>
+                                <Grid item xs={0}>
+                                    <IconButton onClick={navigateToCheckReservation}>
+                                        <ArrowBackIcon />
+                                    </IconButton>
+                                </Grid>
+                                <Grid item xs={0}>
+                                    <Typography sx={{
+                                        fontWeight: 700,
+                                        fontSize: '14px',
+                                        color: '#424242'
+                                    }}>
+                                        Back to Check My Reservation
+                                    </Typography>
+                                </Grid>
+                            </Grid>
+                        </div>
+
+                    }
                     <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start" width="100%" >
                         <Grid item xs={0}>
                             <Grid container direction="row" justifyContent="flex-start" alignItems="center" width="100%" sx={{ marginTop: '2%', marginBottom: '4%', }}>
@@ -232,17 +293,16 @@ export default function CancelPage(props) {
                                                 {roomInfo}
                                             </Typography>
                                         </Grid>
-                                        {/* <Grid item xs={0}>
+                                        <Grid item xs={0}>
                                             <Typography variant="h2" sx={{
-                                                // fontFamily: 'Baloo-Bhaina-2',
                                                 fontWeight: 400,
                                                 fontSize: '14px',
                                                 color: '#606060',
                                                 marginTop: '2%'
                                             }}>
-                                                {location}
+                                                {location.state.location}
                                             </Typography>
-                                        </Grid> */}
+                                        </Grid>
                                         <Grid item xs={0}>
                                             <Typography variant="h2" sx={{
                                                 fontWeight: 400,
@@ -356,7 +416,7 @@ export default function CancelPage(props) {
                                                         fontSize: '24px',
                                                         color: '#606060',
                                                     }}>
-                                                        $ {price}
+                                                        $ {fullPrice}
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
@@ -466,7 +526,7 @@ export default function CancelPage(props) {
                                         color: '#424242',
                                         marginTop: '0%',
                                     }}>
-                                        I have read and agree to the terms and conditions of LikeHome.com.
+                                        I have read and agreed to the terms and conditions of LikeHome.com.
                                     </Typography>
                                 </Grid>
                             </Grid>
@@ -483,7 +543,7 @@ export default function CancelPage(props) {
                                         color: '#424242',
                                         marginTop: '0%',
                                     }}>
-                                        I have read and agree to LikeHome.com’s reservation cancellation policy.
+                                        I have read and agreed to LikeHome.com’s reservation cancellation policy.
                                     </Typography>
                                 </Grid>
                             </Grid>
@@ -516,6 +576,6 @@ export default function CancelPage(props) {
                     </Grid>
                 </Container>
             </Paper>
-        </ThemeProvider>
+        </ThemeProvider >
     )
 }

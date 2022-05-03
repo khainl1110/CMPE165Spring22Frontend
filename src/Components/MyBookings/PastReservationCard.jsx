@@ -16,14 +16,14 @@ import {
 export default function PastReservationCard(props) {
     const { hotelName, description, price, checkIn, checkOut, image, firstName, lastName, email, guest, roomInfo, amenities, roomId, cardNumber, points } = props;
 
-    //instant info payment detail
-    //const zipCode = "00000";
-
     const [open, setOpen] = useState(false);
 
     const handleClick = () => {
         setOpen(!open);
     };
+
+    const cardNumLength = cardNumber.length;
+    const cardNumDisplay = "**** **** **** " + cardNumber.substring(cardNumLength - 4, cardNumLength);
 
     const styles = {
         imageContainer: {
@@ -55,7 +55,6 @@ export default function PastReservationCard(props) {
                             <Typography sx={{
                                 fontSize: 17,
                                 fontWeight: 600,
-                                // fontFamily: 'Baloo-Bhaina-2',
                             }}>
                                 Reservation on {checkIn} to {checkOut}
                             </Typography>
@@ -105,7 +104,6 @@ export default function PastReservationCard(props) {
                                 </Typography>
                                 <Typography sx={{
                                     marginLeft: "3%",
-                                    // fontFamily: 'Baloo-Bhaina-2',
                                     marginBottom: "1%",
                                     fontSize: 14,
                                 }}>
@@ -113,7 +111,6 @@ export default function PastReservationCard(props) {
                                 </Typography>
                                 <Typography sx={{
                                     marginLeft: "3%",
-                                    // fontFamily: 'Baloo-Bhaina-2',
                                     marginBottom: "1%",
                                     fontSize: 14,
                                 }}>
@@ -137,7 +134,6 @@ export default function PastReservationCard(props) {
                                     <Typography sx={{
                                         fontWeight: 600,
                                         fontSize: 14,
-                                        // fontFamily: 'Baloo-Bhaina-2',
                                     }}>
                                         Guest: </Typography>
                                     <Typography marginLeft={1} sx={{ fontSize: 14, }}>{guest}</Typography>
@@ -149,7 +145,7 @@ export default function PastReservationCard(props) {
                             <Box width="70% " bgcolor="#9BB40D" padding="5px" borderRadius="10px">
                                 <Typography marginLeft="2%" color="white" sx={{ fontSize: 14, }}>
                                     You redeemed {points} points and earned {earningPoint} points from this stay.
-                                    ${price} a night for {days} nights - ${discount} = ${finalPrice}, including taxes.
+                                    ${price.toFixed(2)} for {days} nights - ${discount.toFixed(2)} = ${finalPrice.toFixed(2)}, including taxes.
                                 </Typography>
                             </Box>
                         </ListItem>
@@ -209,7 +205,7 @@ export default function PastReservationCard(props) {
                             </Typography>
 
                             <Typography marginLeft={1} sx={{ fontSize: 14, }}>
-                                $ {finalPrice}
+                                $ {finalPrice.toFixed(2)}
                             </Typography>
 
                         </ListItem>
@@ -220,7 +216,7 @@ export default function PastReservationCard(props) {
                                 fontSize: 14,
                                 // fontFamily: 'Baloo-Bhaina-2',
                             }}>Card Number: </Typography>
-                            <Typography marginLeft={1} sx={{ fontSize: 14, }}>{cardNumber}</Typography>
+                            <Typography marginLeft={1} sx={{ fontSize: 14, }}>{cardNumDisplay}</Typography>
                             {/* <Typography sx={{
                                 fontWeight: 600,
                                 marginLeft: "3%",

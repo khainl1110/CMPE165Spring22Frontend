@@ -54,9 +54,9 @@ export default function EditReservation(props) {
         if (email !== '') {
             setIsLoggedIn(true);
         }
-        else {
-            window.location.replace('/');
-        }
+        // else {
+        //     window.location.replace('/');
+        // }
     }, [])
 
     const location = useLocation();
@@ -70,10 +70,10 @@ export default function EditReservation(props) {
     const differenceInTime = Date.parse(dates[1]) - Date.parse(dates[0]);
     const days = differenceInTime / (1000 * 3600 * 24);
     const totalPrice = days * state.price;
-    const currentPoints = state.user.points - (Date.parse(state.checkOut) - Date.parse(state.checkIn)) / (1000 * 3600 * 24) * state.price / 2;
-    const changedPoints = currentPoints + totalPrice / 2;
+    const currentPoints = state.user.points ? (state.user.points - ((totalPrice - (state.points * 10)) / 2.0)) : 0;
+    const changedPoints = currentPoints + ((totalPrice - (state.points * 10)) / 2.0);
+
     const roomID = state.roomId;
-    console.log("current: " + currentPoints + "    changed: " + changedPoints);
 
     useEffect(() => {
 
@@ -90,10 +90,29 @@ export default function EditReservation(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
+
+        const diffInTime = Date.parse(check_out) - Date.parse(check_in);
+        const numDays = diffInTime / (1000 * 3600 * 24);
+        const oldPrice = numDays * state.price;
+        console.log('POINTS REDEEMED: ' + state.points);
+        console.log('PREVIOUS PRICE: ' + oldPrice);
+        console.log('Current Price: ' + totalPrice);
+        console.log('Current price - discount: ' + (totalPrice - (state.points / 10)));
+        console.log('Points that were earned in the past reservation: ' + ((oldPrice - (state.points / 10)) / 2));
+        console.log('Points that should be earned for the updated reservation: ' + ((totalPrice - (state.points / 10)) / 2))
+        const currPoints = state.user.points ? state.user.points : 0;
+        const currPointsMinusPastReservationEarnedPoints = currPoints - (oldPrice / 2.0);
+        console.log('curr points - old reservation: ' + currPointsMinusPastReservationEarnedPoints);
+        // const currPoints = state.user.points ? (state.user.points - ((finalPrice - (state.points * 10)) / 2.0)) : 0;
+        console.log('curr points in user`s account: ' + currPoints);
+        const newTotalPoints = currPointsMinusPastReservationEarnedPoints + ((totalPrice - (state.points / 10.0)) / 2.0);
+        console.log("NEW TOTAL POINTS: " + newTotalPoints);
+
         const reservationData = {
             id: state.reservId,
             firstName: data.get('firstName'),
             lastName: data.get('lastName'),
+            pointsRedeemed: state.points,
             userEmail: email,
             roomId: roomID,
             price: totalPrice,
@@ -101,16 +120,29 @@ export default function EditReservation(props) {
             check_out: dates[1],
             numGuest: state.guest,
             paymentId: state.paymentId,
+            newTotalPoints
         }
 
         nextClick(reservationData);
     }
 
     const nextClick = async (data) => {
-        const { id, firstName, lastName, userEmail, roomId, price, check_in, check_out, numGuest, paymentId } = data;
-        const putData = { id, firstName, lastName, userEmail, roomId, price, check_in, check_out, numGuest, paymentId };
+        const { id, firstName, lastName, userEmail, roomId, price, check_in, check_out, numGuest, paymentId, pointsRedeemed, newTotalPoints } = data;
+        const putData = {
+            id,
+            firstName,
+            lastName,
+            userEmail,
+            roomId,
+            price,
+            check_in,
+            check_out,
+            numGuest,
+            paymentId,
+            pointsRedeemed
+        };
 
-        console.log(putData);
+        // console.log(putData);
 
         fetch(backend_url + "/reservation/" + state.reservId, {
             method: 'PUT',
@@ -119,29 +151,32 @@ export default function EditReservation(props) {
                 'Content-Type': 'application/json'
             }
         }).then(
-            alert("Successfully modified!"),
+            alert("Successfully modified! The updated price of your reservation is: $" + price + "."),
 
         )
 
-        const userPointData = {
-            firstName: state.user.firstName,
-            lastName: state.user.lastName,
-            email: state.user.email,
-            password: state.user.password,
-            points: changedPoints,
-            paymentId: state.user.paymentId,
+        if (isLoggedIn) {
+            const userPointData = {
+                firstName: state.user.firstName,
+                lastName: state.user.lastName,
+                email: state.user.email,
+                password: state.user.password,
+                points: newTotalPoints,
+                paymentId: state.user.paymentId,
+            }
+
+            console.log(userPointData);
+
+            fetch(backend_url + "/users", {
+                method: 'PUT',
+                body: JSON.stringify(userPointData),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            window.location.replace("/myBookings")
         }
 
-        console.log(userPointData);
-
-        fetch(backend_url + "/users", {
-            method: 'PUT',
-            body: JSON.stringify(userPointData),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        window.location.replace("/myBookings")
     };
 
     const backClick = () => {
@@ -185,7 +220,6 @@ export default function EditReservation(props) {
                                         <Typography sx={{
                                             fontSize: 19,
                                             fontWeight: 600,
-                                            // fontFamily: 'Baloo-Bhaina-2'
                                         }}>
                                             Modify Your Reservation:
                                         </Typography>
@@ -195,7 +229,6 @@ export default function EditReservation(props) {
                                             marginLeft: "1%",
                                             color: "#a7bd2a",
                                             textDecoration: 'underline',
-                                            // fontFamily: 'Baloo-Bhaina-2'
                                         }}>
                                             {room.hotelName}
                                         </Typography>
@@ -216,7 +249,6 @@ export default function EditReservation(props) {
                                                     }}>
                                                         <Grid item xs={0}>
                                                             <Typography variant="h3" sx={{
-                                                                // fontFamily: 'Baloo-Bhaina-2',
                                                                 fontWeight: 600,
                                                                 fontSize: '16px',
                                                                 color: '#424242',
@@ -227,7 +259,6 @@ export default function EditReservation(props) {
                                                         </Grid>
                                                         <Grid item xs={0}>
                                                             <Typography variant="h2" sx={{
-                                                                // fontFamily: 'Baloo-Bhaina-2',
                                                                 fontWeight: 400,
                                                                 fontSize: '14px',
                                                                 color: '#606060',
@@ -238,7 +269,6 @@ export default function EditReservation(props) {
                                                         </Grid>
                                                         <Grid item xs={0}>
                                                             <Typography variant="h2" sx={{
-                                                                // fontFamily: 'Baloo-Bhaina-2',
                                                                 fontWeight: 400,
                                                                 fontSize: '14px',
                                                                 color: '#606060',
@@ -249,7 +279,6 @@ export default function EditReservation(props) {
                                                         </Grid>
                                                         <Grid item xs={0}>
                                                             <Typography variant="h2" sx={{
-                                                                // fontFamily: 'Baloo-Bhaina-2',
                                                                 fontWeight: 400,
                                                                 fontSize: '14px',
                                                                 color: '#606060',
@@ -264,7 +293,6 @@ export default function EditReservation(props) {
                                                                     <Grid container direction="column" justifyContent="flex-start" alignItems="center" spacing={0} sx={{ marginLeft: '0%', position: "static" }}>
                                                                         <Grid item xs={0}>
                                                                             <Typography sx={{
-                                                                                // fontFamily: 'Baloo-Bhaina-2',
                                                                                 fontWeight: 200,
                                                                                 fontSize: '14px',
                                                                                 color: '#646464',
@@ -274,7 +302,6 @@ export default function EditReservation(props) {
                                                                         </Grid>
                                                                         <Grid item xs={0}>
                                                                             <Typography sx={{
-                                                                                // fontFamily: 'Baloo-Bhaina-2',
                                                                                 fontWeight: 300,
                                                                                 fontSize: '16px',
                                                                                 color: '#646464',
@@ -288,7 +315,6 @@ export default function EditReservation(props) {
                                                                     <Grid container direction="column" justifyContent="flex-start" alignItems="center" spacing={0} sx={{ marginLeft: '0%', position: "static" }}>
                                                                         <Grid item xs={0}>
                                                                             <Typography sx={{
-                                                                                // fontFamily: 'Baloo-Bhaina-2',
                                                                                 fontWeight: 200,
                                                                                 fontSize: '14px',
                                                                                 color: '#646464',
@@ -298,7 +324,6 @@ export default function EditReservation(props) {
                                                                         </Grid>
                                                                         <Grid item xs={0}>
                                                                             <Typography sx={{
-                                                                                // fontFamily: 'Baloo-Bhaina-2',
                                                                                 fontWeight: 300,
                                                                                 fontSize: '16px',
                                                                                 color: '#646464',
@@ -310,7 +335,6 @@ export default function EditReservation(props) {
                                                                 </Grid>
                                                                 <Grid item xs={0}>
                                                                     <Typography sx={{
-                                                                        // fontFamily: 'Baloo-Bhaina-2',
                                                                         fontWeight: 100,
                                                                         fontSize: '40px',
                                                                         color: '#646464',
@@ -322,7 +346,6 @@ export default function EditReservation(props) {
                                                                     <Grid container direction="column" justifyContent="flex-start" alignItems="center" spacing={0} sx={{ marginLeft: '0%', position: "static" }}>
                                                                         <Grid item xs={0}>
                                                                             <Typography sx={{
-                                                                                // fontFamily: 'Baloo-Bhaina-2',
                                                                                 fontWeight: 200,
                                                                                 fontSize: '14px',
                                                                                 color: '#646464',
@@ -332,7 +355,6 @@ export default function EditReservation(props) {
                                                                         </Grid>
                                                                         <Grid item xs={0}>
                                                                             <Typography sx={{
-                                                                                // fontFamily: 'Baloo-Bhaina-2',
                                                                                 fontWeight: 300,
                                                                                 fontSize: '16px',
                                                                                 color: '#646464',
@@ -354,7 +376,6 @@ export default function EditReservation(props) {
                                                             <Grid container direction="row" justifyContent="left" alignItems="center" spacing={0} sx={{ position: "static", marginTop: "0%", }}>
                                                                 <Grid item xs={0}>
                                                                     <Typography variant="h2" sx={{
-                                                                        // fontFamily: 'Baloo-Bhaina-2',
                                                                         fontWeight: 700,
                                                                         fontSize: '24px',
                                                                         color: '#606060',
@@ -364,7 +385,6 @@ export default function EditReservation(props) {
                                                                 </Grid>
                                                             </Grid>
                                                             <Typography variant="h2" sx={{
-                                                                // fontFamily: 'Baloo-Bhaina-2',
                                                                 fontWeight: 400,
                                                                 fontSize: '14px',
                                                                 color: '#606060',
@@ -381,150 +401,6 @@ export default function EditReservation(props) {
 
                                         </Grid>
                                     </ListItem>
-
-                                    {/* <List>
-                                        <ListItem>
-                                            <Paper style={styles.imageContainer} sx={{ backgroundImage: `url(${room.image})`, }} />
-                                            <ListItemText>
-                                                <Typography sx={{
-                                                    marginLeft: "3%",
-                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                    fontSize: 20,
-                                                    fontWeight: 600
-                                                }}>
-                                                    {room.roomInfo}
-                                                </Typography>
-                                                <Typography sx={{
-                                                    marginLeft: "3%",
-                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                    fontSize: 18,
-                                                    fontWeight: 400
-                                                }}>
-                                                    {room.amenities}
-                                                </Typography>
-                                                <Typography sx={{
-                                                    marginLeft: "3%",
-                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                    fontSize: 18,
-                                                    fontWeight: 400
-                                                }}>
-                                                    {room.location}
-                                                </Typography>
-                                                <Typography sx={{
-                                                    marginLeft: "3%",
-                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                    fontSize: 18,
-                                                    fontWeight: 400
-                                                }}>
-                                                    {room.description}
-                                                </Typography>
-
-                                                <Box sx={{ width: "75%", marginLeft: "10%" }}>
-                                                    <ListItem>
-                                                        <ListItemText>
-                                                            <ListItem>
-                                                                <Typography sx={{
-                                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                                    fontSize: 16,
-                                                                    fontWeight: 600
-                                                                }}>
-                                                                    Check in
-                                                                </Typography>
-                                                            </ListItem>
-                                                            <ListItem>
-                                                                <Typography sx={{
-                                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                                    fontSize: 16,
-                                                                    fontWeight: 300
-                                                                }}>
-                                                                    {check_in}
-                                                                </Typography>
-                                                            </ListItem>
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <ListItem>
-                                                                <Typography sx={{
-                                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                                    fontSize: 16,
-                                                                    fontWeight: 600
-                                                                }}>
-                                                                    Check out
-                                                                </Typography>
-                                                            </ListItem>
-                                                            <ListItem>
-                                                                <Typography sx={{
-                                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                                    fontSize: 16,
-                                                                    fontWeight: 300
-                                                                }}>
-                                                                    {check_out}
-                                                                </Typography>
-                                                            </ListItem>
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <ListItem>
-                                                                <Typography sx={{
-                                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                                    fontSize: 40,
-                                                                    fontWeight: 300
-                                                                }}>
-                                                                    |
-                                                                </Typography>
-                                                            </ListItem>
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <ListItem>
-                                                                <Typography sx={{
-                                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                                    fontSize: 16,
-                                                                    fontWeight: 600
-                                                                }}>
-                                                                    Guest
-                                                                </Typography>
-                                                            </ListItem>
-                                                            <ListItem>
-                                                                <Typography sx={{
-                                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                                    fontSize: 16,
-                                                                    fontWeight: 300
-                                                                }}>
-                                                                    {state.guest}
-                                                                </Typography>
-                                                            </ListItem>
-
-                                                        </ListItemText>
-                                                    </ListItem>
-                                                </Box>
-
-                                            </ListItemText>
-
-                                            <ListItemText>
-                                                <Typography sx={{
-                                                    marginLeft: "10%",
-                                                    fontSize: 40,
-                                                    fontWeight: 700,
-                                                    color: "#475718",
-                                                    fontFamily: 'Baloo-Bhaina-2',
-                                                    marginTop: "-35%"
-                                                }}>
-                                                    ${totalPrice}
-                                                </Typography>
-
-                                                <Typography sx={{
-
-                                                    fontWeight: 700,
-                                                    fontSize: 18,
-                                                    color: "#475718",
-                                                    fontFamily: 'Baloo-Bhaina-2'
-                                                }}>
-                                                    for {days} nights
-                                                </Typography>
-                                            </ListItemText>
-
-                                        </ListItem>
-
-
-                                    </List> */}
                                 </Box>
 
                                 <List sx={{

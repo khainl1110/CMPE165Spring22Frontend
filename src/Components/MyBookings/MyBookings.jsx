@@ -211,6 +211,7 @@ export default function MyBookings() {
                                                                     reservId={reserv.id}
                                                                     points={reserv.pointsRedeemed}
                                                                     oneDayPrice={room.price}
+                                                                    location={room.location}
                                                                     userInfo={user}
                                                                 />
                                                             </Grid>
