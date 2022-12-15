@@ -1,4 +1,5 @@
 # Getting Started with Create React App
+Frontend part for cmpe 165 class with React and perform CRUD operations through REST APIs created using Spring Boot
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
